@@ -1,0 +1,197 @@
+body {
+  background-color: ghostwhite;
+}
+/*
+.content {
+  margin-top: calc(1cm + 30px);
+}
+*/
+
+.bar {
+  background-color: #2f4f4f;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+/*
+.bar {
+  background-color: #2f4f4f;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: relative;
+  position: fixed;
+  width: 100%;
+  top: -5px;
+  padding-top: 5px;
+  z-index: 2;
+}
+*/
+
+.bar>div {
+  color: lightgray;
+  margin: 10px;
+}
+
+.bar a {
+  color: lightgray;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+div#logo {
+  flex-grow: 1;
+}
+
+img#logo {
+  height: 1cm;
+
+}
+
+
+.task-card {
+  margin: 10px;
+  background-color: skyblue;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgb(102, 102, 102);
+}
+
+.task-card.late {
+  background-color: indianred;
+}
+
+.task-card.due {
+  background-color: gold;
+}
+
+.task-card.early {
+  background-color: forestgreen;
+}
+
+.task-card.unknown {
+  background-color: violet;
+}
+
+.task-card.checked {
+  background-color: gray;
+  animation-name: appear;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.task-card.completed {
+  animation-name: completed-animation;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.task-card.deleted {
+  overflow: hidden;
+  animation-name: delete-animation;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.task-card.due-over {
+  background-color: orange;
+}
+
+.task-card .edit {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.task-time {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.task-body {
+  padding: 10px;
+}
+
+.tasklist-card {
+  color: darkblue;
+  background-color: skyblue;
+  display: inline-block;
+  padding: 20px;
+  margin: 10px;
+}
+
+.tasklist {
+  margin: 0 calc(max(50vw - 20em, 10px));
+}
+
+label {
+  display: block;
+}
+
+.time-interval-form {
+  display: inline-block;
+  width: max-content;
+  margin-right: 1em;
+}
+
+.time-interval-form input[type="number"] {
+  width: 80px;
+}
+
+@keyframes completed-animation {
+  0% {
+    -webkit-transform:
+      perspective(5000px) rotateY(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform:
+      perspective(5000px) rotateY(90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes delete-animation {
+  0% {
+    opacity: 1;
+    max-height: 400px;
+  }
+
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes appear {
+  0% {
+    -webkit-transform:
+      perspective(5000px) rotateY(270deg);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform:
+      perspective(5000px) rotateY(360deg);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  button {
+    font-size: larger;
+    margin-left: auto;
+    margin-right: 0px;
+    display: block;
+  }
+}
+
+.share-list {
+  float: right;
+  margin-top: -30px;
+}
