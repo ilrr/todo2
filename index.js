@@ -5,14 +5,16 @@ const http = require('http')
 
 const server = http.createServer(app)
 
-server.listen(3001, () => {
-  console.log(`server running on port ${3001}`);
+const PORT = process.env.PORT || 3001
+
+server.listen(PORT, () => {
+  //console.log(`rejectUnauthorized: ${process.env.DATABASE_URL !== "localhost"}`)
+  console.log(`server running on port ${PORT}`); 
 })
 
-const start = async () => {
-  await connectToDatabase()
-  const PORT = 3001
-  app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
-  })
-}
+// const start = async () => {
+//   await connectToDatabase()
+//   app.listen(PORT, () => {
+//     console.log(`server running on port ${PORT}`);
+//   })
+// }

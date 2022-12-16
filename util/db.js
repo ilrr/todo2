@@ -1,9 +1,16 @@
 const Sequelize = require('sequelize')
+const { eventNames } = require('../app')
 
-const sequelize = new Sequelize('todo2', 'todo2', 'salasana22', {
-  host: 'localhost',
+const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
+  host: process.env.DATABASE_URL,
   dialect: 'mysql',
   logging: false,
+  dialectOptions: {
+    ssl:
+    {
+      rejectUnauthorized: process.env.DATABASE_URL !== "localhost"
+    }
+  },
 })
 
 const connectToDatabase = async () => {

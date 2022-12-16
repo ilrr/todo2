@@ -40,7 +40,17 @@ const Tasklist = () => {
           </div>
           <h1>{tasklist.name}</h1>
           <Share listId={listId} />
-          {tasks.map(task =>
+          {tasks.filter(({timeLeft})=>timeLeft===0).map(task =>
+            <TaskCard
+              task={task}
+              updateTask={updateTask}
+              key={task.id}
+              edit={edit}
+              tasklistId={listId}
+              appendTask={appendTask}
+            />)}
+          <div className="today-separator" />
+          {tasks.filter(({ timeLeft }) => timeLeft !== 0).map(task =>
             <TaskCard
               task={task}
               updateTask={updateTask}
