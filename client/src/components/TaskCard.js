@@ -62,7 +62,8 @@ const TaskCard = ({ task, updateTask, edit, tasklistId, appendTask }) => {
     id,
     completedAt,
     frequency,
-    timeFlexibility,
+    afterFlexibility,
+    beforeFlexibility,
     earliest,
     latest,
     daysLeft,
@@ -98,7 +99,7 @@ const TaskCard = ({ task, updateTask, edit, tasklistId, appendTask }) => {
   return (
     <div className={`task-card ${style}`}>
       <div className="task-time">
-        {dateToString(nextDeadline)} &plusmn; {timeFlexibility} päivää ({nextDeadline ? nextDeadline.toLocaleDateString() : ""})
+        {dateToString(nextDeadline)} +{afterFlexibility}/-{beforeFlexibility} ({nextDeadline ? nextDeadline.toLocaleDateString() : ""})
       </div>
       <div className="task-body">
         {name}
@@ -118,7 +119,7 @@ const TaskCard = ({ task, updateTask, edit, tasklistId, appendTask }) => {
                 <AddTask
                   appendTask={appendTask}
                   tasklistId={tasklistId}
-                  presets={{ name, frequency }}
+                  presets={{ name, frequency, afterFlexibility, beforeFlexibility }}
                 />
                 <button onClick={() => setCopy(false)}> peruuta </button>
               </div>

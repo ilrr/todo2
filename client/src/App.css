@@ -1,3 +1,28 @@
+:root {
+  --idle-h: 197;
+  --late-h: 0;
+  --due-h: 51;
+  --early-h: 120;
+  --due-over-h: 39;
+  --unknown-h: 300;
+  --task-s: 100%;
+  --task-l: 40%;
+
+  /* --idle-color: hsl(var(--idle-h), var(--task-s), var(--task-l)); */
+  /* --late-color: hsl(var(--late-h), var(--task-s), var(--task-l)); */
+  /* --due-color: hsl(var(--due-h), var(--task-s), var(--task-l)); */
+  /* --early-color: hsl(var(--early-h), var(--task-s), var(--task-l)); */
+  /* --due-over-color: hsl(var(--due-over-h), var(--task-s), var(--task-l)); */
+  /* --unknown-color: hsl(var(--unknown-h), var(--task-s), var(--task-l)); */
+
+  --unknown-color: violet;
+  --idle-color: skyblue;
+  --early-color: forestgreen;
+  --due-color: gold;
+  --due-over-color: orange;
+  --late-color: indianred;
+}
+
 body {
   background-color: ghostwhite;
 }
@@ -55,22 +80,31 @@ img#logo {
   background-color: skyblue;
   border-radius: 10px;
   box-shadow: 5px 5px 10px rgb(102, 102, 102);
+
+}
+
+.task-card.idle {
+  background-color: var(--idle-color);
 }
 
 .task-card.late {
-  background-color: indianred;
+  background-color: var(--late-color);
 }
 
 .task-card.due {
-  background-color: gold;
+  background-color: var(--due-color);
 }
 
 .task-card.early {
-  background-color: forestgreen;
+  background-color: var(--early-color);
 }
 
 .task-card.unknown {
-  background-color: violet;
+  background-color: var(--unknown-color);
+}
+
+.task-card.due-over {
+  background-color: var(--due-over-color);
 }
 
 .task-card.checked {
@@ -96,9 +130,6 @@ img#logo {
   animation-fill-mode: forwards;
 }
 
-.task-card.due-over {
-  background-color: orange;
-}
 
 /*
 .task-card.today > .task-body {
@@ -199,7 +230,26 @@ label {
     opacity: 1;
   }
 }
+/*
+button {
+  background: hsl(120, 100%, 20%);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  margin: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
+button:hover {
+  background: hsl(120, 100%, 30%);
+}
+
+button:active {
+  background: hsl(120, 100%, 30%);
+}
+/*
 @media screen and (max-width: 600px) {
   button {
     font-size: larger;
@@ -207,9 +257,4 @@ label {
     margin-right: 0px;
     display: block;
   }
-}
-
-.share-list {
-  float: right;
-  margin-top: -30px;
-}
+} */

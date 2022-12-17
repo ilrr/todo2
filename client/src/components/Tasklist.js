@@ -39,8 +39,7 @@ const Tasklist = () => {
             <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
           </div>
           <h1>{tasklist.name}</h1>
-          <Share listId={listId} />
-          {tasks.filter(({timeLeft})=>timeLeft===0).map(task =>
+          {tasks.filter(({ timeLeft }) => timeLeft === 0).map(task =>
             <TaskCard
               task={task}
               updateTask={updateTask}
@@ -49,7 +48,7 @@ const Tasklist = () => {
               tasklistId={listId}
               appendTask={appendTask}
             />)}
-          <div className="today-separator" />
+          <div className="today-separator" style={{ display: tasks[0] ? "block" : "none" }} />
           {tasks.filter(({ timeLeft }) => timeLeft !== 0).map(task =>
             <TaskCard
               task={task}
@@ -73,6 +72,7 @@ const Tasklist = () => {
             <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
             muokkaa
           </label>
+          <Share listId={listId} />
         </div>
         : 'Kirjaudu!'}
     </div>

@@ -102,9 +102,9 @@ router.get('/:id/tasks', async (req, res) => {
         [sequelize.literal(`DATEDIFF(ADDDATE(${local_completed_at}, frequency), ${local_NOW})`), 'daysLeft'],
         [sequelize.literal(`EXTRACT(HOUR FROM (TIMEDIFF(ADDDATE(${local_completed_at}, frequency), ${local_NOW})))`), 'hoursLeft'],
         [sequelize.literal(`DATEDIFF(ADDDATE(${local_completed_at}, frequency), ${local_NOW}) / frequency`), 'daysLeftProportional'],
-        [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency - time_flexibility), ${local_NOW}))`), 'earliest'],
-        [sequelize.literal(`LEAST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency + time_flexibility), ${local_NOW})) / frequency`), 'latest'],
-        [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency + time_flexibility), ${local_NOW}))`), 'timeLeft'],
+        [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency - before_flexibility), ${local_NOW}))`), 'earliest'],
+        [sequelize.literal(`LEAST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency + after_flexibility), ${local_NOW})) / frequency`), 'latest'],
+        [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency + after_flexibility), ${local_NOW}))`), 'timeLeft'],
       ]
     },
     order: [
@@ -148,7 +148,8 @@ router.post('/:id/addtask', async (req, res) => {
   const newTask = await Task.create({
     name: body.name,
     frequency: body.frequency,
-    timeFlexibility: body.timeFlexibility,
+    afterFlexibility: body.afterFlexibility,
+    beforeFlexibility: body.beforeFlexibility,
     hasSubtasks: false,
     tasklistId: req.params.id,
     userId: userIdFromRequest(req)

@@ -20,7 +20,11 @@ Task.init({
   frequency: {
     type: DataTypes.INTEGER
   },
-  timeFlexibility: {
+  afterFlexibility: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  beforeFlexibility: {
     type: DataTypes.INTEGER,
     defaultValue: 0
   },

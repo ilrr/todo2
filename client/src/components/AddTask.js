@@ -4,31 +4,34 @@ import taskService from "../services/task"
 
 const averageDaysInMonth = 365.25 / 12
 
+const setDefaultInterval = (interval, setInterval, setMultiplyer) => {
+  if ((interval + 0.5) % averageDaysInMonth <= 1) {
+    setInterval(Math.round(interval / averageDaysInMonth))
+    setMultiplyer(averageDaysInMonth)
+  } else if (interval % 7 === 0) {
+    setInterval(interval / 7)
+    setMultiplyer(7)
+  }
+}
+
 const AddTask = ({ tasklistId, appendTask, presets }) => {
 
-  let defaultFrequency = 1
-  let defaultMultiplyer = 1
   let defaultName = ""
 
-  if (presets) {
-    defaultName = presets.name
-    console.log(presets, defaultName)
-    if (Math.round(presets.frequency + 0.5) % averageDaysInMonth <= 1) {
-      defaultFrequency = Math.round(presets.frequency / averageDaysInMonth)
-      defaultMultiplyer = averageDaysInMonth
-    } else if (presets.frequency % 7 === 0) {
-      defaultFrequency = presets.frequency / 7
-      defaultMultiplyer = 7
-    } else {
-      defaultFrequency = presets.frequency
-    }
-  }
-
   const [name, setName] = useState(defaultName)
-  const [frequency, setFrequency] = useState(defaultFrequency)
-  const [frequencyMultiplyer, setFrequencyMultiplyer] = useState(defaultMultiplyer)
-  const [timeFlexibility, setTimeFlexibility] = useState(0)
-  const [timeFlexibilityMultiplyer, setTimeFlexibilityMultiplyer] = useState(1)
+  const [frequency, setFrequency] = useState(1)
+  const [frequencyMultiplyer, setFrequencyMultiplyer] = useState(1)
+  const [afterFlexibility, setAfterFlexibility] = useState(0)
+  const [afterFlexibilityMultiplyer, setAfterFlexibilityMultiplyer] = useState(1)
+  const [beforeFlexibility, setBeforeFlexibility] = useState(0)
+  const [beforeFlexibilityMultiplyer, setBeforeFlexibilityMultiplyer] = useState(1)
+
+  useEffect(()=>{if (presets) {
+    setName(presets.name)
+    setDefaultInterval(presets.frequency, setFrequency, setFrequencyMultiplyer)
+    setDefaultInterval(presets.afterFlexibility, setAfterFlexibility, setAfterFlexibilityMultiplyer)
+    setDefaultInterval(presets.beforeFlexibility, setBeforeFlexibility, setBeforeFlexibilityMultiplyer)
+  }}, [presets])
 
   // useEffect(()=>{
   //   if (presets) {
@@ -49,7 +52,8 @@ const AddTask = ({ tasklistId, appendTask, presets }) => {
     const taskToAdd = {
       name,
       frequency: Math.round(Number(frequency) * frequencyMultiplyer),
-      timeFlexibility: Math.round(Number(timeFlexibility) * timeFlexibilityMultiplyer),
+      afterFlexibility: Math.round(Number(afterFlexibility) * afterFlexibilityMultiplyer),
+      beforeFlexibility: Math.round(Number(beforeFlexibility) * beforeFlexibilityMultiplyer),
       hasSubtasks: false
     }
     setName("")
@@ -76,11 +80,19 @@ const AddTask = ({ tasklistId, appendTask, presets }) => {
           setMultiplyer={setFrequencyMultiplyer}
         />
         <TimeIntervalForm
-          before={<> Joustavuus:<br /> </>}
-          value={timeFlexibility}
-          setValue={setTimeFlexibility}
-          multiplyer={timeFlexibilityMultiplyer}
-          setMultiplyer={setTimeFlexibilityMultiplyer}
+          before={<> + <br /> </>}
+          value={afterFlexibility}
+          setValue={setAfterFlexibility}
+          multiplyer={afterFlexibilityMultiplyer}
+          setMultiplyer={setAfterFlexibilityMultiplyer}
+          partitive={true}
+        />
+        <TimeIntervalForm
+          before={<> &minus; <br /> </>}
+          value={beforeFlexibility}
+          setValue={setBeforeFlexibility}
+          multiplyer={beforeFlexibilityMultiplyer}
+          setMultiplyer={setBeforeFlexibilityMultiplyer}
           partitive={true}
         />
         <button type="submit">Lisää</button>
