@@ -4,3 +4,4 @@ fly_db.txt
 fly.toml
 .dockerignore
 Dockerfile
+img/test_imgs

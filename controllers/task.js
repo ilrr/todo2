@@ -53,10 +53,10 @@ router.delete('/:id', async (req, res) => {
   const id = req.params.id
   const task = await Task.findByPk(id)
   if (!task) {
-    return res.status(404).json({error: "invalid task id"})
+    return res.status(404).json({ error: "invalid task id" })
   }
   if (!hasAccess(req, task.tasklistId)) {
-    return res.status(403).json({error: "no access"})
+    return res.status(403).json({ error: "no access" })
   }
   await task.destroy()
   return res.status(204).send()
