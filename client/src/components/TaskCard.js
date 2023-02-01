@@ -52,7 +52,7 @@ const TaskCard = ({ task, updateTask, edit, tasklistId, appendTask }) => {
             ...data
           })
           setStyle("checked")
-        }, 1500)
+        }, 1000)
       })
       .catch(e => alert(e))
   }
@@ -102,14 +102,9 @@ const TaskCard = ({ task, updateTask, edit, tasklistId, appendTask }) => {
         {dateToString(nextDeadline)} +{afterFlexibility}/-{beforeFlexibility} ({nextDeadline ? nextDeadline.toLocaleDateString() : ""})
       </div>
       <div className="task-body">
-        {name}
         <div>
-          <button
-            onClick={() => setDone(true)/*markAsDone*/}
-          >
-            Tehty!
-          </button>
-        </div>
+        {name}
+
         {edit
           ? <div className="edit">
             <button onClick={() => setCopy(!copy)}>kopioi</button>
@@ -126,7 +121,16 @@ const TaskCard = ({ task, updateTask, edit, tasklistId, appendTask }) => {
               : ""}
           </div>
           : ""
-        }
+          }
+        </div>
+
+        <div className="done-button-wrapper">
+          <button className="done-button"
+            onClick={() => setDone(true)/*markAsDone*/}
+          >
+            
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -21,11 +21,15 @@
   --due-color: gold;
   --due-over-color: orange;
   --late-color: indianred;
+
+  font-size: 16px;
+  overflow-wrap: anywhere;
 }
 
 body {
   background-color: ghostwhite;
 }
+
 /*
 .content {
   margin-top: calc(1cm + 30px);
@@ -111,13 +115,13 @@ img#logo {
   background-color: gray;
   animation-name: appear;
   animation-duration: 1s;
-  animation-timing-function: linear;
+  animation-timing-function: ease-in;
   animation-fill-mode: forwards;
 }
 
 .task-card.completed {
   animation-name: completed-animation;
-  animation-duration: 1.5s;
+  animation-duration: 1s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
@@ -125,7 +129,7 @@ img#logo {
 .task-card.deleted {
   overflow: hidden;
   animation-name: delete-animation;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
@@ -147,16 +151,20 @@ img#logo {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 10px;
   margin-top: 10px;
+  width: max-content;
 }
 
 .task-time {
   background-color: rgba(0, 0, 0, 0.2);
   padding: 5px 10px 5px 10px;
   border-radius: 10px 10px 0 0;
+  font-size: 0.8rem;
 }
 
 .task-body {
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .tasklist-card {
@@ -230,6 +238,37 @@ label {
     opacity: 1;
   }
 }
+
+.done-button {
+  margin-right: 0;
+  font-size: 2rem;
+  background-color: rgb(61, 165, 61);
+  border: #000 solid 1px;
+  border-radius: 10px;
+  padding: 2px 8px;
+  float: inline-end;
+  margin-left: 10px;
+  opacity: 0.9;
+  color: rgb(24, 36, 24);
+}
+
+.done-button:hover {
+  filter: brightness(0.8);
+}
+
+.done-button:active {
+  filter: brightness(0.7);
+}
+
+.done-button::after {
+  content: "✓";
+}
+
+.done-button-wrapper {
+  display: block;
+  margin-top: auto;
+}
+
 /*
 button {
   background: hsl(120, 100%, 20%);
@@ -248,8 +287,9 @@ button:hover {
 
 button:active {
   background: hsl(120, 100%, 30%);
-}
+} */
 /*
+
 @media screen and (max-width: 600px) {
   button {
     font-size: larger;
@@ -257,4 +297,4 @@ button:active {
     margin-right: 0px;
     display: block;
   }
-} */
+} */ 
