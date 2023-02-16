@@ -1,18 +1,16 @@
+import { useEffect, useState } from 'react';
+import tasklistService from '../services/tasklist';
 
-import { useEffect, useState } from "react"
-import tasklistService from "../services/tasklist"
+const AddTasklist = () => {
+  const defaultName = '';
 
-const AddTasklist = ( ) => {
+  const [name, setName] = useState(defaultName);
 
-  let defaultName = ""
-
-  const [name, setName] = useState(defaultName)
-
-  const submitTasklist = (event) => {
-    event.preventDefault()
-    setName("")
-    tasklistService.newList(name).then(({id}) => window.location.href=`/lista/${id}`)
-  }
+  const submitTasklist = event => {
+    event.preventDefault();
+    setName('');
+    tasklistService.newList(name).then(({ id }) => { window.location.href = `/lista/${id}`; });
+  };
 
   return (
     <div>
@@ -26,7 +24,7 @@ const AddTasklist = ( ) => {
         <button type="submit">Luo</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AddTasklist
+export default AddTasklist;

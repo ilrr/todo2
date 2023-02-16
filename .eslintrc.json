@@ -1,0 +1,25 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime"
+    ],
+    "overrides": [],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "react/prop-types": 0,
+        "arrow-parens": [
+            "warn",
+            "as-needed"
+        ],
+        "no-use-before-define": "warn"
+    }
+}

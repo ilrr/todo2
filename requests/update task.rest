@@ -1,0 +1,5 @@
+PATCH  http://localhost:3001/api/task/170 HTTP/1.1
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6MSwibmFtZSI6IlRhaHZvIFRlc3RhYWphIiwiaWF0IjoxNjc2NDc5MDc3LCJleHAiOjE2NzcwODM4Nzd9.oX4f_J-e6NX0o-PkA7LzFxUJad4I7aPSzMPeQHJfhu0
+
+{"afterFlexibility": "200"}

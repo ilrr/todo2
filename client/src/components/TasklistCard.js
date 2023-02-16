@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 
-const TasklistCard = ({ tasklist }) => {
-  return (
+const TasklistCard = ({ tasklist }) => (
     <>
       <Link to={`/lista/${tasklist.id}`}>
         <div className="tasklist-card">
@@ -9,7 +8,6 @@ const TasklistCard = ({ tasklist }) => {
         </div>
       </Link>
     </>
-  )
-}
+);
 
-export default TasklistCard
+export default TasklistCard;

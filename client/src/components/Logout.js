@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { logout } from "../reducers/userReducer"
 
-const Logout = () => {
+const Logout = ({msg}) => {
 
   const dispatch = useDispatch()
   dispatch(logout())
@@ -10,7 +10,7 @@ const Logout = () => {
 
   return (
     <div>
-      Hei hei!
+      {msg}
     </div>
   )
 }

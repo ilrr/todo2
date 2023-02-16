@@ -1,73 +1,39 @@
 import { useEffect, useState } from 'react';
-import taskService from '../services/task';
 import { setDefaultInterval } from '../util/utils';
+import taskService from '../services/task';
 import TimeIntervalForm from './TimeIntervalForm';
 
-const AddTask = ({ tasklistId, appendTask, presets }) => {
-  const defaultName = '';
-
-  const [name, setName] = useState(defaultName);
-  const [frequency, setFrequency] = useState(1);
+const EditTask = ({ task, update }) => {
+  const [name, setName] = useState(task.name);
+  const [frequency, setFrequency] = useState(task.frequency);
   const [frequencyMultiplyer, setFrequencyMultiplyer] = useState(1);
-  const [afterFlexibility, setAfterFlexibility] = useState(0);
+  const [afterFlexibility, setAfterFlexibility] = useState(task.afterFlexibility);
   const [afterFlexibilityMultiplyer, setAfterFlexibilityMultiplyer] = useState(1);
-  const [beforeFlexibility, setBeforeFlexibility] = useState(0);
+  const [beforeFlexibility, setBeforeFlexibility] = useState(task.beforeFlexibility);
   const [beforeFlexibilityMultiplyer, setBeforeFlexibilityMultiplyer] = useState(1);
 
   useEffect(() => {
-    if (presets) {
-      setName(presets.name);
-      setDefaultInterval(
-        presets.frequency,
-        setFrequency,
-        setFrequencyMultiplyer,
-      );
-      setDefaultInterval(
-        presets.afterFlexibility,
-        setAfterFlexibility,
-        setAfterFlexibilityMultiplyer,
-      );
-      setDefaultInterval(
-        presets.beforeFlexibility,
-        setBeforeFlexibility,
-        setBeforeFlexibilityMultiplyer,
-      );
-    }
-  }, [presets]);
+    setDefaultInterval(frequency, setFrequency, setFrequencyMultiplyer);
+    setDefaultInterval(afterFlexibility, setAfterFlexibility, setAfterFlexibilityMultiplyer);
+    setDefaultInterval(beforeFlexibility, setBeforeFlexibility, setBeforeFlexibilityMultiplyer);
+  }, []);
 
-  // useEffect(()=>{
-  //   if (presets) {
-  //     setName(presets.name)
-  //     if (Math.round(presets.frequency + 0.5) % averageDaysInMonth <= 1) {
-  //       setFrequency(presets.frequency / averageDaysInMonth)
-  //       setFrequencyMultiplyer(averageDaysInMonth)
-  //     } else if (presets.frequency % 7 === 0) {
-  //       setFrequency(presets.frequency / 7)
-  //       setFrequencyMultiplyer(7)
-  //     } else {
-  //       setFrequency(presets.frequency)
-  //     }
-  // }}, [setName, setFrequency, setFrequencyMultiplyer, averageDaysInMonth, presets])
-
-  const submitTask = event => {
+  const submitEdits = event => {
     event.preventDefault();
-    const taskToAdd = {
+    const newValues = {
       name,
       frequency: Math.round(Number(frequency) * frequencyMultiplyer),
       afterFlexibility: Math.round(Number(afterFlexibility) * afterFlexibilityMultiplyer),
       beforeFlexibility: Math.round(Number(beforeFlexibility) * beforeFlexibilityMultiplyer),
-      hasSubtasks: false,
     };
-    setName('');
-    setFrequency(1);
-    taskService.newTask(tasklistId, taskToAdd).then(appendTask);
+    taskService.editTask(task.id, newValues).then(res => update(task.id, res.data));
   };
 
   return (
     <div>
-      <form onSubmit={submitTask}>
+      <form onSubmit={submitEdits}>
         Tehtävän nimi:
-        <input type="text" value={name} onChange={e => setName(e.target.value)} /> <br />
+        <input type="text" value={name} onChange={({ target }) => setName(target.value)} /> <br />
         <TimeIntervalForm
           before={
             <>
@@ -107,10 +73,10 @@ const AddTask = ({ tasklistId, appendTask, presets }) => {
           setMultiplyer={setBeforeFlexibilityMultiplyer}
           partitive={true}
         />
-        <button type="submit">Lisää</button>
+        <button type='submit'>Muokkaa</button>
       </form>
     </div>
   );
 };
 
-export default AddTask;
+export default EditTask;

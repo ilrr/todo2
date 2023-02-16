@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const TopBar = () => {
-  const userInfo = useSelector(({ user }) => user)
+  const userInfo = useSelector(({ user }) => user);
 
   return (
     <div className="bar">
@@ -23,7 +22,7 @@ const TopBar = () => {
           </>
       }
     </div>
-  )
-}
+  );
+};
 
-export default TopBar
+export default TopBar;

@@ -1,15 +1,15 @@
-import { useState } from "react"
-import tasklistService from "../services/tasklist"
+import { useState } from 'react';
+import tasklistService from '../services/tasklist';
 
 const Share = ({ listId }) => {
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState('');
 
-  const share = (event) => {
-    event.preventDefault()
+  const share = event => {
+    event.preventDefault();
     tasklistService.shareList(listId, username)
-      .then(() => alert("Jaettu! ☺") )
-      .catch(alert)
-  }
+      .then(() => alert('Jaettu! ☺'))
+      .catch(alert);
+  };
 
   return (
     <div className="share-list">
@@ -22,7 +22,7 @@ const Share = ({ listId }) => {
         <button type="submit">Jaa</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Share
+export default Share;
