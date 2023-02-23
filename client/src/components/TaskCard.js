@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import taskService from '../services/task';
 import AddTask from './AddTask';
 import EditTask from './EditTask';
+import TaskTiming from './TaskTiming';
 
 const TaskCard = ({
   task, updateTask, edit, tasklistId, appendTask,
@@ -33,9 +34,23 @@ const TaskCard = ({
     return 'outo juttu :|';
   };
 
+  const {
+    name,
+    id,
+    completedAt,
+    frequency,
+    afterFlexibility,
+    beforeFlexibility,
+    earliest,
+    latest,
+    daysLeft,
+    justCompleted,
+    timeLeft,
+  } = task;
+
   const deleteTask = () => {
     taskService.deleteTask(id)
-      .then(res => {
+      .then(() => {
         setStyle(`${style} deleted`);
         setTimeout(() => {
           updateTask(id, { delete: true });
@@ -59,20 +74,6 @@ const TaskCard = ({
       .catch(e => alert(e));
   };
 
-  const {
-    name,
-    id,
-    completedAt,
-    frequency,
-    afterFlexibility,
-    beforeFlexibility,
-    earliest,
-    latest,
-    daysLeft,
-    justCompleted,
-    timeLeft,
-  } = task;
-
   useEffect(() => {
     let newStyle = '';
     if (justCompleted) newStyle = 'checked';
@@ -83,6 +84,7 @@ const TaskCard = ({
     else if (earliest === 0) newStyle = 'early';
     else newStyle = 'idle';
     if (timeLeft === 0) newStyle = `${newStyle} today`;
+    setStyle('white');
     setStyle(newStyle);
   }, []);
 
@@ -93,15 +95,14 @@ const TaskCard = ({
     }
   }, [done]);
 
-  const nextDeadline = completedAt
-    ? new Date(new Date(completedAt).valueOf() + 1000 * 60 * 60 * 24 * frequency)
-    : null;
-
   return (
     <div className={`task-card ${style}`}>
-      <div className="task-time">
-        {dateToString(nextDeadline)} +{afterFlexibility}/-{beforeFlexibility} ({nextDeadline ? nextDeadline.toLocaleDateString() : ''})
-      </div>
+      <TaskTiming
+        freq={frequency}
+        bFlex={beforeFlexibility}
+        aFlex={afterFlexibility}
+        lastTD={completedAt}
+      />
       <div className="task-body">
         <div>
           {name}

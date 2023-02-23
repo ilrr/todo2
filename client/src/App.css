@@ -87,6 +87,10 @@ img#logo {
 
 }
 
+.task-card.white {
+  background-color: #ddd;
+}
+
 .task-card.idle {
   background-color: var(--idle-color);
 }
@@ -267,6 +271,10 @@ label {
 .done-button-wrapper {
   display: block;
   margin-top: auto;
+}
+
+.task-time-g {
+
 }
 
 /*
