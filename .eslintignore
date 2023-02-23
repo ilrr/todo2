@@ -1,0 +1,3 @@
+/node_modules/*.{js,ts}
+/client/node_modules/*.{js,ts}
+/client/build/*.{js,ts}

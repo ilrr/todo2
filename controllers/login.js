@@ -1,22 +1,22 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
-const router = require('express').Router()
-const User = require('../models/user')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const router = require('express').Router();
+const User = require('../models/user');
 
 router.post('/', async (req, res) => {
-  const { username, password } = req.body
+  const { username, password } = req.body;
 
-  const user = await User.findOne({ where: { username } })
+  const user = await User.findOne({ where: { username } });
   if (!user) {
-    return res.status(401).json({ error: "invalid username" })
+    return res.status(401).json({ error: 'invalid username' });
   }
-  if (! await bcrypt.compare(password, user.password)) {
-    return res.status(401).json({ error: "invalid password" })
+  if (!await bcrypt.compare(password, user.password)) {
+    return res.status(401).json({ error: 'invalid password' });
   }
 
-  const token = jwt.sign({ username: user.username, id: user.id, name: user.name }, process.env.SECRET, {expiresIn: "7d"})
+  const token = jwt.sign({ username: user.username, id: user.id, name: user.name }, process.env.SECRET, { expiresIn: '7d' });
 
-  res.status(200).send({ token, username, name: user.name })
-})
+  return res.status(200).send({ token, username, name: user.name });
+});
 
-module.exports = router
+module.exports = router;

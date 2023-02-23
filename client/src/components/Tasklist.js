@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-//import tasklist from "../services/tasklist"
-import tasklistService from "../services/tasklist";
-import AddTask from "./AddTask";
-import Share from "./Share";
-import TaskCard from "./TaskCard";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+// import tasklist from "../services/tasklist"
+import tasklistService from '../services/tasklist';
+import AddTask from './AddTask';
+import Share from './Share';
+import TaskCard from './TaskCard';
 
 const Tasklist = () => {
   const { listId } = useParams();
@@ -34,7 +34,7 @@ const Tasklist = () => {
     <div>
       {userInfo.token ? (
         <div className="tasklist">
-          <div style={{ float: "right" }}>
+          <div style={{ float: 'right' }}>
             <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
           </div>
           <h1>{tasklist.name}</h1>
@@ -50,7 +50,7 @@ const Tasklist = () => {
                 appendTask={appendTask}
               />
             ))}
-          <div className="today-separator" style={{ display: tasks[0] ? "block" : "none" }} />
+          <div className="today-separator" style={{ display: tasks[0] ? 'block' : 'none' }} />
           {tasks
             .filter(({ timeLeft }) => timeLeft !== 0)
             .map(task => (
@@ -69,7 +69,7 @@ const Tasklist = () => {
               <AddTask tasklistId={listId} appendTask={appendTask} />
             </>
           ) : (
-            ""
+            ''
           )}
           <label>
             <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
@@ -78,7 +78,7 @@ const Tasklist = () => {
           <Share listId={listId} />
         </div>
       ) : (
-        "Kirjaudu!"
+        'Kirjaudu!'
       )}
     </div>
   );
