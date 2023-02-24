@@ -1,32 +1,13 @@
 /* eslint-disable camelcase */
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const { fn } = require('sequelize');
+// const { fn } = require('sequelize');
 
 const {
   Tasklist, User, Role, Task,
 } = require('../models');
+const { getTokenFrom, hasAccess } = require('../util/access');
 const { sequelize } = require('../util/db');
-
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer')) { return authorization.substring(7); }
-  return null;
-};
-
-const hasAccess = async (req, tasklistId) => {
-  const token = getTokenFrom(req);
-  if (!token) return false;
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken) return false;
-  const role = await Role.findOne({
-    where: {
-      userId: decodedToken.id,
-      listId: tasklistId,
-    },
-  });
-  return !!role;
-};
 
 const canShare = async (req, tasklistId) => {
   const token = getTokenFrom(req);

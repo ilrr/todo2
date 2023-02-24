@@ -2,9 +2,9 @@ const { Model, DataTypes } = require('sequelize');
 
 const { sequelize } = require('../util/db');
 
-class User extends Model { }
+class ShoppingListSection extends Model { }
 
-User.init({
+ShoppingListSection.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -14,21 +14,21 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-  username: {
+  color: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    validate: {
+      len: [1, 6],
+    },
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  order: {
+    type: DataTypes.INTEGER,
   },
-
 }, {
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'user',
+  modelName: 'shoppingListSection',
 });
 
-module.exports = User;
+module.exports = ShoppingListSection;

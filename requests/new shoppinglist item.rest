@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/shopping/section/2/additem HTTP/1.1
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6MSwibmFtZSI6IlRlc3QgRXIiLCJpYXQiOjE2NzA0OTY4Nzl9.edebhqCU9JlaLuE3Tek2rZeQHB9i3ISIVSweVNMbKPU
+
+{
+  "name": "testi2.3"
+}
