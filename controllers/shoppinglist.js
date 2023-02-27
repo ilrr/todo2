@@ -67,6 +67,7 @@ router.get('/:id/items', async (req, res) => {
   const sections = await ShoppingListSection.findAll({
     where: { listId: req.params.id },
     include: { model: ShoppingListItem },
+    order: [['id', 'ASC'], [ShoppingListItem, 'id', 'ASC']],
   });
 
   return res.status(200).json(sections);

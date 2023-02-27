@@ -167,12 +167,23 @@ img#logo {
   justify-content: space-between;
 }
 
-.tasklist-card {
+.list-card {
   color: darkblue;
   background-color: skyblue;
   display: inline-block;
   padding: 20px;
   margin: 10px;
+}
+
+.list-card.shopping-l {
+  color: darkgreen;
+  background-color: lightgreen;
+}
+
+.list-card.new {
+  color: #aaa;
+  background-color: #ddd;
+  cursor: pointer;
 }
 
 .tasklist {
@@ -267,6 +278,63 @@ label {
 .done-button-wrapper {
   display: block;
   margin-top: auto;
+}
+
+.shopping-list-section {
+  display: block;
+  /* margin: 10px; */
+  padding: 2px 10px 10px 10px;
+}
+
+.shopping-list-section > h2 {
+  text-align: center;
+  margin: 0;
+  font-size: medium;
+  color: #0006;
+}
+
+.shopping-list-section .checked {
+  text-decoration: line-through;
+  color: #0006;
+  font-weight: normal;
+}
+
+.shopping-list-section ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.shopping-list-section li {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.shopping-list-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(min(100%,200px),auto));
+  gap: 10px;
+  margin: 0 10px;
+}
+
+.add-instance {
+  background-color: #aaa;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  padding: 5%;
+  line-height: 30px;
+}
+
+.add-instance-background {
+  background-color: #000a;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 /*

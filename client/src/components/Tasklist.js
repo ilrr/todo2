@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import tasklist from "../services/tasklist"
 import tasklistService from '../services/tasklist';
+import FloatingForm from './FloatingForm';
 import AddTask from './AddTask';
 import Share from './Share';
 import TaskCard from './TaskCard';
@@ -13,20 +14,28 @@ const Tasklist = () => {
   const [tasks, setTasks] = useState([]);
   const [tasklist, setTasklist] = useState({});
   const [edit, setEdit] = useState(false);
+  const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+
+  const navigate = useNavigate();
 
   const appendTask = task => {
     setTasks([task, ...tasks]);
   };
 
   const updateTask = (id, data) => {
-    console.log(data);
     setTasks(tasks.filter(task => !(task.id === id)).concat(data.delete ? [] : data));
   };
 
   useEffect(() => {
     if (userInfo.token) {
-      tasklistService.getTasks(listId).then(setTasks);
-      tasklistService.getTasklistInfo(listId).then(setTasklist);
+      let listInfo;
+      tasklistService.getTasklistInfo(listId)
+        .then(list => { setTasklist(list); listInfo = list; })
+        .then(() => {
+          if (listInfo.type !== 'SHOPPING') tasklistService.getTasks(listId).then(setTasks);
+          else navigate(`/ostoslista/${listId}`);
+        })
+        .catch(e => navigate('/error', { state: e }));
     }
   }, [userInfo.token, listId]);
 
@@ -63,14 +72,17 @@ const Tasklist = () => {
                 appendTask={appendTask}
               />
             ))}
-          {edit ? (
-            <>
+          <a onClick={() => setShowNewTaskForm(true)}>Lisää uusi tehtävä</a>
+          {showNewTaskForm
+            ? <FloatingForm setVisibility={setShowNewTaskForm}>
               <h2>Luo uusi tehtävä</h2>
-              <AddTask tasklistId={listId} appendTask={appendTask} />
-            </>
-          ) : (
-            ''
-          )}
+              <AddTask
+                tasklistId={listId}
+                appendTask={appendTask}
+                setShowForm={setShowNewTaskForm} />
+            </FloatingForm>
+            : ''
+            }
           <label>
             <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
             muokkaa

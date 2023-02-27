@@ -1,28 +1,26 @@
-import axios from "axios";
-import { config, baseUrl } from "./api";
+import axios from 'axios';
+import { config, baseUrl } from './api';
 
 const getTasklists = () => {
   const request = axios.get(`${baseUrl}/tasklists`, config());
   return request
     .then(res => res.data)
-    .catch(e => {
-      throw e.response.data;
-    });
+    .catch(e => { throw e.response.data; });
 };
 
 const getTasks = id => {
   const request = axios.get(`${baseUrl}/tasklists/${id}/tasks`, config());
-  return request.then(res => res.data);
+  return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
 const getTasklistInfo = id => {
   const request = axios.get(`${baseUrl}/tasklists/${id}`, config());
-  return request.then(res => res.data);
+  return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
 const newList = name => {
   const request = axios.post(`${baseUrl}/tasklists`, { name }, config());
-  return request.then(res => res.data);
+  return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
 const shareList = (listId, username) => {
@@ -30,11 +28,11 @@ const shareList = (listId, username) => {
     `${baseUrl}/tasklists/${listId}/share`,
     {
       user: username,
-      role: "EDIT",
+      role: 'EDIT',
     },
-    config()
+    config(),
   );
-  return request.then(res => res.data);
+  return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
 const tasklistService = {
