@@ -20,6 +20,9 @@
             "warn",
             "as-needed"
         ],
-        "no-use-before-define": "warn"
+        "no-use-before-define": "warn",
+        "no-mixed-operators": [
+            "warn"
+        ]
     }
 }
