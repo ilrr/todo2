@@ -7,7 +7,6 @@ import FloatingForm from './FloatingForm';
 // import tasklist from "../services/tasklist"
 import Share from './Share';
 import ShoppingListSection from './ShoppingListSection';
-import TaskCard from './TaskCard';
 
 const ShoppingList = () => {
   const { listId } = useParams();
@@ -34,7 +33,7 @@ const ShoppingList = () => {
         <form onSubmit={submitSection}>
           <h3>Lisää uusi osa</h3>
           <input type='text' onChange={({ target }) => setName(target.value)} /> <br />
-          <input type='color' onChange={({ target }) => setColor(target.value) } defaultValue={color} /> taustaväri <br />
+          Taustaväri: <input type='color' onChange={({ target }) => setColor(target.value) } defaultValue={color} /> <br />
           <button type='submit'>Lisää</button>
         </form>
     </FloatingForm>;
@@ -62,7 +61,12 @@ const ShoppingList = () => {
       {userInfo.token ? <>
         <>{insertSectionForm && <AddSection /> }</>
         <div className="shopping-list">
-          <h1>{list.name}</h1>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', marginLeft: '10px', marginRight: '10px',
+          }}>
+            <h1 style={{ width: 'max-content' }}>{list.name}</h1>
+            <button onClick={checkout} style={{ margin: '10px 0 10px auto' }}>Poista merkityt</button>
+          </div>
           <div className='shopping-list-wrapper'>
             {sections.map(section => <ShoppingListSection
             key={section.id}
@@ -70,19 +74,11 @@ const ShoppingList = () => {
             }
             <div
               onClick={() => setInsertSectionForm(true)}
-              style={{
-                backgroundColor: 'darkgray',
-                margin: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '30px',
-              }}
+              className='add-section'
             >
               <span style={{ }}>+</span>
             </div>
           </div>
-          <button onClick={checkout}>Kassalle :)</button>
           <br/>
           <Share listId={listId} />
         </div>
