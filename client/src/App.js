@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import './App.css';
 // import LoginOrRegister from './components/LoginOrRegister';
 import {
-  BrowserRouter as Router, Routes, Route, Link,
+  BrowserRouter as Router, Routes, Route,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './components/Login';
@@ -15,6 +15,8 @@ import TopBar from './components/TopBar';
 import Logout from './components/Logout';
 import { setToken } from './services/api';
 import { loginUser } from './reducers/userReducer';
+import ShoppingList from './components/ShoppingList';
+import Error from './components/Error';
 
 const App = () => {
   const dispatch = useDispatch(); //
@@ -37,7 +39,9 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path='/lista/:listId' element={<Tasklist />} />
         <Route path='/logout/expired' element={<Logout msg="Istuntosi on vanhentunut. Kirjaudu uudestaan."/>} />
-        <Route path='/logout' element={<Logout msg="Hei hei!"/>} />
+        <Route path='/logout' element={<Logout msg="Hei hei!" />} />
+        <Route path='/error' element={<Error />} />
+        <Route path='/ostoslista/:listId' element={<ShoppingList />} />
         <Route path='/' element={<Tasklists />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

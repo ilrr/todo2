@@ -1,16 +1,16 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const app = require('./app')
-const http = require('http')
+const http = require('http');
+const app = require('./app');
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => {
-  //console.log(`rejectUnauthorized: ${process.env.DATABASE_URL !== "localhost"}`)
-  console.log(`server running on port ${PORT}`); 
-})
+  // console.log(`rejectUnauthorized: ${process.env.DATABASE_URL !== "localhost"}`)
+  console.log(`server running on port ${PORT}`);
+});
 
 // const start = async () => {
 //   await connectToDatabase()

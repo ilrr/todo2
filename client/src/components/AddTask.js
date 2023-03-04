@@ -3,7 +3,9 @@ import taskService from '../services/task';
 import { setDefaultInterval } from '../util/utils';
 import TimeIntervalForm from './TimeIntervalForm';
 
-const AddTask = ({ tasklistId, appendTask, presets }) => {
+const AddTask = ({
+  tasklistId, appendTask, presets, setShowForm,
+}) => {
   const defaultName = '';
 
   const [name, setName] = useState(defaultName);
@@ -60,6 +62,7 @@ const AddTask = ({ tasklistId, appendTask, presets }) => {
     };
     setName('');
     setFrequency(1);
+    setShowForm(false);
     taskService.newTask(tasklistId, taskToAdd).then(appendTask);
   };
 

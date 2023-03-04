@@ -1,6 +1,6 @@
-const { Model, DataTypes, DATE } = require('sequelize')
+const { Model, DataTypes /* ,DATE */ } = require('sequelize');
 
-const { sequelize } = require('../util/db')
+const { sequelize } = require('../util/db');
 
 class Task extends Model { }
 
@@ -8,34 +8,34 @@ Task.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   completedAt: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
   },
   frequency: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   afterFlexibility: {
     type: DataTypes.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   beforeFlexibility: {
     type: DataTypes.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   },
   hasSubtasks: {
-    type: DataTypes.BOOLEAN
-  }
+    type: DataTypes.BOOLEAN,
+  },
 }, {
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'task'
-})
+  modelName: 'task',
+});
 
-module.exports = Task
+module.exports = Task;
