@@ -1,8 +1,5 @@
 .env
 node_modules
 fly_db.txt
-fly.toml
-.dockerignore
-Dockerfile
 img/test_imgs
 client/public/maskable_icon_x512.png
