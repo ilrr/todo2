@@ -91,8 +91,8 @@ router.get('/:id/tasks', async (req, res) => {
 
       ['latest', 'ASC'],
       ['earliest', 'ASC'],
-      ['timeLeft', 'ASC'],
       ['daysLeft', 'ASC'],
+      ['timeLeft', 'ASC'],
       ['daysLeftProportional', 'ASC'],
     ],
   });

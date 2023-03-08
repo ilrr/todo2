@@ -69,6 +69,7 @@ const AddTask = ({
   return (
     <div>
       <form onSubmit={submitTask}>
+        {presets.name && <h2>Luodaan kopio tehtävästä ”{presets.name}”</h2>}
         Tehtävän nimi:
         <input type="text" value={name} onChange={e => setName(e.target.value)} /> <br />
         <TimeIntervalForm
@@ -84,6 +85,7 @@ const AddTask = ({
           multiplyer={frequencyMultiplyer}
           setMultiplyer={setFrequencyMultiplyer}
         />
+        <br/>
         <TimeIntervalForm
           before={
             <>
@@ -109,7 +111,7 @@ const AddTask = ({
           multiplyer={beforeFlexibilityMultiplyer}
           setMultiplyer={setBeforeFlexibilityMultiplyer}
           partitive={true}
-        />
+        /> <br/>
         <button type="submit">Lisää</button>
       </form>
     </div>

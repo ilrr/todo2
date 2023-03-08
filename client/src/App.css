@@ -154,17 +154,100 @@ img#logo {
   width: max-content;
 }
 
-.task-time {
+.task-header {
   background-color: rgba(0, 0, 0, 0.2);
   padding: 5px 10px 5px 10px;
   border-radius: 10px 10px 0 0;
-  font-size: 0.8rem;
+  display: flex;
+  gap: 10px;
 }
+
+.task-time {
+  flex-grow: 1;
+  font-size: 0.8rem;
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr);
+}
+
+.time-box {
+  flex: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.time-box.dl {
+  font-weight: bold;
+}
+
+.time-box:first-child > span {
+  margin-right: auto;
+}
+
+.time-box:last-child > span {
+  margin-left: auto;
+}
+
+.time-box > span {
+  display: flex;
+  align-items: center;
+  gap: 1ex;
+}
+
+.time-symbol {
+  font-size: 1.0rem;
+  margin: -0.3rem 0 -0.5rem 0;
+}
+
+.task-time.stacked {
+  grid-template-columns: auto;
+}
+
+
+/* @media screen and (max-width: 350px) {
+  .task-time {
+    flex-direction: column;
+  }
+  .time-symbol {
+    margin: -0.5rem 0 -0.4rem 0;
+  }
+} */
+
 
 .task-body {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+.task-menu {
+  position: relative;
+  cursor: pointer;
+}
+
+.task-menu:hover {
+  background-color: #ffffff22;
+}
+
+.task-menu.active {
+  background-color: #aaaaaa;
+}
+
+.task-menu-content {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  width: max-content;
+  background-color: #aaaaaa;
+  border-radius: 2px 0 2px 2px;
+}
+
+.task-menu-content-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.task-menu-content-item:hover {
+  background-color: #bbbbbb;
 }
 
 .list-card {
@@ -271,13 +354,14 @@ label {
   filter: brightness(0.7);
 }
 
-.done-button::after {
+/* .done-button::after {
   content: "✓";
-}
+} */
 
 .done-button-wrapper {
   display: block;
   margin-top: auto;
+  z-index: 1;
 }
 
 .shopping-list-section {
@@ -323,7 +407,7 @@ label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: calc(min(500px, 100vw - 90px));
   padding: 5%;
   line-height: 30px;
 }
@@ -335,6 +419,7 @@ label {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 101;
 }
 
 .add-section {
