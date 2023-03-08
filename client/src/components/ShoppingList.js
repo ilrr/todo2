@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import ShareIcon from '@mui/icons-material/Share';
 import shoppingListService from '../services/shoppingList';
 import FloatingForm from './FloatingForm';
 // import tasklist from "../services/tasklist"
@@ -15,6 +16,7 @@ const ShoppingList = () => {
   const [list, setList] = useState({});
   // const [edit, setEdit] = useState(false);
   const [insertSectionForm, setInsertSectionForm] = useState(false);
+  const [share, setShare] = useState(false);
   const navigate = useNavigate();
 
   const AddSection = () => {
@@ -64,7 +66,7 @@ const ShoppingList = () => {
           <div style={{
             display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', marginLeft: '10px', marginRight: '10px',
           }}>
-            <h1 style={{ width: 'max-content' }}>{list.name}</h1>
+            <h1 style={{ width: 'max-content' }}>{list.name}<span onClick={() => setShare(true)} style={{ cursor: 'pointer' }}> <ShareIcon htmlColor='darkslategray' />  </span></h1>
             <button onClick={checkout} style={{ margin: '10px 0 10px auto' }}>Poista merkityt</button>
           </div>
           <div className='shopping-list-wrapper'>
@@ -80,7 +82,10 @@ const ShoppingList = () => {
             </div>
           </div>
           <br/>
-          <Share listId={listId} />
+          {share
+            && <FloatingForm setVisibility={setShare}>
+             <Share listId={listId} />
+            </FloatingForm>}
         </div>
       </> : (
         'Kirjaudu!'

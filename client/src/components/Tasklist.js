@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 // import tasklist from "../services/tasklist"
+import ShareIcon from '@mui/icons-material/Share';
 import tasklistService from '../services/tasklist';
 import FloatingForm from './FloatingForm';
 import AddTask from './AddTask';
@@ -15,6 +16,7 @@ const Tasklist = () => {
   const [tasklist, setTasklist] = useState({});
   const [edit, setEdit] = useState(false);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,10 +45,7 @@ const Tasklist = () => {
     <div>
       {userInfo.token ? (
         <div className="tasklist">
-          <div style={{ float: 'right' }}>
-            <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
-          </div>
-          <h1>{tasklist.name}</h1>
+          <h1>{tasklist.name} <span style={{ cursor: 'pointer' }} onClick={() => setShowShare(true)}><ShareIcon htmlColor='darkslategray' /> </span></h1>
           {tasks
             .filter(({ timeLeft }) => timeLeft === 0)
             .map(task => (
@@ -72,22 +71,20 @@ const Tasklist = () => {
                 appendTask={appendTask}
               />
             ))}
-          <a onClick={() => setShowNewTaskForm(true)}>Lisää uusi tehtävä</a>
+          <div style={{ cursor: 'pointer', textAlign: 'center' }} onClick={() => setShowNewTaskForm(true)}>Lisää uusi tehtävä</div>
           {showNewTaskForm
-            ? <FloatingForm setVisibility={setShowNewTaskForm}>
+            && <FloatingForm setVisibility={setShowNewTaskForm}>
               <h2>Luo uusi tehtävä</h2>
               <AddTask
                 tasklistId={listId}
                 appendTask={appendTask}
                 setShowForm={setShowNewTaskForm} />
-            </FloatingForm>
-            : ''
-            }
-          <label>
-            <input type="checkbox" checked={edit} onChange={() => setEdit(!edit)} />
-            muokkaa
-          </label>
-          <Share listId={listId} />
+            </FloatingForm>}
+
+          {showShare
+            && <FloatingForm setVisibility={setShowShare}>
+              <Share listId={listId} />
+            </FloatingForm>}
         </div>
       ) : (
         'Kirjaudu!'

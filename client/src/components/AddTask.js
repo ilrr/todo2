@@ -69,7 +69,7 @@ const AddTask = ({
   return (
     <div>
       <form onSubmit={submitTask}>
-        {presets.name && <h2>Luodaan kopio tehtävästä ”{presets.name}”</h2>}
+        {presets && <h2>Luodaan kopio tehtävästä ”{presets.name}”</h2>}
         Tehtävän nimi:
         <input type="text" value={name} onChange={e => setName(e.target.value)} /> <br />
         <TimeIntervalForm
