@@ -134,6 +134,7 @@ router.post('/:id/checkout', async (req, res) => {
   const updatedSections = await ShoppingListSection.findAll({
     where: { listId: req.params.id },
     include: { model: ShoppingListItem },
+    order: [['id', 'ASC'], [ShoppingListItem, 'id', 'ASC']],
   });
 
   return res.status(200).json(updatedSections);

@@ -220,9 +220,11 @@ img#logo {
 }
 
 .task-menu {
-  position: relative;
   cursor: pointer;
+  position: relative;
+  border-radius: 3px;
 }
+
 
 .task-menu:hover {
   background-color: #ffffff22;
@@ -230,6 +232,7 @@ img#logo {
 
 .task-menu.active {
   background-color: #aaaaaa;
+  border-radius: 3px 3px 0 0;
 }
 
 .task-menu-content {
@@ -413,6 +416,7 @@ label {
 }
 
 .add-instance-background {
+  cursor: auto;
   background-color: #000a;
   width: 100%;
   height: 100%;
