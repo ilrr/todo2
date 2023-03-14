@@ -1,13 +1,16 @@
-import axios from 'axios';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { newToast } from '../reducers/toastReducer';
 import userService from '../services/user';
 
-const Register = ({ setUserInfo }) => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [registeredSuccessfylly, setRegisteredSuccessfylly] = useState(false);
+
+  const dispatch = useDispatch();
 
   const register = event => {
     event.preventDefault();
@@ -17,10 +20,10 @@ const Register = ({ setUserInfo }) => {
       name,
       password,
     })
-      .then(data => {
+      .then(() => {
         setRegisteredSuccessfylly(true);
       })
-      .catch(error => window.alert(error));
+      .catch(({ error }) => dispatch(newToast({ msg: error })));
   };
 
   return (

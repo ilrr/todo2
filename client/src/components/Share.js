@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { newToast } from '../reducers/toastReducer';
 import tasklistService from '../services/tasklist';
 
 const Share = ({ listId }) => {
   const [username, setUsername] = useState('');
+  const dispatch = useDispatch();
 
-  // TODO: something to replace alerts
   const share = event => {
     event.preventDefault();
     tasklistService.shareList(listId, username)
-      .then(() => alert('Jaettu! ☺'))
-      .catch(e => alert(e.error));
+      .then(() => dispatch(newToast({ msg: 'Jaettu! ☺', type: 'info' })))
+      .catch(e => dispatch(newToast({ msg: e.error })));
   };
 
   return (

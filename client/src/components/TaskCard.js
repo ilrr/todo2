@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
+import { useDispatch } from 'react-redux';
 import taskService from '../services/task';
 import AddTask from './AddTask';
 import EditTask from './EditTask';
 import TaskTimeInfo from './TaskTimeInfo';
 import TaskMenuButton from './TaskMenuButton';
 import FloatingForm from './FloatingForm';
+import { newToast } from '../reducers/toastReducer';
 
 const TaskCard = ({
   task, updateTask, tasklistId, appendTask,
@@ -14,6 +16,7 @@ const TaskCard = ({
   const [style, setStyle] = useState('idle');
   const [done, setDone] = useState(false);
   const [update, setUpdate] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     name,
@@ -37,7 +40,7 @@ const TaskCard = ({
           updateTask(id, { delete: true });
         }, 1000);
       })
-      .catch(alert);
+      .catch(({ error }) => dispatch(newToast({ msg: error })));
   };
 
   const markAsDone = () => {
@@ -52,7 +55,7 @@ const TaskCard = ({
           setStyle('checked');
         }, 1000);
       })
-      .catch(e => alert(e));
+      .catch(({ error }) => dispatch(newToast({ msg: error })));
   };
 
   useEffect(() => {

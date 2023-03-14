@@ -1,17 +1,19 @@
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux'
-import {configureStore} from '@reduxjs/toolkit'
 import userReducer from './reducers/userReducer';
+import toastReducer from './reducers/toastReducer';
 
 const store = configureStore({
   reducer: {
-    user: userReducer
-  }
-})
+    user: userReducer,
+    toast: toastReducer,
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

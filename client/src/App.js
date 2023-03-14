@@ -17,6 +17,7 @@ import { setToken } from './services/api';
 import { loginUser } from './reducers/userReducer';
 import ShoppingList from './components/ShoppingList';
 import Error from './components/Error';
+import Toasts from './components/Toasts';
 
 const App = () => {
   const dispatch = useDispatch(); //
@@ -33,19 +34,21 @@ const App = () => {
   return (
     <Router>
       <TopBar />
-      <div className='content'>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/lista/:listId' element={<Tasklist />} />
-        <Route path='/logout/expired' element={<Logout msg="Istuntosi on vanhentunut. Kirjaudu uudestaan."/>} />
-        <Route path='/logout' element={<Logout msg="Hei hei!" />} />
-        <Route path='/error' element={<Error />} />
-        <Route path='/ostoslista/:listId' element={<ShoppingList />} />
-        <Route path='/' element={<Tasklists />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-      </div>
+      <Toasts />
+        <div className='content'>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/lista/:listId' element={<Tasklist />} />
+            <Route path='/logout/expired' element={<Logout msg="Istuntosi on vanhentunut. Kirjaudu uudestaan."/>} />
+            <Route path='/logout' element={<Logout msg="Hei hei!" />} />
+            <Route path='/error' element={<Error />} />
+            <Route path='/ostoslista/:listId' element={<ShoppingList />} />
+            <Route path='/' element={<Tasklists />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
+
     </Router>
 
   );

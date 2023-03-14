@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
+import { newToast } from '../reducers/toastReducer';
 import { loginUser } from '../reducers/userReducer';
 import { setToken } from '../services/api';
 import userService from '../services/user';
 
-const Login = ({ setUserInfo }) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
 
   const dispatch = useDispatch();
 
@@ -24,12 +25,11 @@ const Login = ({ setUserInfo }) => {
         window.localStorage.setItem('session', JSON.stringify(user));
         setLoggedIn(true);
       })
-      .catch(error => setError(error.error));
+      .catch(({ error }) => dispatch(newToast({ msg: error })));
   };
 
   return (
     <div>
-      {error ? <div>Error: {error}</div> : ''}
       <form onSubmit={logIn}>
         Käyttäjätunnus:
         <input
