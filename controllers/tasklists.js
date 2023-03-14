@@ -145,8 +145,15 @@ router.post('/:id/share', async (req, res) => {
     where: {
       username: anotherUsername,
     },
+    include: [{
+      model: Tasklist,
+      through: Role,
+      where: { id: req.params.id },
+      required: false,
+    }],
   });
   if (!anotherUser) { return res.status(404).json({ error: 'invalid username' }); }
+  if (anotherUser.tasklists.length) return res.status(409).json({ error: `"${anotherUsername}" already has access to list` });
   const addedRole = await Role.create({
     description: newRole,
     listId: req.params.id,

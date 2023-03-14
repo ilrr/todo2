@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
   const savedUser = await user.save();
 
-  res.status(201).json({ username: savedUser.username, name: savedUser.name });
+  return res.status(201).json({ username: savedUser.username, name: savedUser.name });
 });
 
 module.exports = router;
