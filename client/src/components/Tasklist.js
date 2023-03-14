@@ -14,7 +14,6 @@ const Tasklist = () => {
   const userInfo = useSelector(({ user }) => user);
   const [tasks, setTasks] = useState([]);
   const [tasklist, setTasklist] = useState({});
-  const [edit, setEdit] = useState(false);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showShare, setShowShare] = useState(false);
 
@@ -53,7 +52,6 @@ const Tasklist = () => {
                 task={task}
                 updateTask={updateTask}
                 key={task.id}
-                edit={edit}
                 tasklistId={listId}
                 appendTask={appendTask}
               />
@@ -66,7 +64,6 @@ const Tasklist = () => {
                 task={task}
                 updateTask={updateTask}
                 key={task.id}
-                edit={edit}
                 tasklistId={listId}
                 appendTask={appendTask}
               />

@@ -4,11 +4,12 @@ import tasklistService from '../services/tasklist';
 const Share = ({ listId }) => {
   const [username, setUsername] = useState('');
 
+  // TODO: something to replace alerts
   const share = event => {
     event.preventDefault();
     tasklistService.shareList(listId, username)
       .then(() => alert('Jaettu! ☺'))
-      .catch(alert);
+      .catch(e => alert(e.error));
   };
 
   return (
