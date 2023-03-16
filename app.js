@@ -21,11 +21,11 @@ app.use('/api/login', loginRouter);
 app.use('/api/task', taskRouter);
 app.use('/api/shopping', shoppingRouter);
 
-app.use(express.static('client/build'));
+app.use(express.static('client/dist'));
 
 // a dirty fix because for some reason app won't route to manifest.json
-app.get('/manifest.json', (req, res) => res.sendFile(`${__dirname}/client/build/manifest.json`));
-app.get(/^\/(.*)/, (req, res) => res.sendFile(`${__dirname}/client/build/index.html`));
+app.get('/manifest.json', (req, res) => res.sendFile(`${__dirname}/client/dist/manifest.json`));
+app.get(/^\/(.*)/, (req, res) => res.sendFile(`${__dirname}/client/dist/index.html`));
 
 app.use(errorHandler);
 
