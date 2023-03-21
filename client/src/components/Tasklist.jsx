@@ -8,6 +8,7 @@ import FloatingForm from './FloatingForm';
 import AddTask from './AddTask';
 import Share from './Share';
 import TaskCard from './TaskCard';
+import './Tasklist.css';
 
 const Tasklist = () => {
   const { listId } = useParams();
@@ -33,8 +34,10 @@ const Tasklist = () => {
       tasklistService.getTasklistInfo(listId)
         .then(list => { setTasklist(list); listInfo = list; })
         .then(() => {
-          if (listInfo.type !== 'SHOPPING') tasklistService.getTasks(listId).then(setTasks);
-          else navigate(`/ostoslista/${listId}`);
+          if (listInfo.type !== 'SHOPPING')
+            tasklistService.getTasks(listId).then(setTasks);
+          else
+            navigate(`/ostoslista/${listId}`);
         })
         .catch(e => navigate('/error', { state: e }));
     }

@@ -13,8 +13,10 @@ const userIdFromRequest = req => {
 
 router.post('/:id/done', async (req, res) => {
   const task = await Task.findByPk(req.params.id);
-  if (!task) return res.status(404).json({ error: 'invalid task id' });
-  if (!hasAccess(req, task.tasklistId)) return res.status(403).json({ error: 'no access' });
+  if (!task)
+    return res.status(404).json({ error: 'invalid task id' });
+  if (!hasAccess(req, task.tasklistId))
+    return res.status(403).json({ error: 'no access' });
   const userId = userIdFromRequest(req);
   await Task.update(
     {
@@ -31,16 +33,22 @@ router.post('/:id/done', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   const task = await Task.findByPk(req.params.id);
-  if (!task) return res.status(404).json({ error: 'invalid task id' });
-  if (!hasAccess(req, task.tasklistId)) return res.status(403).json({ error: 'no access' });
+  if (!task)
+    return res.status(404).json({ error: 'invalid task id' });
+  if (!hasAccess(req, task.tasklistId))
+    return res.status(403).json({ error: 'no access' });
   let {
     name, frequency, afterFlexibility, beforeFlexibility,
   } = req.body;
 
-  if (!name) name = task.name;
-  if (!frequency) frequency = task.frequency;
-  if (!afterFlexibility) afterFlexibility = task.afterFlexibility;
-  if (!beforeFlexibility) beforeFlexibility = task.beforeFlexibility;
+  if (!name)
+    name = task.name;
+  if (!frequency)
+    frequency = task.frequency;
+  if (!afterFlexibility)
+    afterFlexibility = task.afterFlexibility;
+  if (!beforeFlexibility)
+    beforeFlexibility = task.beforeFlexibility;
 
   await Task.update(
     {
@@ -56,12 +64,12 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const task = await Task.findByPk(id);
-  if (!task) {
+  if (!task)
     return res.status(404).json({ error: 'invalid task id' });
-  }
-  if (!hasAccess(req, task.tasklistId)) {
+
+  if (!hasAccess(req, task.tasklistId))
     return res.status(403).json({ error: 'no access' });
-  }
+
   await task.destroy();
   return res.status(204).send();
 });

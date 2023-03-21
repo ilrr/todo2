@@ -6,9 +6,7 @@
         "node": true
     },
     "extends": [
-        "airbnb-base",
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime"
+        "airbnb-base"
     ],
     "overrides": [],
     "parserOptions": {
@@ -23,6 +21,14 @@
         "no-use-before-define": "warn",
         "no-mixed-operators": [
             "warn"
+        ],
+        "curly": [
+            "error",
+            "multi-or-nest"
+        ],
+        "nonblock-statement-body-position": [
+            "error",
+            "below"
         ]
     }
 }

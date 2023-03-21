@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import './TopBar.css';
 
 const TopBar = () => {
   const userInfo = useSelector(({ user }) => user);

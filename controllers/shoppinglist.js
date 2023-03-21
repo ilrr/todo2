@@ -11,9 +11,11 @@ const { sequelize } = require('../util/db');
 
 router.get('/', async (req, res) => {
   const token = getTokenFrom(req);
-  if (!token) return res.status(401).json({ error: 'token missing' });
+  if (!token)
+    return res.status(401).json({ error: 'token missing' });
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) return res.status(401).json({ error: 'invalid token' });
+  if (!decodedToken.id)
+    return res.status(401).json({ error: 'invalid token' });
 
   const lists = await User.findOne({
     where: {
@@ -29,7 +31,8 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) { return res.status(401).json({ error: 'no access' }); }
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access' });
   const list = await Tasklist.findOne({
     where: {
       id: req.params.id,
@@ -49,9 +52,11 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { body } = req;
   const token = getTokenFrom(req);
-  if (!token) return res.status(401).json({ error: 'token missing' });
+  if (!token)
+    return res.status(401).json({ error: 'token missing' });
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) return res.status(401).json({ error: 'invalid token' });
+  if (!decodedToken.id)
+    return res.status(401).json({ error: 'invalid token' });
 
   const user = await User.findOne({ where: { id: decodedToken.id } });
   const newList = await Tasklist.create({ name: body.name, type: 'SHOPPING' });
@@ -62,7 +67,8 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id/items', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) return res.status(401).json({ error: 'no access' });
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access' });
 
   const sections = await ShoppingListSection.findAll({
     where: { listId: req.params.id },
@@ -74,7 +80,8 @@ router.get('/:id/items', async (req, res) => {
 });
 
 router.post('/:id/addsection', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) { return res.status(401).json({ error: 'no access' }); }
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access' });
   const { body } = req;
   const newSection = await ShoppingListSection.create({
     name: body.name,
@@ -88,8 +95,10 @@ module.exports = router;
 
 router.post('/section/:id/additem', async (req, res) => {
   const section = await ShoppingListSection.findOne({ where: { id: req.params.id } });
-  if (!section) return res.status(403).json({ error: 'invalid id' });
-  if (!hasAccess(req, section.listId)) return res.status(401).json({ error: 'no access' });
+  if (!section)
+    return res.status(403).json({ error: 'invalid id' });
+  if (!hasAccess(req, section.listId))
+    return res.status(401).json({ error: 'no access' });
   const { body } = req;
   const newItem = await ShoppingListItem.create({
     name: body.name,
@@ -107,9 +116,11 @@ router.patch('/item/:id/check', async (req, res) => {
     },
   });
   const checked = req.body.checked !== undefined ? req.body.checked : true;
-  if (!section) return res.status(403).json({ error: 'invalid id' });
+  if (!section)
+    return res.status(403).json({ error: 'invalid id' });
   const { listId } = section;
-  if (!hasAccess(req, listId)) return res.status(401).json({ error: 'no access' });
+  if (!hasAccess(req, listId))
+    return res.status(401).json({ error: 'no access' });
   await ShoppingListItem.update(
     { checked },
     { where: { id: req.params.id } },
@@ -119,7 +130,8 @@ router.patch('/item/:id/check', async (req, res) => {
 });
 
 router.post('/:id/checkout', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) return res.status(401).json({ error: 'no access' });
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access' });
   await sequelize.query(
     `
     DELETE item 

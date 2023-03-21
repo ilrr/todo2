@@ -9,11 +9,13 @@ const {
 const { getTokenFrom, hasAccess } = require('../util/access');
 const { sequelize } = require('../util/db');
 
-const canShare = async (req, tasklistId) => {
+const isCreator = async (req, tasklistId) => {
   const token = getTokenFrom(req);
-  if (!token) return false;
+  if (!token)
+    return false;
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken) return false;
+  if (!decodedToken)
+    return false;
   const role = await Role.findOne({
     where: {
       userId: decodedToken.id,
@@ -24,6 +26,9 @@ const canShare = async (req, tasklistId) => {
   return !!role;
 };
 
+const canShare = isCreator;
+const canDelete = isCreator;
+
 const userIdFromRequest = req => {
   const token = getTokenFrom(req);
   const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -33,9 +38,11 @@ const userIdFromRequest = req => {
 // get tasklists of user
 router.get('/', async (req, res) => {
   const token = getTokenFrom(req);
-  if (!token) return res.status(401).json({ error: 'token missing' });
+  if (!token)
+    return res.status(401).json({ error: 'token missing' });
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) return res.status(401).json({ error: 'invalid token' });
+  if (!decodedToken.id)
+    return res.status(401).json({ error: 'invalid token' });
 
   const lists = await User.findOne({
     where: {
@@ -53,9 +60,11 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { body } = req;
   const token = getTokenFrom(req);
-  if (!token) return res.status(401).json({ error: 'token missing' });
+  if (!token)
+    return res.status(401).json({ error: 'token missing' });
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) return res.status(401).json({ error: 'invalid token' });
+  if (!decodedToken.id)
+    return res.status(401).json({ error: 'invalid token' });
 
   const user = await User.findOne({ where: { id: decodedToken.id } });
   const newList = await Tasklist.create({ name: body.name });
@@ -67,7 +76,8 @@ router.post('/', async (req, res) => {
 
 // get tasks from tasklist
 router.get('/:id/tasks', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) { return res.status(401).json({ error: 'no access to tasklist' }); }
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access to tasklist' });
   const timeZoneOffset = req.get('time-zone-offset');
   const offsettedTime = time => ((timeZoneOffset && /^-?\d*$/.test(timeZoneOffset))
     ? `DATE_ADD(${time}, INTERVAL ${-timeZoneOffset} MINUTE)`
@@ -102,7 +112,8 @@ router.get('/:id/tasks', async (req, res) => {
 
 // get fields of tasklist
 router.get('/:id', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) { return res.status(401).json({ error: 'no access' }); }
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access' });
   const list = await Tasklist.findOne({
     where: {
       id: req.params.id,
@@ -121,7 +132,8 @@ router.get('/:id', async (req, res) => {
 
 // add new task
 router.post('/:id/addtask', async (req, res) => {
-  if (!await hasAccess(req, req.params.id)) { return res.status(401).json({ error: 'no access' }); }
+  if (!await hasAccess(req, req.params.id))
+    return res.status(401).json({ error: 'no access' });
   const { body } = req;
   const newTask = await Task.create({
     name: body.name,
@@ -136,11 +148,13 @@ router.post('/:id/addtask', async (req, res) => {
 });
 
 router.post('/:id/share', async (req, res) => {
-  if (!await canShare(req, req.params.id)) { return res.status(401).json({ error: 'not authorized to share' }); }
+  if (!await canShare(req, req.params.id))
+    return res.status(401).json({ error: 'not authorized to share' });
   const { body } = req;
   const newRole = body.role;
   const anotherUsername = body.user;
-  if (newRole !== 'EDIT' && newRole !== 'VIEW') { return res.status(400).json({ error: 'invalid role' }); }
+  if (newRole !== 'EDIT' && newRole !== 'VIEW')
+    return res.status(400).json({ error: 'invalid role' });
   const anotherUser = await User.findOne({
     where: {
       username: anotherUsername,
@@ -152,14 +166,29 @@ router.post('/:id/share', async (req, res) => {
       required: false,
     }],
   });
-  if (!anotherUser) { return res.status(404).json({ error: 'invalid username' }); }
-  if (anotherUser.tasklists.length) return res.status(409).json({ error: `"${anotherUsername}" already has access to list` });
+  if (!anotherUser)
+    return res.status(404).json({ error: 'invalid username' });
+  if (anotherUser.tasklists.length)
+    return res.status(409).json({ error: `"${anotherUsername}" already has access to list` });
   const addedRole = await Role.create({
     description: newRole,
     listId: req.params.id,
     userId: anotherUser.id,
   });
   return res.status(201).json(addedRole);
+});
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const list = await Tasklist.findByPk(id);
+  if (!list)
+    return res.status(404).json({ error: 'invalid list id' });
+
+  if (!await canDelete(req, id))
+    return res.status(401).json({ error: 'not authorized to delete list' });
+
+  await list.destroy();
+  return res.status(204).send();
 });
 
 module.exports = router;

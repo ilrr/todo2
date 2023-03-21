@@ -1,4 +1,5 @@
 import { averageDaysInMonth } from '../util/utils';
+import './TimeIntervalForm.css';
 
 const TimeIntervalForm = ({
   value, setValue, multiplyer, setMultiplyer, before, after, partitive,

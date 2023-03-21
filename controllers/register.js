@@ -11,9 +11,8 @@ router.post('/', async (req, res) => {
   if (existingUser) {
     // console.log(existingUser);
     return res.status(400).json({ error: `Username "${username}" is already taken` });
-  } if (password.length < 8) {
+  } if (password.length < 8)
     return res.status(400).json({ error: 'invalid password' });
-  }
 
   const hashedPassword = await bcrypt.hash(password, 8);
 

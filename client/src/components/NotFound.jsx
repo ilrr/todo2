@@ -19,7 +19,7 @@ const NotFound = () => {
             width: 'fit-content',
             rotate: `${emojiAngle}deg`,
           }}
-          onClick={e => setEmoji(randomEmoji)}
+          onClick={() => setEmoji(randomEmoji)}
           onWheel={e => setEmojiAngle((emojiAngle + Math.sign(e.deltaY) * 17 + 360) % 360)}
         >
           {emoji}

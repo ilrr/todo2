@@ -6,22 +6,30 @@ const toDate = date => Date.UTC(date.getYear(), date.getMonth(), date.getDate())
 
 const dateToString = (date, offset = 0, showTime = false) => {
   // console.log(date);
-  if (!date) { return 'Ei vielä suoritettu'; }
+  if (!date)
+    return 'Ei vielä suoritettu';
   const now = new Date(Date.now());
   // console.log(now);
   const dMonth = (date.getYear() - now.getYear()) * 12
     + (date.getMonth() - now.getMonth())
     + (date.getDate() - now.getDate() + offset) / 30;
 
-  if (dMonth >= 1) return `${Math.floor(dMonth)} kuukauden päästä`;
-  if (dMonth <= -1) return `${Math.floor(-dMonth)} kuukautta sitten`;
+  if (dMonth >= 1)
+    return `${Math.floor(dMonth)} kuukauden päästä`;
+  if (dMonth <= -1)
+    return `${Math.floor(-dMonth)} kuukautta sitten`;
   const timeString = showTime ? `klo ${date.toLocaleTimeString()}` : '';
   const dDay = (toDate(date) - toDate(now)) / (1000 * 60 * 60 * 24) + offset;
-  if (dDay === 0) return `tänään ${timeString}`;
-  if (dDay === 1) return `huomenna ${timeString}`;
-  if (dDay === -1) return `eilen ${timeString}`;
-  if (dDay >= 0) return `${dDay} päivän päästä`;
-  if (dDay < 0) return `${-dDay} päivää sitten`;
+  if (dDay === 0)
+    return `tänään ${timeString}`;
+  if (dDay === 1)
+    return `huomenna ${timeString}`;
+  if (dDay === -1)
+    return `eilen ${timeString}`;
+  if (dDay >= 0)
+    return `${dDay} päivän päästä`;
+  if (dDay < 0)
+    return `${-dDay} päivää sitten`;
   return 'outo juttu :|';
 };
 
@@ -39,7 +47,8 @@ const TaskTimeInfo = props => {
       !nextDeadline
       || ref.current.parentElement.offsetWidth < ref.current.parentElement.scrollWidth,
     );
-    if (!overflows) onResize();
+    if (!overflows)
+      onResize();
     // window.addEventListener('resize', onResize);
   });
 

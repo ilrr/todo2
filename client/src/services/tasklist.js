@@ -35,12 +35,21 @@ const shareList = (listId, username) => {
   return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
+const deleteList = listId => {
+  const request = axios.delete(
+    `${baseUrl}/tasklists/${listId}`,
+    config(),
+  );
+  return request.then(res => res.status).catch(e => { throw e.response.data; });
+};
+
 const tasklistService = {
   getTasklists,
   getTasks,
   getTasklistInfo,
   newList,
   shareList,
+  deleteList,
 };
 
 export default tasklistService;

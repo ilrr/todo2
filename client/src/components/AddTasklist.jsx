@@ -13,11 +13,11 @@ const AddTasklist = ({ setShowNewListForm: setVisibility }) => {
 
   const submitTasklist = event => {
     event.preventDefault();
-    if (isShopping) {
+    if (isShopping)
       shoppingListService.newList(name).then(({ id }) => { window.location.href = `/ostoslista/${id}`; });
-    } else {
+    else
       tasklistService.newList(name).then(({ id }) => { window.location.href = `/lista/${id}`; });
-    }
+
     setName('');
   };
 

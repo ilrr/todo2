@@ -17,7 +17,10 @@ const Tasklists = () => {
   // console.log(userInfo)
   useEffect(() => {
     if (userInfo.token) {
-      tasklistService.getTasklists().then(lists => setTasklists(lists.tasklists)).catch(() => (navigate('/logout/expired')));
+      tasklistService
+        .getTasklists()
+        .then(lists => setTasklists(lists.tasklists))
+        .catch(() => (navigate('/logout/expired')));
     }
   }, [userInfo.token]);
   // console.log(tasklists);

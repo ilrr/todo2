@@ -1,0 +1,9 @@
+.time-interval-form {
+  display: inline-block;
+  width: max-content;
+  margin-right: 1em;
+}
+
+.time-interval-form input[type="number"] {
+  width: 80px;
+}

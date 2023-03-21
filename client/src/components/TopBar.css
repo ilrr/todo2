@@ -1,0 +1,25 @@
+.bar {
+  background-color: #2f4f4f;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.bar > div {
+  color: lightgray;
+  margin: 10px;
+}
+
+.bar a {
+  color: lightgray;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+div#logo {
+  flex-grow: 1;
+}
+
+img#logo {
+  height: 1cm;
+}

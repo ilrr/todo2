@@ -1,0 +1,17 @@
+.toast-container {
+  position: absolute;
+  right: 0;
+  z-index: 200;
+}
+
+.toast {
+  background-color: red;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.toast.info {
+  background-color: blue;
+}

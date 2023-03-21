@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastTimeoutsSet, removeToast } from '../reducers/toastReducer';
+import './Toasts.css';
 
 const Toast = props => {
   const dispatch = useDispatch();

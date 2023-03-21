@@ -8,6 +8,7 @@ import TaskTimeInfo from './TaskTimeInfo';
 import TaskMenuButton from './TaskMenuButton';
 import FloatingForm from './FloatingForm';
 import { newToast } from '../reducers/toastReducer';
+import './TaskCard.css';
 
 const TaskCard = ({
   task, updateTask, tasklistId, appendTask,
@@ -60,14 +61,22 @@ const TaskCard = ({
 
   useEffect(() => {
     let newStyle = '';
-    if (justCompleted) newStyle = 'checked';
-    else if (latest === null) newStyle = 'unknown';
-    else if (latest < 0) newStyle = 'late';
-    else if (daysLeft === 0) newStyle = 'due';
-    else if (daysLeft < 0) newStyle = 'due-over';
-    else if (earliest === 0) newStyle = 'early';
-    else newStyle = 'idle';
-    if (timeLeft === 0) newStyle = `${newStyle} today`;
+    if (justCompleted)
+      newStyle = 'checked';
+    else if (latest === null)
+      newStyle = 'unknown';
+    else if (latest < 0)
+      newStyle = 'late';
+    else if (daysLeft === 0)
+      newStyle = 'due';
+    else if (daysLeft < 0)
+      newStyle = 'due-over';
+    else if (earliest === 0)
+      newStyle = 'early';
+    else
+      newStyle = 'idle';
+    if (timeLeft === 0)
+      newStyle = `${newStyle} today`;
     setStyle(newStyle);
   }, []);
 
