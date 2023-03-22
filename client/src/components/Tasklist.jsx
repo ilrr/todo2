@@ -8,6 +8,7 @@ import FloatingForm from './FloatingForm';
 import AddTask from './AddTask';
 import Share from './Share';
 import TaskCard from './TaskCard';
+import DeleteListButton from './DeleteListButton';
 import './Tasklist.css';
 
 const Tasklist = () => {
@@ -31,8 +32,12 @@ const Tasklist = () => {
   useEffect(() => {
     if (userInfo.token) {
       let listInfo;
-      tasklistService.getTasklistInfo(listId)
-        .then(list => { setTasklist(list); listInfo = list; })
+      tasklistService
+        .getTasklistInfo(listId)
+        .then(list => {
+          setTasklist(list);
+          listInfo = list;
+        })
         .then(() => {
           if (listInfo.type !== 'SHOPPING')
             tasklistService.getTasks(listId).then(setTasks);
@@ -47,7 +52,15 @@ const Tasklist = () => {
     <div>
       {userInfo.token ? (
         <div className="tasklist">
-          <h1>{tasklist.name} <span style={{ cursor: 'pointer' }} onClick={() => setShowShare(true)}><ShareIcon htmlColor='darkslategray' /> </span></h1>
+          <h1>
+            {tasklist.name}{' '}
+            <span
+              style={{ cursor: 'pointer' }}
+              onClick={() => setShowShare(true)}>
+              <ShareIcon htmlColor="darkslategray" />
+            </span>
+            <DeleteListButton listId={listId} />
+          </h1>
           {tasks
             .filter(({ timeLeft }) => timeLeft === 0)
             .map(task => (
@@ -59,7 +72,9 @@ const Tasklist = () => {
                 appendTask={appendTask}
               />
             ))}
-          <div className="today-separator" style={{ display: tasks[0] ? 'block' : 'none' }} />
+          <div
+            className="today-separator"
+            style={{ display: tasks[0] ? 'block' : 'none' }} />
           {tasks
             .filter(({ timeLeft }) => timeLeft !== 0)
             .map(task => (
@@ -71,20 +86,29 @@ const Tasklist = () => {
                 appendTask={appendTask}
               />
             ))}
-          <div style={{ cursor: 'pointer', textAlign: 'center' }} onClick={() => setShowNewTaskForm(true)}>Lisää uusi tehtävä</div>
-          {showNewTaskForm
-            && <FloatingForm setVisibility={setShowNewTaskForm}>
+          <div
+            style={{ textAlign: 'center', fontSize: 24, padding: '10px 0' }}
+            className="task-card new"
+            onClick={() => setShowNewTaskForm(true)}
+          >
+            +
+          </div>
+          {showNewTaskForm && (
+            <FloatingForm setVisibility={setShowNewTaskForm}>
               <h2>Luo uusi tehtävä</h2>
               <AddTask
                 tasklistId={listId}
                 appendTask={appendTask}
-                setShowForm={setShowNewTaskForm} />
-            </FloatingForm>}
+                setShowForm={setShowNewTaskForm}
+              />
+            </FloatingForm>
+          )}
 
-          {showShare
-            && <FloatingForm setVisibility={setShowShare}>
+          {showShare && (
+            <FloatingForm setVisibility={setShowShare}>
               <Share listId={listId} />
-            </FloatingForm>}
+            </FloatingForm>
+          )}
         </div>
       ) : (
         'Kirjaudu!'

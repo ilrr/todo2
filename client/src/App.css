@@ -69,3 +69,14 @@ label {
     opacity: 1;
   }
 }
+
+.new {
+  color: #aaa !important;
+  background-color: #ddd !important;
+  cursor: pointer;
+}
+
+.new:hover {
+  color: #888 !important;
+  background-color: #b6b6b6 !important;
+}

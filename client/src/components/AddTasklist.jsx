@@ -23,16 +23,16 @@ const AddTasklist = ({ setShowNewListForm: setVisibility }) => {
 
   return (
     <FloatingForm setVisibility={setVisibility}>
-        Luo uusi tehtävälista:
-        <form onSubmit={submitTasklist}>
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
+      Luo uusi tehtävälista:
+      <form onSubmit={submitTasklist}>
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
           /> <br />
-          <TaskShoppingSelect isShopping={isShopping} setIsShopping={setIsShopping} />
-          <button type="submit">Luo</button>
-        </form>
+        <TaskShoppingSelect isShopping={isShopping} setIsShopping={setIsShopping} />
+        <button type="submit">Luo</button>
+      </form>
     </FloatingForm>
   );
 };

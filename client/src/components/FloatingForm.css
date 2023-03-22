@@ -1,19 +1,45 @@
-.form-corner-button {
-  border: solid 0px black;
+.add-instance {
+  background-color: #aaa;
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(min(500px, 100vw - 90px));
+  padding: 5%;
+  line-height: 30px;
+  border-radius: 3px;
+}
+
+.add-instance-background {
+  cursor: auto;
+  background-color: #000a;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.form-corner-button {
+  border: solid 2px #aaa;
+  position: absolute;
+  top: -1em;
+  right: -1em;
   background-color: rgb(0, 0, 0);
   border-radius: 120px;
-  width: 24px;
-  height: 24px;
+  width: 2em;
+  height: 2em;
   color: darkgray;
-  /* font-size: larger; */
   display: inline-flex;
   place-content: center;
   align-items: center;
+  /* font-size: 0.5em; */
+}
+.form-corner-button:hover {
+  background-color: #520000;
 }
 
-.form-corner-button:hover {
-  color: rgb(255, 108, 108);
+.form-corner-button:active {
+  color: #ff6c6c;
 }

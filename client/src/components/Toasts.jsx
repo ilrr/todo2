@@ -22,7 +22,7 @@ const Toasts = () => {
   }, [toasts]);
 
   return (
-      <div className='toast-container'>
+    <div className='toast-container'>
       {toasts.map(toast => <Toast
         key={toast.id}
         id={toast.id}

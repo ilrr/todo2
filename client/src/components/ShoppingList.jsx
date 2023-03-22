@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import shoppingListService from '../services/shoppingList';
 import taskListService from '../services/tasklist';
 import FloatingForm from './FloatingForm';
@@ -13,6 +12,7 @@ import ShoppingListSection from './ShoppingListSection';
 import { newToast } from '../reducers/toastReducer';
 import AddSection from './AddSection';
 import './ShoppingList.css';
+import DeleteListButton from './DeleteListButton';
 
 const ShoppingList = () => {
   const { listId } = useParams();
@@ -22,7 +22,6 @@ const ShoppingList = () => {
 
   const [insertSectionForm, setInsertSectionForm] = useState(false);
   const [shareForm, setShareForm] = useState(false);
-  const [deleteListForm, setDeleteListForm] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -68,9 +67,7 @@ const ShoppingList = () => {
                 <span onClick={() => setShareForm(true)} style={{ cursor: 'pointer' }}>
                   <ShareIcon htmlColor="darkslategray" />
                 </span>
-                <span onClick={() => setDeleteListForm(true)} style={{ cursor: 'pointer' }}>
-                  <DeleteForeverOutlinedIcon htmlColor="darkred" />
-                </span>
+                <DeleteListButton listId={listId} />
               </h1>
               <button onClick={checkout} style={{ margin: '10px 0 10px auto' }}>
                 Poista merkityt
@@ -80,7 +77,7 @@ const ShoppingList = () => {
               {sections.map(section => (
                 <ShoppingListSection key={section.id} initialSection={section} />
               ))}
-              <div onClick={() => setInsertSectionForm(true)} className="add-section">
+              <div onClick={() => setInsertSectionForm(true)} className="add-section new">
                 <span style={{}}>+</span>
               </div>
             </div>
@@ -99,28 +96,6 @@ const ShoppingList = () => {
               </FloatingForm>
             )}
 
-            {deleteListForm
-              && <FloatingForm setVisibility={setDeleteListForm}>
-                <p>
-                  Haluatko varmasti poistaa listan? {deleteListForm ? 'T' : 'F'}
-                </p>
-                <button
-                  onClick={() => {
-                    taskListService.deleteList(listId)
-                      .then(() => {
-                        setDeleteListForm(false);
-                        dispatch(newToast({ msg: 'Lista poistettu', type: 'info' }));
-                        navigate('/');
-                      })
-                      .catch(({ error }) => dispatch(newToast({ msg: error })));
-                  }}>
-                  poista
-                </button>
-                <button onClick={() => setDeleteListForm(false) }>
-                  peruuta
-                </button>
-              </FloatingForm>
-            }
           </div>
         </>
       ) : (

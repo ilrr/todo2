@@ -10,9 +10,3 @@
   color: darkgreen;
   background-color: lightgreen;
 }
-
-.list-card.new {
-  color: #aaa;
-  background-color: #ddd;
-  cursor: pointer;
-}

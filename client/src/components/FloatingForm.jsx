@@ -12,7 +12,7 @@ const FloatingForm = ({ children, setVisibility }) => (
     <div className='add-instance'>
       {children}
       <button onClick={() => setVisibility(false)} className="form-corner-button">
-        <CloseIcon />
+        <CloseIcon style={{ fontSize: '1.25em' }} />
         {/* <span>×</span> */}
       </button>
     </div>

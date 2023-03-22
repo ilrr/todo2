@@ -29,34 +29,34 @@ const Register = () => {
   return (
     registeredSuccessfylly
       ? <div>
-          Rekisteröityminen onnistui!
-          <br />
-          <Link to='/login'>Kirjaudu sisään jatkaaksesi!</Link>
-        </div>
+        Rekisteröityminen onnistui!
+        <br />
+        <Link to='/login'>Kirjaudu sisään jatkaaksesi!</Link>
+      </div>
       : <div>
-          <form onSubmit={register}>
+        <form onSubmit={register}>
           Käyttäjätunnus:
           <input
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
         /><br />
-        Nimi:
-        <input
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          Nimi:
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
         /><br/>
-        Salasana:
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
+          Salasana:
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
         /><br />
-        <button type="submit">Rekisteröidy</button>
-      </form>
-      <Link to='/login'>Onko sinulla jo käyttäjätunnus? Kirjaudu tästä!</Link>
-    </div>);
+          <button type="submit">Rekisteröidy</button>
+        </form>
+        <Link to='/login'>Onko sinulla jo käyttäjätunnus? Kirjaudu tästä!</Link>
+      </div>);
 };
 
 export default Register;

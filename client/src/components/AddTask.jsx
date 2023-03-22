@@ -19,11 +19,7 @@ const AddTask = ({
   useEffect(() => {
     if (presets) {
       setName(presets.name);
-      setDefaultInterval(
-        presets.frequency,
-        setFrequency,
-        setFrequencyMultiplyer,
-      );
+      setDefaultInterval(presets.frequency, setFrequency, setFrequencyMultiplyer);
       setDefaultInterval(
         presets.afterFlexibility,
         setAfterFlexibility,
@@ -85,33 +81,35 @@ const AddTask = ({
           multiplyer={frequencyMultiplyer}
           setMultiplyer={setFrequencyMultiplyer}
         />
-        <br/>
-        <TimeIntervalForm
-          before={
-            <>
-              {' '}
-              + <br />{' '}
-            </>
-          }
-          value={afterFlexibility}
-          setValue={setAfterFlexibility}
-          multiplyer={afterFlexibilityMultiplyer}
-          setMultiplyer={setAfterFlexibilityMultiplyer}
-          partitive={true}
-        />
-        <TimeIntervalForm
-          before={
-            <>
-              {' '}
-              &minus; <br />{' '}
-            </>
-          }
-          value={beforeFlexibility}
-          setValue={setBeforeFlexibility}
-          multiplyer={beforeFlexibilityMultiplyer}
-          setMultiplyer={setBeforeFlexibilityMultiplyer}
-          partitive={true}
-        /> <br/>
+        <div style={{ display: 'inline-block' }}>
+          <TimeIntervalForm
+            before={
+              <>
+                {' '}
+                + <br />{' '}
+              </>
+            }
+            value={afterFlexibility}
+            setValue={setAfterFlexibility}
+            multiplyer={afterFlexibilityMultiplyer}
+            setMultiplyer={setAfterFlexibilityMultiplyer}
+            partitive={true}
+          />
+          <TimeIntervalForm
+            before={
+              <>
+                {' '}
+                &minus; <br />{' '}
+              </>
+            }
+            value={beforeFlexibility}
+            setValue={setBeforeFlexibility}
+            multiplyer={beforeFlexibilityMultiplyer}
+            setMultiplyer={setBeforeFlexibilityMultiplyer}
+            partitive={true}
+          />
+        </div>
+        <br />
         <button type="submit">Lisää</button>
       </form>
     </div>
