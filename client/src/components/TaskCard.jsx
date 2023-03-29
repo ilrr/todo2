@@ -56,7 +56,25 @@ const TaskCard = ({
           setStyle('checked');
         }, 1000);
       })
-      .catch(({ error }) => dispatch(newToast({ msg: error })));
+      .catch(error => {
+        if (error.code === 'ERR_NETWORK') {
+          const now = Date.now();
+          setStyle(`${style} completed`);
+          dispatch(newToast({ msg: 'Ei verkkoyhteyttä', type: 'info' }));
+          setTimeout(() => {
+            updateTask(id, {
+              ...task,
+              justCompleted: true,
+              completedAt: new Date(now).toISOString(),
+              earliest: frequency - beforeFlexibility,
+              latest: frequency + afterFlexibility,
+              daysLeft: frequency,
+            });
+            setStyle('checked');
+          }, 1000);
+        } else if (error.error)
+          dispatch(newToast({ msg: error.error }));
+      });
   };
 
   useEffect(() => {
@@ -95,13 +113,16 @@ const TaskCard = ({
     <div className={`task-card ${style}`}>
       <div className='task-header'>
         <TaskTimeInfo
-        afterFlexibility={afterFlexibility}
-        beforeFlexibility={beforeFlexibility}
-        nextDeadline={nextDeadline}
-        daysLeft={daysLeft}
+          afterFlexibility={afterFlexibility}
+          beforeFlexibility={beforeFlexibility}
+          nextDeadline={nextDeadline}
+          daysLeft={daysLeft}
         />
         <TaskMenuButton
-          setUpdate={setUpdate} setCopy={setCopy} deleteTask={deleteTask} name={name} />
+          setUpdate={setUpdate}
+          setCopy={setCopy}
+          deleteTask={deleteTask}
+          name={name} />
       </div>
       <div className="task-body">
         <div>
@@ -127,7 +148,8 @@ const TaskCard = ({
         </div>
 
         <div className="done-button-wrapper" >
-          <button className="done-button"
+          <button
+            className="done-button"
             onClick={() => setDone(true)/* markAsDone */}
           >
             <DoneIcon />

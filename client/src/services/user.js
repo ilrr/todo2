@@ -8,7 +8,12 @@ const login = fields => {
   );
   return request
     .then(res => res.data)
-    .catch(error => { throw error.response.data; });
+    .catch(error => {
+      if (error.response)
+        throw error.response.data;
+      else
+        throw error;
+    });
 };
 
 const register = fields => {

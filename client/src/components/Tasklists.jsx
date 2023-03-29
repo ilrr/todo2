@@ -20,7 +20,12 @@ const Tasklists = () => {
       tasklistService
         .getTasklists()
         .then(lists => setTasklists(lists.tasklists))
-        .catch(() => (navigate('/logout/expired')));
+        .catch(error => {
+          if (error.error && error.error === 'invalid token') {
+            console.log('error.error');
+            navigate('/logout/expired');
+          }
+        });
     }
   }, [userInfo.token]);
   // console.log(tasklists);

@@ -10,6 +10,7 @@ const userSlice = createSlice({
       return action.payload;
     },
     logout() {
+      caches.delete('list-cache');
       return initialState;
     },
   },

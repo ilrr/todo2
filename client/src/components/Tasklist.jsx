@@ -44,7 +44,7 @@ const Tasklist = () => {
           else
             navigate(`/ostoslista/${listId}`);
         })
-        .catch(e => navigate('/error', { state: e }));
+        .catch(error => navigate('/error', { state: error }));
     }
   }, [userInfo.token, listId]);
 

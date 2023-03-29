@@ -25,7 +25,12 @@ const Login = () => {
         window.localStorage.setItem('session', JSON.stringify(user));
         setLoggedIn(true);
       })
-      .catch(({ error }) => dispatch(newToast({ msg: error })));
+      .catch(error => {
+        if (error.error)
+          dispatch(newToast({ msg: error }));
+        else
+          console.log(error);
+      });
   };
 
   return (
