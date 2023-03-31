@@ -61,6 +61,26 @@ router.patch('/:id', async (req, res) => {
   return res.status(201).json(updatedTask);
 });
 
+router.patch('/:id/move', async (req, res) => {
+  const { id } = req.params;
+  const task = await Task.findByPk(id);
+
+  if (!task)
+    return res.status(404).json({ error: 'invalid task id' });
+  if (!hasAccess(req, task.tasklistId))
+    return res.status(403).json({ error: 'no access to task' });
+
+  const newList = req.body.newListId;
+  if (!hasAccess(req, newList))
+    return res.status(403).json({ error: 'no access to new list' });
+
+  await Task.update(
+    { tasklistId: newList },
+    { where: { id } },
+  );
+  return res.status(201).json({ ...task, tasklistId: newList });
+});
+
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const task = await Task.findByPk(id);

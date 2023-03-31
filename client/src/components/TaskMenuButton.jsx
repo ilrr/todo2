@@ -5,7 +5,7 @@ import FloatingForm from './FloatingForm';
 
 const TaskMenu = props => {
   const {
-    setCopy, setUpdate, deleteTask, name,
+    setCopy, setUpdate, setMove, deleteTask, name,
   } = props;
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   return (<>
@@ -18,15 +18,16 @@ const TaskMenu = props => {
     <div className='task-menu-content'>
       <div className='task-menu-content-item' onClick={() => setUpdate(true)}> muokkaa </div>
       <div className='task-menu-content-item' onClick={() => setCopy(true)}> kopioi </div>
+      <div className='task-menu-content-item' onClick={() => setMove(true)}> siirrä </div>
       <div className='task-menu-content-item' onClick={() => setShowDeleteConfirmation(true)}> poista </div>
     </div>
-    </>
+  </>
   );
 };
 
 const TaskMenuButton = props => {
   const {
-    setCopy, setUpdate, deleteTask, name,
+    setCopy, setUpdate, deleteTask, name, setMove,
   } = props;
 
   const [showMenu, setShowMenu] = useState(false);
@@ -35,7 +36,12 @@ const TaskMenuButton = props => {
       {showMenu ? <CloseIcon /> : <MenuIcon />}
     </div>
     {showMenu
-      && <TaskMenu setCopy={setCopy} setUpdate={setUpdate} deleteTask={deleteTask} name={name}
+      && <TaskMenu
+        setCopy={setCopy}
+        setUpdate={setUpdate}
+        deleteTask={deleteTask}
+        name={name}
+        setMove={setMove}
     />}
   </div>;
 };

@@ -9,6 +9,7 @@ import TaskMenuButton from './TaskMenuButton';
 import FloatingForm from './FloatingForm';
 import { newToast } from '../reducers/toastReducer';
 import './TaskCard.css';
+import MoveTask from './MoveTask';
 
 const TaskCard = ({
   task, updateTask, tasklistId, appendTask,
@@ -17,6 +18,7 @@ const TaskCard = ({
   const [style, setStyle] = useState('idle');
   const [done, setDone] = useState(false);
   const [update, setUpdate] = useState(false);
+  const [move, setMove] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -109,7 +111,7 @@ const TaskCard = ({
     ? new Date(new Date(completedAt).valueOf() + 1000 * 60 * 60 * 24 * frequency)
     : null;
 
-  return (
+  return (<>
     <div className={`task-card ${style}`}>
       <div className='task-header'>
         <TaskTimeInfo
@@ -121,30 +123,13 @@ const TaskCard = ({
         <TaskMenuButton
           setUpdate={setUpdate}
           setCopy={setCopy}
+          setMove={setMove}
           deleteTask={deleteTask}
           name={name} />
       </div>
       <div className="task-body">
         <div>
           {name}
-
-          {copy
-            && <FloatingForm setVisibility={setCopy}>
-              <AddTask
-                appendTask={appendTask}
-                tasklistId={tasklistId}
-                presets={{
-                  name, frequency, afterFlexibility, beforeFlexibility,
-                }}
-              />
-              <button onClick={() => setCopy(false)}> peruuta </button>
-            </FloatingForm>
-          }
-          {update
-            && <FloatingForm setVisibility={setUpdate}>
-              <EditTask task={task} update={updateTask} />
-            </FloatingForm>
-          }
         </div>
 
         <div className="done-button-wrapper" >
@@ -157,6 +142,27 @@ const TaskCard = ({
         </div>
       </div>
     </div>
+    {copy
+            && <FloatingForm setVisibility={setCopy}>
+              <AddTask
+                appendTask={appendTask}
+                tasklistId={tasklistId}
+                presets={{
+                  name, frequency, afterFlexibility, beforeFlexibility,
+                }}
+              />
+              <button onClick={() => setCopy(false)}> peruuta </button>
+            </FloatingForm>
+          }
+    {update
+            && <FloatingForm setVisibility={setUpdate}>
+              <EditTask task={task} update={updateTask} />
+            </FloatingForm>
+          }
+    {move && <FloatingForm setVisibility={setMove}>
+      <MoveTask task={task} update={updateTask} />
+      <button onClick={() => setMove(false)}> peruuta </button>
+    </FloatingForm>}</>
   );
 };
 

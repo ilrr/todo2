@@ -32,6 +32,11 @@ const editTask = (id, newValues) => {
   return request.then(res => res);
 };
 
+const moveTask = (id, newListId) => {
+  const request = axios.patch(`${baseUrl}/task/${id}/move`, { newListId }, config());
+  return request.then(res => res);
+};
+
 export default {
-  newTask, markAsDone, deleteTask, editTask,
+  newTask, markAsDone, deleteTask, editTask, moveTask,
 };
