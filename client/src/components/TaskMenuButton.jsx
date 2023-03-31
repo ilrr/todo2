@@ -1,29 +1,8 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
-import FloatingForm from './FloatingForm';
-
-const TaskMenu = props => {
-  const {
-    setCopy, setUpdate, setMove, deleteTask, name,
-  } = props;
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  return (<>
-    {showDeleteConfirmation
-      && <FloatingForm setVisibility={setShowDeleteConfirmation}>
-        <h2>Poistetaan ”{name}”</h2>
-        <button onClick={() => setShowDeleteConfirmation(false)}>peruuta</button>
-        <button onClick={() => { deleteTask(); setShowDeleteConfirmation(false); }}>poista</button>
-      </FloatingForm>}
-    <div className='task-menu-content'>
-      <div className='task-menu-content-item' onClick={() => setUpdate(true)}> muokkaa </div>
-      <div className='task-menu-content-item' onClick={() => setCopy(true)}> kopioi </div>
-      <div className='task-menu-content-item' onClick={() => setMove(true)}> siirrä </div>
-      <div className='task-menu-content-item' onClick={() => setShowDeleteConfirmation(true)}> poista </div>
-    </div>
-  </>
-  );
-};
+import TaskMenu from './TaskMenu';
+import './TaskMenu.css';
 
 const TaskMenuButton = props => {
   const {
@@ -31,8 +10,9 @@ const TaskMenuButton = props => {
   } = props;
 
   const [showMenu, setShowMenu] = useState(false);
+
   return <div className={`task-menu ${showMenu ? 'active' : ''}`}>
-    <div onClick={() => setShowMenu(!showMenu)}>
+    <div onClick={() => setShowMenu(!showMenu)} className="task-menu-button">
       {showMenu ? <CloseIcon /> : <MenuIcon />}
     </div>
     {showMenu
@@ -42,6 +22,7 @@ const TaskMenuButton = props => {
         deleteTask={deleteTask}
         name={name}
         setMove={setMove}
+        setShowMenu={setShowMenu}
     />}
   </div>;
 };

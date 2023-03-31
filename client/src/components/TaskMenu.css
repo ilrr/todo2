@@ -1,0 +1,71 @@
+.task-menu {
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px;
+}
+
+.task-menu:hover {
+  background-color: #ffffff22;
+}
+
+.task-menu.active {
+  background-color: #aaaaaa;
+  border-radius: 3px 3px 0 0;
+}
+
+.task-menu.active .task-menu-button {
+  /* background-color: #aaaaaa; */
+  background-color: inherit;
+  border-radius: 3px 3px 0 0;
+  border: solid 2px black;
+  border-bottom: none;
+  margin: -2px -2px 0 -2px;
+  z-index: 101;
+  position: inherit;
+}
+
+.task-menu-content {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  width: max-content;
+  /* background-color: #aaaaaa; */
+  background-color: inherit;
+  border-radius: 2px 0 2px 2px;
+  border: solid 2px black;
+  transform: translate(2px, -2px);
+}
+
+.task-menu-content-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.task-menu-content-item:hover {
+  /* background-color: #bbbbbb; */
+  background-color: #bbbbbb33;
+}
+
+.task-card.late .task-menu.active {
+  background-color: var(--late-color);
+}
+
+.task-card.due .task-menu.active {
+  background-color: var(--due-color);
+}
+
+.task-card.idle .task-menu.active {
+  background-color: var(--idle-color);
+}
+
+.task-card.early .task-menu.active {
+  background-color: var(--early-color);
+}
+
+.task-card.unknown .task-menu.active {
+  background-color: var(--unknown-color);
+}
+
+.task-card.due-over .task-menu.active {
+  background-color: var(--due-over-color);
+}
