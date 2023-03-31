@@ -1,7 +1,14 @@
+:root {
+  --menu-border: 1px;
+  --menu-border-negative: -1px;
+}
+
 .task-menu {
   cursor: pointer;
   position: relative;
   border-radius: 3px;
+  margin-right: -4px;
+  user-select: none;
 }
 
 .task-menu:hover {
@@ -17,9 +24,9 @@
   /* background-color: #aaaaaa; */
   background-color: inherit;
   border-radius: 3px 3px 0 0;
-  border: solid 2px black;
+  border: solid var(--menu-border) black;
   border-bottom: none;
-  margin: -2px -2px 0 -2px;
+  margin: var(--menu-border-negative) var(--menu-border-negative) 0 var(--menu-border-negative);
   z-index: 101;
   position: inherit;
 }
@@ -31,9 +38,9 @@
   width: max-content;
   /* background-color: #aaaaaa; */
   background-color: inherit;
-  border-radius: 2px 0 2px 2px;
-  border: solid 2px black;
-  transform: translate(2px, -2px);
+  border-radius: 3px 0 3px 3px;
+  border: solid var(--menu-border) black;
+  transform: translate(var(--menu-border), var(--menu-border-negative));
 }
 
 .task-menu-content-item {
@@ -44,6 +51,11 @@
 .task-menu-content-item:hover {
   /* background-color: #bbbbbb; */
   background-color: #bbbbbb33;
+}
+
+.task-menu-content-item:active {
+  /* background-color: #bbbbbb; */
+  background-color: #bbbbbb55;
 }
 
 .task-card.late .task-menu.active {

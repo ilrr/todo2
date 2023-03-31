@@ -12,7 +12,12 @@ const TaskMenuButton = props => {
   const [showMenu, setShowMenu] = useState(false);
 
   return <div className={`task-menu ${showMenu ? 'active' : ''}`}>
-    <div onClick={() => setShowMenu(!showMenu)} className="task-menu-button">
+    <div
+      onClick={() => {
+        if (!showMenu)
+          setShowMenu(true);
+      }}
+      className="task-menu-button">
       {showMenu ? <CloseIcon /> : <MenuIcon />}
     </div>
     {showMenu
