@@ -29,6 +29,9 @@
         "nonblock-statement-body-position": [
             "error",
             "below"
+        ],
+        "no-nested-ternary": [
+            "warn"
         ]
     }
 }

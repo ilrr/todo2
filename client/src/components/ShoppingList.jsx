@@ -13,12 +13,15 @@ import { newToast } from '../reducers/toastReducer';
 import AddSection from './AddSection';
 import './ShoppingList.css';
 import DeleteListButton from './DeleteListButton';
+import ShoppingListOptionsBar from './ShoppingListOptionBar';
 
 const ShoppingList = () => {
   const { listId } = useParams();
   const userInfo = useSelector(({ user }) => user);
   const [sections, setSections] = useState([]);
   const [list, setList] = useState({});
+  const [checkedLast, setCheckedLast] = useState(false);
+  const [hideEmptySections, setHideEmptySections] = useState(false);
 
   const [insertSectionForm, setInsertSectionForm] = useState(false);
   const [shareForm, setShareForm] = useState(false);
@@ -28,6 +31,12 @@ const ShoppingList = () => {
 
   const checkout = () => {
     shoppingListService.checkout(listId).then(setSections);
+  };
+
+  const setCheckedLastPersistent = () => {
+    const tempCheckedLast = checkedLast;
+    setCheckedLast(!tempCheckedLast);
+    window.localStorage.setItem('checkedLast', !tempCheckedLast);
   };
 
   useEffect(() => {
@@ -49,6 +58,14 @@ const ShoppingList = () => {
     }
   }, [userInfo.token, listId]);
 
+  useEffect(() => {
+    const checkedLastLocalStorage = window.localStorage.getItem('checkedLast');
+    if (checkedLastLocalStorage)
+      setCheckedLast(checkedLastLocalStorage !== 'false');
+    else
+      window.localStorage.setItem('checkedLast', false);
+  }, []);
+
   return (
     <div>
       {userInfo.token ? (
@@ -69,14 +86,18 @@ const ShoppingList = () => {
                 </span>
                 <DeleteListButton listId={listId} />
               </h1>
-              <button onClick={checkout} style={{ margin: '10px 0 10px auto' }}>
-                Poista merkityt
-              </button>
+
             </div>
             <div className="shopping-list-wrapper">
-              {sections.map(section => (
-                <ShoppingListSection key={section.id} initialSection={section} />
-              ))}
+              {(hideEmptySections
+                ? sections.filter(({ shoppingListItems }) => shoppingListItems.length > 0)
+                : sections)
+                .map(section => (
+                  <ShoppingListSection
+                    key={section.id}
+                    initialSection={section}
+                    checkedLast={checkedLast} />
+                ))}
               <div onClick={() => setInsertSectionForm(true)} className="add-section new">
                 <span style={{}}>+</span>
               </div>
@@ -95,8 +116,14 @@ const ShoppingList = () => {
                 <button onClick={() => { setShareForm(false); }}>peruuta</button>
               </FloatingForm>
             )}
-
           </div>
+          <ShoppingListOptionsBar
+            checkout={checkout}
+            setCheckedLastPersistent={setCheckedLastPersistent}
+            checkedLast={checkedLast}
+            setHideEmptySections={setHideEmptySections}
+            hideEmptySections={hideEmptySections}
+            />
         </>
       ) : (
         'Kirjaudu!'

@@ -1,0 +1,21 @@
+.shopping-list-options-bar {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  height: 40px;
+  padding: 5px;
+  width: 100%;
+  background: rgb(105, 155, 155);
+}
+
+.shopping-list-options-bar button {
+  margin-right: 16px;
+  border: 1px;
+  border-radius: 5px;
+}
+
+.shopping-list-options-bar button.selected {
+  background-color: black;
+  color: lightgrey;
+}

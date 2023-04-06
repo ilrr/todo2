@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import shoppingListService from '../services/shoppingList';
 
-const ShoppingListSection = ({ initialSection }) => {
+const ShoppingListSection = ({ initialSection, checkedLast }) => {
   const [section, setSection] = useState(initialSection);
 
   const insertItem = item => {
     setSection({ ...section, shoppingListItems: section.shoppingListItems.concat(item) });
+  };
+
+  const sortedItems = () => {
+    if (checkedLast) {
+      return [...section.shoppingListItems].sort(
+        // eslint-disable-next-line no-nested-ternary
+        (a, b) => (a.checked !== b.checked ? (a.checked ? 1 : -1) : 0),
+      );
+    }
+    return section.shoppingListItems;
   };
 
   const AddItem = () => {
@@ -60,21 +70,21 @@ const ShoppingListSection = ({ initialSection }) => {
   }, [initialSection]);
 
   return (
-  <div
-    style={{ backgroundColor: `#${section.color}` }}
-    className="shopping-list-section">
-    <h2>{section.name}</h2>
-    <ul>
-      {section.shoppingListItems.map(
-        item => <a key={item.id} onClick={() => checkItem(item.id, !item.checked)}>
-          <li className={item.checked ? 'checked' : ''}>
-          {item.name}
-          </li>
-        </a>,
-      )}
+    <div
+      style={{ backgroundColor: `#${section.color}` }}
+      className="shopping-list-section">
+      <h2>{section.name}</h2>
+      <ul>
+        {sortedItems().map(
+          item => <a key={item.id} onClick={() => checkItem(item.id, !item.checked)}>
+            <li className={item.checked ? 'checked' : ''}>
+              {item.name}
+            </li>
+          </a>,
+        )}
       </ul>
       <AddItem />
-  </div>
+    </div>
   );
 };
 
