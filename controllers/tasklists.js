@@ -37,6 +37,21 @@ const userIdFromRequest = req => {
 
 // get tasklists of user
 router.get('/', async (req, res) => {
+  const tasksToStatus = tasks => {
+    if (!tasks.length)
+      return 'empty';
+    const unknown = tasks.some(task => task.dataValues.daysLeft === null) ? 'unknown' : '';
+    if (tasks.some(task => task.dataValues.latest < 0))
+      return `late ${unknown}`;
+    if (tasks.some(task => task.dataValues.daysLeft < 0))
+      return `due ${unknown}`;
+    if (tasks.some(task => task.dataValues.daysLeft === 0))
+      return `today ${unknown}`;
+    if (tasks.some(task => task.dataValues.earliest === 0))
+      return `early ${unknown}`;
+    return `idle ${unknown}`;
+  };
+
   const token = getTokenFrom(req);
   if (!token)
     return res.status(401).json({ error: 'token missing' });
@@ -44,16 +59,38 @@ router.get('/', async (req, res) => {
   if (!decodedToken.id)
     return res.status(401).json({ error: 'invalid token' });
 
+  const timeZoneOffset = req.get('time-zone-offset');
+  const offsettedTime = time => ((timeZoneOffset && /^-?\d*$/.test(timeZoneOffset))
+    ? `DATE_ADD(${time}, INTERVAL ${-timeZoneOffset} MINUTE)`
+    : time);
+  const [local_NOW, local_completed_at] = ['NOW()', 'completed_at'].map(offsettedTime);
+
   const lists = await User.findOne({
     where: {
       id: decodedToken.id,
     },
     include: {
       model: Tasklist,
+      include: {
+        model: Task,
+        attributes: {
+          include: [
+            [sequelize.literal(`DATEDIFF(ADDDATE(${local_completed_at}, frequency), ${local_NOW})`), 'daysLeft'],
+            [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency - before_flexibility), ${local_NOW}))`), 'earliest'],
+            [sequelize.literal(`LEAST(0, DATEDIFF(ADDDATE(${local_completed_at}, frequency + after_flexibility), ${local_NOW})) / frequency`), 'latest'],
+          ],
+        },
+        raw: true,
+      },
     },
     attributes: { exclude: ['password'] },
   });
-  return res.json(lists);
+  const tasklists = lists.tasklists.map(l => (
+    {
+      id: l.id, name: l.name, type: l.type, status: tasksToStatus(l.tasks),
+    }
+  ));
+  return res.json({ tasklists });
 });
 
 // add a new tasklist

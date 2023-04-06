@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { setDefaultInterval } from '../util/utils';
 import taskService from '../services/task';
 import TimeIntervalForm from './TimeIntervalForm';
+import { newToast } from '../reducers/toastReducer';
 
-const EditTask = ({ task, update }) => {
+const EditTask = ({ task, update, setVisibility }) => {
   const [name, setName] = useState(task.name);
   const [frequency, setFrequency] = useState(task.frequency);
   const [frequencyMultiplyer, setFrequencyMultiplyer] = useState(1);
@@ -11,6 +13,7 @@ const EditTask = ({ task, update }) => {
   const [afterFlexibilityMultiplyer, setAfterFlexibilityMultiplyer] = useState(1);
   const [beforeFlexibility, setBeforeFlexibility] = useState(task.beforeFlexibility);
   const [beforeFlexibilityMultiplyer, setBeforeFlexibilityMultiplyer] = useState(1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDefaultInterval(frequency, setFrequency, setFrequencyMultiplyer);
@@ -26,7 +29,11 @@ const EditTask = ({ task, update }) => {
       afterFlexibility: Math.round(Number(afterFlexibility) * afterFlexibilityMultiplyer),
       beforeFlexibility: Math.round(Number(beforeFlexibility) * beforeFlexibilityMultiplyer),
     };
-    taskService.editTask(task.id, newValues).then(res => update(task.id, res.data));
+    taskService.editTask(task.id, newValues).then(res => {
+      dispatch(newToast({ msg: 'Tehtävä päivitetty', type: 'info' }));
+      update(task.id, res.data);
+      setVisibility(false);
+    });
   };
 
   return (

@@ -5,7 +5,7 @@ const TasklistCard = ({ tasklist }) => {
   return (
     <>
       <Link to={`/${shopping ? 'ostos' : ''}lista/${tasklist.id}`}>
-        <div className={`list-card ${shopping ? 'shopping-l' : 'task-l'}`}>
+        <div className={`list-card ${shopping ? 'shopping-l' : `task-l ${tasklist.status}`}`}>
           {tasklist.name}
         </div>
       </Link>

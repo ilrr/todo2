@@ -19,6 +19,8 @@ const TaskCard = ({
   const [done, setDone] = useState(false);
   const [update, setUpdate] = useState(false);
   const [move, setMove] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const dispatch = useDispatch();
 
   const {
@@ -39,6 +41,7 @@ const TaskCard = ({
     taskService.deleteTask(id)
       .then(() => {
         setStyle(`${style} deleted`);
+        dispatch(newToast({ msg: `${name} poistettu`, type: 'info' }));
         setTimeout(() => {
           updateTask(id, { delete: true });
         }, 1000);
@@ -124,8 +127,8 @@ const TaskCard = ({
           setUpdate={setUpdate}
           setCopy={setCopy}
           setMove={setMove}
-          deleteTask={deleteTask}
-          name={name} />
+          setShowDeleteConfirmation={setShowDeleteConfirmation}
+         />
       </div>
       <div className="task-body">
         <div>
@@ -156,13 +159,22 @@ const TaskCard = ({
           }
     {update
             && <FloatingForm setVisibility={setUpdate}>
-              <EditTask task={task} update={updateTask} />
+              <EditTask task={task} update={updateTask} setVisibility={setUpdate} />
             </FloatingForm>
           }
     {move && <FloatingForm setVisibility={setMove}>
       <MoveTask task={task} update={updateTask} />
       <button onClick={() => setMove(false)}> peruuta </button>
-    </FloatingForm>}</>
+    </FloatingForm>}
+    {showDeleteConfirmation
+        && <FloatingForm setVisibility={setShowDeleteConfirmation}>
+          <h2>Poistetaan ”{name}”</h2>
+          <button onClick={() => setShowDeleteConfirmation(false)}>peruuta</button>
+          <button onClick={() => { deleteTask(); setShowDeleteConfirmation(false); }}>
+            poista
+          </button>
+        </FloatingForm>}
+  </>
   );
 };
 
