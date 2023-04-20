@@ -37,6 +37,23 @@ const moveTask = (id, newListId) => {
   return request.then(res => res);
 };
 
-export default {
-  newTask, markAsDone, deleteTask, editTask, moveTask,
+const markChildAsDone = childTaskId => {
+  const request = axios.post(`${baseUrl}/task/child/${childTaskId}/done`, {}, config());
+  return request.then(res => res);
 };
+
+const createChildren = (id, children) => {
+  const request = axios.post(
+    `${baseUrl}/task/${id}/children`,
+    { childTasks: children },
+
+    config(),
+  );
+  return request.then(res => res.data);
+};
+
+const taskService = {
+  newTask, markAsDone, deleteTask, editTask, moveTask, markChildAsDone, createChildren,
+};
+
+export default taskService;

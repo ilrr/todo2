@@ -1,3 +1,6 @@
+.task-name {
+  font-size: large;
+}
 .task-card {
   margin: 10px;
   background-color: skyblue;
@@ -107,6 +110,10 @@
   grid-template-columns: auto;
 }
 
+.unknown-child .task-header {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 66%, var(--unknown-color));
+}
+
 .task-body {
   padding: 10px;
   display: flex;
@@ -120,7 +127,7 @@
   border: #000 solid 1px;
   border-radius: 10px;
   padding: 2px 8px;
-  float: inline-end;
+  /* float: inline-end; */
   margin-left: 10px;
   opacity: 0.9;
   color: rgb(24, 36, 24);

@@ -7,7 +7,7 @@ import tasklistService from '../services/tasklist';
 import FloatingForm from './FloatingForm';
 import AddTask from './AddTask';
 import Share from './Share';
-import TaskCard from './TaskCard';
+import TaskCard from './taskCard/TaskCard';
 import DeleteListButton from './DeleteListButton';
 import './Tasklist.css';
 
@@ -26,7 +26,17 @@ const Tasklist = () => {
   };
 
   const updateTask = (id, data) => {
-    setTasks(tasks.filter(task => !(task.id === id)).concat(data.delete ? [] : data));
+    console.log(data);
+    setTasks(tasks
+      .filter(task => !(task.id === id))
+      .concat(data.delete ? [] : data)
+      .slice()
+      .sort((a, b) => (
+        a.latest - b.latest
+        || a.earliest - b.earliest
+        || a.daysLeft - b.daysLeft
+        || a.timeLeft - b.timeLeft
+      )));
   };
 
   useEffect(() => {

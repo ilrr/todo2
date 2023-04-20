@@ -1,0 +1,50 @@
+.child-task-list {
+  width: 100%;
+}
+.child-task {
+  background-color: brown;
+  width: 100%;
+  display: flex;
+  margin: 4px 0;
+  padding-left: 8px;
+  vertical-align: middle;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+.child-task.idle {
+  background-color: var(--idle-color);
+}
+
+.child-task.late {
+  background-color: var(--late-color);
+}
+
+.child-task.due {
+  background-color: var(--due-color);
+}
+
+.child-task.early {
+  background-color: var(--early-color);
+}
+
+.child-task.unknown {
+  background-color: var(--unknown-color);
+}
+
+.child-task.due-over {
+  background-color: var(--due-over-color);
+}
+
+.child-task .done-button svg {
+  font-size: 1rem;
+}
+
+.child-task .done-button {
+  font-size: 1.5rem;
+  padding: 0px 6px;
+  border-radius: 7px;
+  margin: 4px;
+}

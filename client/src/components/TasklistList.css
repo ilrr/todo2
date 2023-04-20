@@ -21,7 +21,7 @@
 }
 
 .list-card.due {
-  background-color: rgb(255, 189, 65);
+  background-color: rgb(255, 162, 43);
 }
 
 .list-card.early {
@@ -37,7 +37,7 @@
 }
 
 .list-card.unknown.due {
-  background: linear-gradient(rgb(255, 189, 65) 50%, rgb(241, 96, 241));
+  background: linear-gradient(rgb(255, 162, 43) 50%, rgb(241, 96, 241));
 }
 
 .list-card.unknown.early {

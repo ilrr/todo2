@@ -2,9 +2,9 @@ const { Model, DataTypes } = require('sequelize');
 
 const { sequelize } = require('../util/db');
 
-class Subtask extends Model { }
+class ChildTask extends Model { }
 
-Subtask.init({
+ChildTask.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -22,7 +22,7 @@ Subtask.init({
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'subtask',
+  modelName: 'childTask',
 });
 
-module.exports = Subtask;
+module.exports = ChildTask;

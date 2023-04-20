@@ -31,6 +31,9 @@ Task.init({
   hasSubtasks: {
     type: DataTypes.BOOLEAN,
   },
+  hasChildTasks: {
+    type: DataTypes.BOOLEAN,
+  },
 }, {
   sequelize,
   underscored: true,

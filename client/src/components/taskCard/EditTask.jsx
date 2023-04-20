@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setDefaultInterval } from '../util/utils';
-import taskService from '../services/task';
+import { setDefaultInterval } from '../../util/utils';
+import taskService from '../../services/task';
 import TimeIntervalForm from './TimeIntervalForm';
-import { newToast } from '../reducers/toastReducer';
+import { newToast } from '../../reducers/toastReducer';
 
 const EditTask = ({ task, update, setVisibility }) => {
   const [name, setName] = useState(task.name);

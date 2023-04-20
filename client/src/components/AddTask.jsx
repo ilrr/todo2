@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import taskService from '../services/task';
 import { setDefaultInterval } from '../util/utils';
-import TimeIntervalForm from './TimeIntervalForm';
+import TimeIntervalForm from './taskCard/TimeIntervalForm';
 
 const AddTask = ({
   tasklistId, appendTask, presets, setShowForm,

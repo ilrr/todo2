@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // const { fn } = require('sequelize');
 
 const {
-  Tasklist, User, Role, Task,
+  Tasklist, User, Role, Task, ChildTask,
 } = require('../models');
 const { getTokenFrom, hasAccess } = require('../util/access');
 const { sequelize } = require('../util/db');
@@ -112,6 +112,7 @@ router.post('/', async (req, res) => {
 });
 
 // get tasks from tasklist
+// this starts to become bit hacky...
 router.get('/:id/tasks', async (req, res) => {
   if (!await hasAccess(req, req.params.id))
     return res.status(401).json({ error: 'no access to tasklist' });
@@ -119,10 +120,23 @@ router.get('/:id/tasks', async (req, res) => {
   const offsettedTime = time => ((timeZoneOffset && /^-?\d*$/.test(timeZoneOffset))
     ? `DATE_ADD(${time}, INTERVAL ${-timeZoneOffset} MINUTE)`
     : time);
-  const [local_NOW, local_completed_at] = ['NOW()', 'completed_at'].map(offsettedTime);
+  const [local_NOW, local_completed_at, child_local_completed_at] = ['NOW()', 'task.completed_at', 'childTasks.completed_at'].map(offsettedTime);
   const tasks = await Task.findAll({
     where: {
       tasklistId: req.params.id,
+    },
+    include: {
+      model: ChildTask,
+      attributes: {
+        include: [
+          [sequelize.literal(`DATEDIFF(ADDDATE(${child_local_completed_at}, task.frequency), ${local_NOW})`), 'daysLeft'],
+          [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${child_local_completed_at}, task.frequency - task.before_flexibility), ${local_NOW}))`), 'earliest'],
+          [sequelize.literal(`LEAST(0, DATEDIFF(ADDDATE(${child_local_completed_at}, task.frequency + task.after_flexibility), ${local_NOW})) / frequency`), 'latest'],
+          [sequelize.literal(`GREATEST(0, DATEDIFF(ADDDATE(${child_local_completed_at}, task.frequency + task.after_flexibility), ${local_NOW}))`), 'timeLeft'],
+        ],
+      },
+      // order: [
+      // [ChildTask, 'latest', 'ASC']],
     },
     attributes: {
       include: [
@@ -135,12 +149,15 @@ router.get('/:id/tasks', async (req, res) => {
       ],
     },
     order: [
-
       ['latest', 'ASC'],
       ['earliest', 'ASC'],
       ['daysLeft', 'ASC'],
       ['timeLeft', 'ASC'],
       ['daysLeftProportional', 'ASC'],
+      [sequelize.literal('`childTasks.latest`'), 'ASC'],
+      [sequelize.literal('`childTasks.earliest`'), 'ASC'],
+      [sequelize.literal('`childTasks.daysLeft`'), 'ASC'],
+      [sequelize.literal('`childTasks.timeLeft`'), 'ASC'],
     ],
   });
   // console.log(tasks);

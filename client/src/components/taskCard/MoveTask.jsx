@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { newToast } from '../reducers/toastReducer';
-import tasklistService from '../services/tasklist';
-import taskService from '../services/task';
+import { newToast } from '../../reducers/toastReducer';
+import tasklistService from '../../services/tasklist';
+import taskService from '../../services/task';
 
 const MoveTask = ({ task, update }) => {
   const [tasklists, setTasklists] = useState([]);

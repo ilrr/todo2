@@ -6,7 +6,7 @@ import './TaskMenu.css';
 
 const TaskMenuButton = props => {
   const {
-    setCopy, setUpdate, setMove, setShowDeleteConfirmation,
+    setCopy, setUpdate, setMove, setShowDeleteConfirmation, setAddChildren,
   } = props;
 
   const [showMenu, setShowMenu] = useState(false);
@@ -27,6 +27,7 @@ const TaskMenuButton = props => {
         setMove={setMove}
         setShowMenu={setShowMenu}
         setShowDeleteConfirmation={setShowDeleteConfirmation}
+        setAddChildren={setAddChildren}
     />}
   </div>;
 };

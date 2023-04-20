@@ -50,12 +50,14 @@
 
 .task-menu-content-item:hover {
   /* background-color: #bbbbbb; */
-  background-color: #bbbbbb33;
+  background: #ccc;
+  mix-blend-mode: multiply;
 }
 
 .task-menu-content-item:active {
   /* background-color: #bbbbbb; */
-  background-color: #bbbbbb55;
+  background: #bbb;
+  mix-blend-mode: multiply;
 }
 
 .task-card.late .task-menu.active {

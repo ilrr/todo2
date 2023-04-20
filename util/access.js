@@ -10,6 +10,7 @@ const getTokenFrom = req => {
 
 const hasAccess = async (req, tasklistId) => {
   const token = getTokenFrom(req);
+  // console.log(token);
   if (!token)
     return false;
   const decodedToken = jwt.verify(token, process.env.SECRET);

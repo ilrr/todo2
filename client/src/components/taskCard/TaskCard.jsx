@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch } from 'react-redux';
-import taskService from '../services/task';
-import AddTask from './AddTask';
+import taskService from '../../services/task';
+import AddTask from '../AddTask';
 import EditTask from './EditTask';
 import TaskTimeInfo from './TaskTimeInfo';
 import TaskMenuButton from './TaskMenuButton';
-import FloatingForm from './FloatingForm';
-import { newToast } from '../reducers/toastReducer';
+import FloatingForm from '../FloatingForm';
+import { newToast } from '../../reducers/toastReducer';
 import './TaskCard.css';
 import MoveTask from './MoveTask';
+import ChildTasks from './ChildTasks';
+import AddChildren from './AddChildren';
 
 const TaskCard = ({
   task, updateTask, tasklistId, appendTask,
@@ -19,6 +21,7 @@ const TaskCard = ({
   const [done, setDone] = useState(false);
   const [update, setUpdate] = useState(false);
   const [move, setMove] = useState(false);
+  const [addChildren, setAddChildren] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,6 +38,8 @@ const TaskCard = ({
     daysLeft,
     justCompleted,
     timeLeft,
+    hasChildTasks,
+    childTasks,
   } = task;
 
   const deleteTask = () => {
@@ -56,6 +61,7 @@ const TaskCard = ({
         setTimeout(() => {
           updateTask(id, {
             justCompleted: true,
+            daysLeft: data.frequency,
             ...data,
           });
           setStyle('checked');
@@ -100,6 +106,8 @@ const TaskCard = ({
       newStyle = 'idle';
     if (timeLeft === 0)
       newStyle = `${newStyle} today`;
+    if (childTasks.some(child => !child.completedAt))
+      newStyle = `${newStyle} unknown-child`;
     setStyle(newStyle);
   }, []);
 
@@ -128,21 +136,27 @@ const TaskCard = ({
           setCopy={setCopy}
           setMove={setMove}
           setShowDeleteConfirmation={setShowDeleteConfirmation}
+          setAddChildren={setAddChildren}
          />
       </div>
       <div className="task-body">
-        <div>
-          {name}
+        <div style={{ width: '100%' }}>
+          <span className='task-name'> {name}</span>
+          {hasChildTasks
+            ? <ChildTasks childTasks={childTasks} updateParent={updateTask} parentId={id} />
+            : ''}
         </div>
 
-        <div className="done-button-wrapper" >
-          <button
-            className="done-button"
-            onClick={() => setDone(true)/* markAsDone */}
-          >
-            <DoneIcon />
-          </button>
-        </div>
+        {!hasChildTasks
+          ? <div className="done-button-wrapper" >
+            <button
+              className="done-button"
+              onClick={() => setDone(true)/* markAsDone */}
+            >
+              <DoneIcon />
+            </button>
+          </div>
+          : ''}
       </div>
     </div>
     {copy
@@ -174,6 +188,12 @@ const TaskCard = ({
             poista
           </button>
         </FloatingForm>}
+    {addChildren
+      && <FloatingForm setVisibility={setAddChildren}>
+        <AddChildren task={task} update={updateTask} setVisibility={setAddChildren} />
+        <button onClick={() => setAddChildren(false)}>peruuta</button>
+      </FloatingForm>
+    }
   </>
   );
 };

@@ -5,6 +5,7 @@ const Subtask = require('./subtask');
 const Role = require('./role');
 const ShoppingListSection = require('./shoppingListSection');
 const ShoppingListItem = require('./shoppingListItem');
+const ChildTask = require('./childTask');
 
 Tasklist.hasMany(Task);
 Task.belongsTo(Tasklist, { foreignKey: 'tasklistId' });
@@ -12,10 +13,15 @@ Task.belongsTo(Tasklist, { foreignKey: 'tasklistId' });
 User.hasMany(Task);
 Task.belongsTo(User, { foreignKey: 'completedBy' });
 
-Task.hasMany(Subtask);
-Subtask.belongsTo(Task, { foreignKey: 'parentId' });
-User.hasMany(Subtask);
-Subtask.belongsTo(User, { foreignKey: 'completedBy' });
+// Task.hasMany(Subtask);
+// Subtask.belongsTo(Task, { foreignKey: 'parentId' });
+// User.hasMany(Subtask);
+// Subtask.belongsTo(User, { foreignKey: 'completedBy' });
+
+Task.hasMany(ChildTask, { foreignKey: 'parentId' });
+ChildTask.belongsTo(Task, { foreignKey: 'parentId' });
+User.hasMany(ChildTask, { foreignKey: 'completedBy' });
+ChildTask.belongsTo(User, { foreignKey: 'completedBy' });
 
 Tasklist.belongsToMany(User, { through: Role, foreignKey: 'listId' });
 User.belongsToMany(Tasklist, { through: Role, foreignKey: 'userId' });
@@ -43,6 +49,8 @@ Subtask.sync({ alter: false });
 Role.sync({ alter: false });
 */
 
+// Task.sync(); ChildTask.sync();
+
 module.exports = {
-  User, Tasklist, Task, Subtask, Role, ShoppingListItem, ShoppingListSection,
+  User, Tasklist, Task, Subtask, Role, ShoppingListItem, ShoppingListSection, ChildTask,
 };

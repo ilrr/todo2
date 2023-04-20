@@ -3,7 +3,7 @@ import './TaskMenu.css';
 
 const TaskMenu = props => {
   const {
-    setCopy, setUpdate, setMove, setShowMenu, setShowDeleteConfirmation,
+    setCopy, setUpdate, setMove, setShowMenu, setShowDeleteConfirmation, setAddChildren,
   } = props;
 
   let clickedSomewhere = false;
@@ -25,6 +25,7 @@ const TaskMenu = props => {
     <div className='task-menu-content'>
       <div className='task-menu-content-item' onClick={() => setUpdate(true)}> muokkaa </div>
       <div className='task-menu-content-item' onClick={() => setCopy(true)}> kopioi </div>
+      <div className='task-menu-content-item' onClick={() => setAddChildren(true)}> johdannaistehtävät </div>
       <div className='task-menu-content-item' onClick={() => setMove(true)}> siirrä </div>
       <div className='task-menu-content-item' onClick={() => setShowDeleteConfirmation(true)}> poista </div>
     </div>
