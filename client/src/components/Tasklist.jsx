@@ -10,6 +10,7 @@ import Share from './Share';
 import TaskCard from './taskCard/TaskCard';
 import DeleteListButton from './DeleteListButton';
 import './Tasklist.css';
+import ListOptionsBar from './ListOptionBar';
 
 const Tasklist = () => {
   const { listId } = useParams();
@@ -18,6 +19,7 @@ const Tasklist = () => {
   const [tasklist, setTasklist] = useState({});
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [hideUnknown, sethideUnknown] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,7 +28,6 @@ const Tasklist = () => {
   };
 
   const updateTask = (id, data) => {
-    console.log(data);
     setTasks(tasks
       .filter(task => !(task.id === id))
       .concat(data.delete ? [] : data)
@@ -59,7 +60,7 @@ const Tasklist = () => {
   }, [userInfo.token, listId]);
 
   return (
-    <div>
+    <>
       {userInfo.token ? (
         <div className="tasklist">
           <h1>
@@ -94,6 +95,7 @@ const Tasklist = () => {
                 key={task.id}
                 tasklistId={listId}
                 appendTask={appendTask}
+                hideUnknown={hideUnknown}
               />
             ))}
           <div
@@ -119,11 +121,16 @@ const Tasklist = () => {
               <Share listId={listId} />
             </FloatingForm>
           )}
+          <ListOptionsBar
+            labels={['piilota ei vielä suoritetut']}
+            actions={[() => sethideUnknown(!hideUnknown)]}
+            selected={[hideUnknown]}
+          />
         </div>
       ) : (
         'Kirjaudu!'
       )}
-    </div>
+    </>
   );
 };
 

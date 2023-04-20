@@ -1,5 +1,6 @@
 .tasklist {
   margin: 0 calc(max(50vw - 20em, 10px));
+  padding-bottom: 60px;
 }
 
 .today-separator {

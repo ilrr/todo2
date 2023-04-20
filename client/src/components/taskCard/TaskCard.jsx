@@ -14,7 +14,7 @@ import ChildTasks from './ChildTasks';
 import AddChildren from './AddChildren';
 
 const TaskCard = ({
-  task, updateTask, tasklistId, appendTask,
+  task, updateTask, tasklistId, appendTask, hideUnknown,
 }) => {
   const [copy, setCopy] = useState(false);
   const [style, setStyle] = useState('idle');
@@ -106,7 +106,7 @@ const TaskCard = ({
       newStyle = 'idle';
     if (timeLeft === 0)
       newStyle = `${newStyle} today`;
-    if (childTasks.some(child => !child.completedAt))
+    if (hasChildTasks && childTasks.some(child => !child.completedAt))
       newStyle = `${newStyle} unknown-child`;
     setStyle(newStyle);
   }, []);
@@ -123,7 +123,7 @@ const TaskCard = ({
     : null;
 
   return (<>
-    <div className={`task-card ${style}`}>
+    <div className={`task-card ${style}`} style={hideUnknown && latest === null ? { display: 'none' } : {}}>
       <div className='task-header'>
         <TaskTimeInfo
           afterFlexibility={afterFlexibility}
@@ -143,7 +143,11 @@ const TaskCard = ({
         <div style={{ width: '100%' }}>
           <span className='task-name'> {name}</span>
           {hasChildTasks
-            ? <ChildTasks childTasks={childTasks} updateParent={updateTask} parentId={id} />
+            ? <ChildTasks
+                childTasks={childTasks}
+                updateParent={updateTask}
+                parentId={id}
+                hideUnknown={hideUnknown} />
             : ''}
         </div>
 

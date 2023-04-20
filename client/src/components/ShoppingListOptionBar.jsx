@@ -1,20 +1,14 @@
-import './ShoppingListOptionBar.css';
+import ListOptionsBar from './ListOptionBar';
 
 const ShoppingListOptionsBar = props => {
   const {
     checkout, setCheckedLastPersistent, checkedLast, setHideEmptySections, hideEmptySections,
   } = props;
-  return <div className="shopping-list-options-bar">
-    <button onClick={setCheckedLastPersistent} className={checkedLast ? 'selected' : ''}>
-      merkityt viimeisenä
-    </button>
-    <button onClick={() => setHideEmptySections(!hideEmptySections) } className={hideEmptySections ? 'selected' : ''}>
-      piilota tyhjät
-    </button>
-    <button onClick={checkout} >
-      Poista merkityt
-    </button>
-  </div>;
+  return <ListOptionsBar
+    labels={['merkityt viimeisenä', 'piilota tyhjät', 'poista merkityt']}
+    actions={[setCheckedLastPersistent, () => setHideEmptySections(!hideEmptySections), checkout]}
+    selected={[checkedLast, hideEmptySections, false]}
+    />;
 };
 
 export default ShoppingListOptionsBar;

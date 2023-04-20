@@ -1,9 +1,10 @@
-/* eslint-disable arrow-body-style */
 import './ChildTask.css';
 import DoneIcon from '@mui/icons-material/Done';
 import taskService from '../../services/task';
 
-const ChildTasks = ({ childTasks, updateParent, parentId }) => {
+const ChildTasks = ({
+  childTasks, updateParent, parentId, hideUnknown,
+}) => {
   const getStatus = ({
     latest, daysLeft, earliest, timeLeft,
   }) => {
@@ -36,8 +37,7 @@ const ChildTasks = ({ childTasks, updateParent, parentId }) => {
   };
 
   return <div className='child-task-list'>
-    {console.log(parentId, childTasks)}
-    {childTasks.map((child => <div key={child.id} className={`child-task ${getStatus(child)}`} >
+    {childTasks.map((child => (hideUnknown && child.latest === null ? '' : <div key={child.id} className={`child-task ${getStatus(child)}`} >
       {child.name}
 
       <div className='done-button-wrapper'>
@@ -45,7 +45,7 @@ const ChildTasks = ({ childTasks, updateParent, parentId }) => {
           <DoneIcon />
         </button>
       </div>
-    </div>))}
+    </div>)))}
   </div>;
 };
 

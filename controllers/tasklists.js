@@ -197,6 +197,7 @@ router.post('/:id/addtask', async (req, res) => {
     hasSubtasks: false,
     tasklistId: req.params.id,
     userId: userIdFromRequest(req),
+    hasChildTasks: false,
   });
   return res.status(201).json(newTask);
 });
