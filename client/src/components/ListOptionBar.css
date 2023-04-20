@@ -8,6 +8,7 @@
   width: 100%;
   background: rgb(105, 155, 155);
   z-index: 2;
+  /* align-items: center; */
 }
 
 .list-options-bar button {
@@ -19,4 +20,29 @@
 .list-options-bar button.selected {
   background-color: black;
   color: lightgrey;
+}
+
+.list-options-bar-show-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-options-bar-show-button.activate {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  background-color: #aaa9;
+  z-index: 2;
+  padding: 5px;
+  border-radius: 10px 0 0 0;
+  width: 30px;
+  height: 30px;
+}
+
+.list-options-bar-show-button.hide {
+  /* padding: 5px; */
+  margin-right: 10px;
 }

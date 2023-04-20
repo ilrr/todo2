@@ -12,4 +12,6 @@ const setDefaultInterval = (interval, setInterval, setMultiplyer) => {
   }
 };
 
-export { setDefaultInterval, averageDaysInMonth };
+const zip = (a, b) => a.map((k, i) => [k, b[i]]);
+
+export { setDefaultInterval, averageDaysInMonth, zip };
