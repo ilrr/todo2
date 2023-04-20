@@ -61,7 +61,7 @@ const Tasklist = () => {
 
   return (
     <>
-      {userInfo.token ? (
+      {userInfo.token ? (<>
         <div className="tasklist">
           <h1>
             {tasklist.name}{' '}
@@ -121,12 +121,12 @@ const Tasklist = () => {
               <Share listId={listId} />
             </FloatingForm>
           )}
-          <ListOptionsBar
-            labels={['piilota ei vielä suoritetut']}
-            actions={[() => sethideUnknown(!hideUnknown)]}
-            selected={[hideUnknown]}
-          />
         </div>
+        <ListOptionsBar
+          labels={['piilota ei vielä suoritetut']}
+          actions={[() => sethideUnknown(!hideUnknown)]}
+          selected={[hideUnknown]}
+          /></>
       ) : (
         'Kirjaudu!'
       )}
