@@ -46,6 +46,7 @@
 .task-menu-content-item {
   padding: 5px;
   cursor: pointer;
+  background-color: inherit;
 }
 
 .task-menu-content-item:hover {
@@ -56,6 +57,29 @@
 
 .task-menu-content-item:active {
   /* background-color: #bbbbbb; */
+  background: #bbb;
+  mix-blend-mode: multiply;
+}
+
+/* .task-menu-submenu {
+  position: relative;
+  right: 100%;
+  top: calc(-100% - 1px);
+  background-color: inherit;
+  border: solid var(--menu-border) black;
+  border-right: none;
+  border-radius: 3px 0 0 3px;
+  padding-right: 5px;
+} */
+.submenu-item {
+  padding: 5px;
+  padding-left: 10px;
+  font-weight: 300;
+  font-size: 0.95rem;
+  margin: 0 -5px 0 -5px;
+}
+
+.submenu-item:hover {
   background: #bbb;
   mix-blend-mode: multiply;
 }
