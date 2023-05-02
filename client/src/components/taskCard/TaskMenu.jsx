@@ -3,7 +3,10 @@ import './TaskMenu.css';
 
 const TaskMenu = props => {
   const {
-    setCopy, setUpdate, setMove, setShowMenu, setShowDeleteConfirmation, setAddChildren,
+    task,
+    setCopy,
+    setUpdate,
+    setMove, setShowMenu, setShowDeleteConfirmation, setAddChildren, setConvertToChild,
   } = props;
 
   const [childTaskMenuExpanded, setChildTaskMenuExpanded] = useState(false);
@@ -35,7 +38,9 @@ const TaskMenu = props => {
         {childTaskMenuExpanded && <>
           <div className='task-menu-submenu'>
             <div className='submenu-item' onClick={() => setAddChildren(true)}> lisää alatehtäviä </div>
-            <div className='submenu-item' onClick={() => console.log('nappi ;-)')}> muuta alatehtäväksi </div>
+            {task.hasChildTasks
+              ? ''
+              : <div className='submenu-item' onClick={() => setConvertToChild(true)}> muuta alatehtäväksi </div>}
           </div>
           </>}
       </div>

@@ -49,6 +49,14 @@
   background-color: inherit;
 }
 
+.task-menu-content-item:first-of-type {
+  border-radius: 3px 0 0 0;
+}
+
+.task-menu-content-item:last-of-type {
+  border-radius: 0 0 3px 3px;
+}
+
 .task-menu-content-item:hover {
   /* background-color: #bbbbbb; */
   background: #ccc;

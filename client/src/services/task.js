@@ -46,14 +46,31 @@ const createChildren = (id, children) => {
   const request = axios.post(
     `${baseUrl}/task/${id}/children`,
     { childTasks: children },
-
     config(),
   );
   return request.then(res => res.data);
 };
 
+const convertToChild = (childId, parentId) => {
+  const request = axios.post(
+    `${baseUrl}/task/${childId}/tochild`,
+    { newParentId: parentId },
+    config(),
+  );
+  return request
+    .then(res => res.data)
+    .catch(({ response }) => { throw response.data; });
+};
+
 const taskService = {
-  newTask, markAsDone, deleteTask, editTask, moveTask, markChildAsDone, createChildren,
+  newTask,
+  markAsDone,
+  deleteTask,
+  editTask,
+  moveTask,
+  markChildAsDone,
+  createChildren,
+  convertToChild,
 };
 
 export default taskService;

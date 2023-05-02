@@ -151,6 +151,38 @@ router.post('/:id/children', async (req, res) => {
   return res.status(201).json(updatedTaskJSON);
 });
 
+router.post('/:id/tochild', async (req, res) => {
+  const { id } = req.params;
+  const { newParentId } = req.body;
+  if (!newParentId)
+    return res.status(400).json({ error: 'missing newParentId' });
+  const task = await Task.findByPk(id);
+  if (!task)
+    return res.status(404).json({ error: 'invalid task id' });
+  if (task.hasChildTasks)
+    return res.status(400).json({ error: "task can't have child tasks" });
+  const newParentTask = await Task.findByPk(newParentId);
+  if (!newParentTask)
+    return res.status(404).json({ error: 'invalid parent task id' });
+  if (task.tasklistId !== newParentTask.tasklistId)
+    return res.status(400).json({ error: 'tasks must be in same tasklist' });
+  if (!hasAccess(req, task.tasklistId))
+    return res.status(400).json({ error: 'no access' });
+
+  await ChildTask.create({ parentId: newParentId, name: task.name, completedAt: task.completedAt });
+  const fieldUpdates = { hasChildTasks: true };
+  if (newParentTask.hasChildTasks && task.completedAt
+    && (!newParentTask.completedAt || newParentTask.completedAt > task.completedAt))
+    fieldUpdates.completedAt = task.completedAt;
+  await Task.update(
+    fieldUpdates,
+    { where: { id: newParentId } },
+  );
+  await task.destroy();
+  const updatedParent = await getTask(req, newParentId);
+  return res.status(200).json(updatedParent);
+});
+
 router.post('/child/:id/done', async (req, res) => {
   const { id } = req.params;
   const childTask = await ChildTask.findByPk(id, { include: { model: Task } });

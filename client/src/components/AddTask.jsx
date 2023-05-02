@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import taskService from '../services/task';
 import { setDefaultInterval } from '../util/utils';
 import TimeIntervalForm from './taskCard/TimeIntervalForm';
+import { newToast } from '../reducers/toastReducer';
 
 const AddTask = ({
   tasklistId, appendTask, presets, setShowForm,
@@ -15,6 +17,8 @@ const AddTask = ({
   const [afterFlexibilityMultiplyer, setAfterFlexibilityMultiplyer] = useState(1);
   const [beforeFlexibility, setBeforeFlexibility] = useState(0);
   const [beforeFlexibilityMultiplyer, setBeforeFlexibilityMultiplyer] = useState(1);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (presets) {
@@ -33,20 +37,6 @@ const AddTask = ({
     }
   }, [presets]);
 
-  // useEffect(()=>{
-  //   if (presets) {
-  //     setName(presets.name)
-  //     if (Math.round(presets.frequency + 0.5) % averageDaysInMonth <= 1) {
-  //       setFrequency(presets.frequency / averageDaysInMonth)
-  //       setFrequencyMultiplyer(averageDaysInMonth)
-  //     } else if (presets.frequency % 7 === 0) {
-  //       setFrequency(presets.frequency / 7)
-  //       setFrequencyMultiplyer(7)
-  //     } else {
-  //       setFrequency(presets.frequency)
-  //     }
-  // }}, [setName, setFrequency, setFrequencyMultiplyer, averageDaysInMonth, presets])
-
   const submitTask = event => {
     event.preventDefault();
     const taskToAdd = {
@@ -59,7 +49,10 @@ const AddTask = ({
     setName('');
     setFrequency(1);
     setShowForm(false);
-    taskService.newTask(tasklistId, taskToAdd).then(appendTask);
+    taskService.newTask(tasklistId, taskToAdd).then(task => {
+      appendTask(task);
+      dispatch(newToast({ msg: `”${task.name}” luotu`, type: 'info' }));
+    });
   };
 
   return (
