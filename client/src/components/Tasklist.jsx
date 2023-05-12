@@ -81,6 +81,7 @@ const Tasklist = () => {
                 key={task.id}
                 tasklistId={listId}
                 appendTask={appendTask}
+                siblings={tasks}
               />
             ))}
           <div
@@ -96,6 +97,7 @@ const Tasklist = () => {
                 tasklistId={listId}
                 appendTask={appendTask}
                 hideUnknown={hideUnknown}
+                siblings={tasks}
               />
             ))}
           <div

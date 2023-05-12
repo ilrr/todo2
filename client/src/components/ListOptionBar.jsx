@@ -1,6 +1,6 @@
 import './ListOptionBar.css';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/KeyboardDoubleArrowUpRounded';
+import CloseIcon from '@mui/icons-material/KeyboardDoubleArrowDownRounded';
 import { useEffect, useState } from 'react';
 
 const ListOptionsBar = ({
@@ -9,6 +9,8 @@ const ListOptionsBar = ({
   const [hide, setHide] = useState(true);
 
   let prev = window.scrollY;
+
+  // const setHideAndPrev = state => { setHide(state); prev = window.scrollY; };
 
   const hideBar = () => {
     if (window.scrollY - prev > 10)

@@ -12,9 +12,10 @@ import './TaskCard.css';
 import MoveTask from './MoveTask';
 import ChildTasks from './ChildTasks';
 import AddChildren from './AddChildren';
+import ConvertToChild from './ConvertToChild';
 
 const TaskCard = ({
-  task, updateTask, tasklistId, appendTask, hideUnknown,
+  task, updateTask, tasklistId, appendTask, hideUnknown, siblings,
 }) => {
   const [copy, setCopy] = useState(false);
   const [style, setStyle] = useState('idle');
@@ -23,6 +24,7 @@ const TaskCard = ({
   const [move, setMove] = useState(false);
   const [addChildren, setAddChildren] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [convertToChild, setConvertToChild] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -132,11 +134,13 @@ const TaskCard = ({
           daysLeft={daysLeft}
         />
         <TaskMenuButton
+          task={task}
           setUpdate={setUpdate}
           setCopy={setCopy}
           setMove={setMove}
           setShowDeleteConfirmation={setShowDeleteConfirmation}
           setAddChildren={setAddChildren}
+          setConvertToChild={setConvertToChild}
          />
       </div>
       <div className="task-body">
@@ -147,7 +151,9 @@ const TaskCard = ({
                 childTasks={childTasks}
                 updateParent={updateTask}
                 parentId={id}
-                hideUnknown={hideUnknown} />
+                hideUnknown={hideUnknown}
+                parent={task}
+            />
             : ''}
         </div>
 
@@ -164,38 +170,45 @@ const TaskCard = ({
       </div>
     </div>
     {copy
-            && <FloatingForm setVisibility={setCopy}>
-              <AddTask
-                appendTask={appendTask}
-                tasklistId={tasklistId}
-                presets={{
-                  name, frequency, afterFlexibility, beforeFlexibility,
-                }}
+      && <FloatingForm setVisibility={setCopy}>
+        <AddTask
+          appendTask={appendTask}
+          tasklistId={tasklistId}
+          setShowForm={setCopy}
+          presets={{
+            name, frequency, afterFlexibility, beforeFlexibility,
+          }}
               />
-              <button onClick={() => setCopy(false)}> peruuta </button>
-            </FloatingForm>
+        <button onClick={() => setCopy(false)}> peruuta </button>
+      </FloatingForm>
           }
     {update
-            && <FloatingForm setVisibility={setUpdate}>
-              <EditTask task={task} update={updateTask} setVisibility={setUpdate} />
-            </FloatingForm>
+      && <FloatingForm setVisibility={setUpdate}>
+        <EditTask task={task} update={updateTask} setVisibility={setUpdate} />
+      </FloatingForm>
           }
-    {move && <FloatingForm setVisibility={setMove}>
-      <MoveTask task={task} update={updateTask} />
-      <button onClick={() => setMove(false)}> peruuta </button>
-    </FloatingForm>}
+    {move
+      && <FloatingForm setVisibility={setMove}>
+        <MoveTask task={task} update={updateTask} />
+        <button onClick={() => setMove(false)}> peruuta </button>
+      </FloatingForm>}
     {showDeleteConfirmation
-        && <FloatingForm setVisibility={setShowDeleteConfirmation}>
-          <h2>Poistetaan ”{name}”</h2>
-          <button onClick={() => setShowDeleteConfirmation(false)}>peruuta</button>
-          <button onClick={() => { deleteTask(); setShowDeleteConfirmation(false); }}>
-            poista
-          </button>
+      && <FloatingForm setVisibility={setShowDeleteConfirmation}>
+        <h2>Poistetaan ”{name}”</h2>
+        <button onClick={() => setShowDeleteConfirmation(false)}>peruuta</button>
+        <button onClick={() => { deleteTask(); setShowDeleteConfirmation(false); }}>
+          poista
+        </button>
         </FloatingForm>}
     {addChildren
       && <FloatingForm setVisibility={setAddChildren}>
         <AddChildren task={task} update={updateTask} setVisibility={setAddChildren} />
         <button onClick={() => setAddChildren(false)}>peruuta</button>
+      </FloatingForm>
+    }
+    {convertToChild
+      && <FloatingForm setVisibility={setConvertToChild}>
+        <ConvertToChild task={task} siblings={siblings} updateTask={updateTask}/>
       </FloatingForm>
     }
   </>

@@ -1,15 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './TaskMenu.css';
 
 const TaskMenu = props => {
   const {
-    setCopy, setUpdate, setMove, setShowMenu, setShowDeleteConfirmation, setAddChildren,
+    task,
+    setCopy,
+    setUpdate,
+    setMove, setShowMenu, setShowDeleteConfirmation, setAddChildren, setConvertToChild,
   } = props;
 
+  const [childTaskMenuExpanded, setChildTaskMenuExpanded] = useState(false);
   let clickedSomewhere = false;
 
-  const clickListener = () => {
-    if (clickedSomewhere) {
+  const clickListener = event => {
+    if (clickedSomewhere && !event.target.classList.contains('expandable')) {
       setShowMenu(false);
       document.removeEventListener('click', clickListener);
     } else
@@ -25,7 +29,21 @@ const TaskMenu = props => {
     <div className='task-menu-content'>
       <div className='task-menu-content-item' onClick={() => setUpdate(true)}> muokkaa </div>
       <div className='task-menu-content-item' onClick={() => setCopy(true)}> kopioi </div>
-      <div className='task-menu-content-item' onClick={() => setAddChildren(true)}> johdannaistehtävät </div>
+      {/* <div
+        className='task-menu-content-item'
+        onClick={() => setAddChildren(true)}>
+        johdannaistehtävät </div> */}
+      <div className='task-menu-content-item expandable' onClick={() => setChildTaskMenuExpanded(!childTaskMenuExpanded)}>
+        alatehtävät
+        {childTaskMenuExpanded && <>
+          <div className='task-menu-submenu'>
+            <div className='submenu-item' onClick={() => setAddChildren(true)}> lisää alatehtäviä </div>
+            {task.hasChildTasks
+              ? ''
+              : <div className='submenu-item' onClick={() => setConvertToChild(true)}> muuta alatehtäväksi </div>}
+          </div>
+          </>}
+      </div>
       <div className='task-menu-content-item' onClick={() => setMove(true)}> siirrä </div>
       <div className='task-menu-content-item' onClick={() => setShowDeleteConfirmation(true)}> poista </div>
     </div>

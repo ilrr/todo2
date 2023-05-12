@@ -10,6 +10,12 @@
   border-radius: 3px;
 }
 
+.add-instance-inner {
+  max-height: 90vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .add-instance-background {
   cursor: auto;
   background-color: #000a;

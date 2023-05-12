@@ -48,3 +48,14 @@
   border-radius: 7px;
   margin: 4px;
 }
+
+.child-task-time-info {
+  color: #0006;
+  font-size: small;
+  font-weight: 300;
+  margin-right: auto;
+  margin-left: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: 8px;
+}

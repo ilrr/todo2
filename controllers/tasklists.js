@@ -246,4 +246,18 @@ router.delete('/:id', async (req, res) => {
   return res.status(204).send();
 });
 
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const list = await Tasklist.findByPk(id);
+  if (!list)
+    return res.status(404).json({ error: 'invalid list id' });
+  if (!hasAccess(req, id))
+    return res.status(401).json({ error: 'no access' });
+  const { name } = req.body;
+  if (!name)
+    return res.status(401).json({ error: 'no data to update' });
+  await Tasklist.update({ name }, { where: { id } });
+  return res.status(201).json({ name });
+});
+
 module.exports = router;
