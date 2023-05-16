@@ -27,7 +27,7 @@ const Login = () => {
       })
       .catch(error => {
         if (error.error)
-          dispatch(newToast({ msg: error }));
+          dispatch(newToast({ msg: error.error }));
         else
           console.log(error);
       });
