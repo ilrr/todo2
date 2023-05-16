@@ -32,6 +32,9 @@
         ],
         "no-nested-ternary": [
             "warn"
+        ],
+        "consistent-return": [
+            "warn"
         ]
     }
 }

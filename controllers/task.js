@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
@@ -49,13 +50,21 @@ const getTask = async (req, id) => {
     ],
   });
 };
-router.post('/:id/done', async (req, res) => {
+
+const validateTaskAccess = async (req, res, next) => {
   const { id } = req.params;
   const task = await Task.findByPk(id);
   if (!task)
     return res.status(404).json({ error: 'invalid task id' });
   if (!hasAccess(req, task.tasklistId))
     return res.status(403).json({ error: 'no access' });
+  req.taskId = id;
+  req.task = task;
+  next();
+};
+
+router.post('/:id/done', validateTaskAccess, async (req, res) => {
+  const id = req.taskId;
   const userId = userIdFromRequest(req);
   await Task.update(
     {
@@ -70,44 +79,29 @@ router.post('/:id/done', async (req, res) => {
   return res.status(201).json(updatedTask);
 });
 
-router.patch('/:id', async (req, res) => {
-  const task = await Task.findByPk(req.params.id);
-  if (!task)
-    return res.status(404).json({ error: 'invalid task id' });
-  if (!hasAccess(req, task.tasklistId))
-    return res.status(403).json({ error: 'no access' });
-  let {
-    name, frequency, afterFlexibility, beforeFlexibility,
+router.patch('/:id', validateTaskAccess, async (req, res) => {
+  const { task } = req;
+  const {
+    name = task.name,
+    frequency = task.frequency,
+    afterFlexibility = task.afterFlexibility,
+    beforeFlexibility = task.beforeFlexibility,
   } = req.body;
-
-  if (!name)
-    name = task.name;
-  if (!frequency)
-    frequency = task.frequency;
-  if (!afterFlexibility)
-    afterFlexibility = task.afterFlexibility;
-  if (!beforeFlexibility)
-    beforeFlexibility = task.beforeFlexibility;
 
   await Task.update(
     {
       name, frequency, afterFlexibility, beforeFlexibility,
     },
-    { where: { id: req.params.id } },
+    { where: { id: req.taskId } },
   );
 
   const updatedTask = await getTask(req, req.params.id);
   return res.status(201).json(updatedTask);
 });
 
-router.patch('/:id/move', async (req, res) => {
-  const { id } = req.params;
-  const task = await Task.findByPk(id);
-
-  if (!task)
-    return res.status(404).json({ error: 'invalid task id' });
-  if (!hasAccess(req, task.tasklistId))
-    return res.status(403).json({ error: 'no access to task' });
+router.patch('/:id/move', validateTaskAccess, async (req, res) => {
+  const id = req.taskId;
+  const { task } = req;
 
   const newList = req.body.newListId;
   if (!hasAccess(req, newList))
@@ -120,28 +114,18 @@ router.patch('/:id/move', async (req, res) => {
   return res.status(201).json({ ...task, tasklistId: newList });
 });
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const task = await Task.findByPk(id);
-  if (!task)
-    return res.status(404).json({ error: 'invalid task id' });
-
-  if (!hasAccess(req, task.tasklistId))
-    return res.status(403).json({ error: 'no access' });
-
+router.delete('/:id', validateTaskAccess, async (req, res) => {
+  const { task } = req;
   await task.destroy();
+  await ChildTask.destroy({ where: { parentId: req.taskId } });
   return res.status(204).send();
 });
 
-router.post('/:id/children', async (req, res) => {
-  const { id } = req.params;
-  const task = await Task.findByPk(id);
+router.post('/:id/children', validateTaskAccess, async (req, res) => {
+  const id = req.taskId;
+  const { task } = req;
   const childTasks = req.body.childTasks.filter(s => s !== '');
 
-  if (!task)
-    return res.status(404).json({ error: 'invalid task id' });
-  if (!hasAccess(req, task.tasklistId))
-    return res.status(403).json({ error: 'no acces' });
   if (!task.dataValues.hasChildTasks)
     await Task.update({ hasChildTasks: true, completedAt: null }, { where: { id } });
   await ChildTask.bulkCreate(childTasks.map(name => ({ name, parentId: id })));
@@ -151,14 +135,12 @@ router.post('/:id/children', async (req, res) => {
   return res.status(201).json(updatedTaskJSON);
 });
 
-router.post('/:id/tochild', async (req, res) => {
-  const { id } = req.params;
+router.post('/:id/tochild', validateTaskAccess, async (req, res) => {
+  // const id = req.taskId;
   const { newParentId } = req.body;
   if (!newParentId)
     return res.status(400).json({ error: 'missing newParentId' });
-  const task = await Task.findByPk(id);
-  if (!task)
-    return res.status(404).json({ error: 'invalid task id' });
+  const { task } = req;
   if (task.hasChildTasks)
     return res.status(400).json({ error: "task can't have child tasks" });
   const newParentTask = await Task.findByPk(newParentId);
@@ -172,7 +154,7 @@ router.post('/:id/tochild', async (req, res) => {
   await ChildTask.create({ parentId: newParentId, name: task.name, completedAt: task.completedAt });
   const fieldUpdates = { hasChildTasks: true };
   if (newParentTask.hasChildTasks && task.completedAt
-    && (!newParentTask.completedAt || newParentTask.completedAt > task.completedAt))
+        && (!newParentTask.completedAt || newParentTask.completedAt > task.completedAt))
     fieldUpdates.completedAt = task.completedAt;
   await Task.update(
     fieldUpdates,
