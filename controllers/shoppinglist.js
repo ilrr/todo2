@@ -108,6 +108,21 @@ router.post('/section/:id/additem', async (req, res) => {
   return res.status(201).json(newItem);
 });
 
+router.patch('/section/:id/setcolor', async (req, res) => {
+  const section = await ShoppingListSection.findOne({ where: { id: req.params.id } });
+  if (!section)
+    return res.status(403).json({ error: 'invalid id' });
+  if (!hasAccess(req, section.listId))
+    return res.status(401).json({ error: 'no access' });
+  const { body } = req;
+  const { color } = body;
+  await ShoppingListSection.update(
+    { color },
+    { where: { id: req.params.id } },
+  );
+  return res.status(201).json({ color });
+});
+
 router.patch('/item/:id/check', async (req, res) => {
   const section = await ShoppingListSection.findOne({
     include: {

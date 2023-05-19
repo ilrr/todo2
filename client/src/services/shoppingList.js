@@ -52,7 +52,16 @@ const checkout = listId => {
   return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
+const setColor = (listId, color) => {
+  const request = axios.patch(
+    `${baseUrl}/shopping/section/${listId}/setcolor`,
+    { color },
+    config(),
+  );
+  return request.then(res => res.data).catch(e => { throw e.response.data; });
+};
+
 const shoppingListService = {
-  getItems, getListInfo, newItem, newSection, checkItem, checkout, newList,
+  getItems, getListInfo, newItem, newSection, checkItem, checkout, newList, setColor,
 };
 export default shoppingListService;

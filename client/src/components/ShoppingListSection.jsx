@@ -1,8 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import shoppingListService from '../services/shoppingList';
+import FloatingForm from './FloatingForm';
+import { newToast } from '../reducers/toastReducer';
+
+const ChangeColor = ({ section, setSection }) => {
+  const [color, setColor] = useState(`#${section.color}`);
+  // console.log(section);
+  const dispatch = useDispatch();
+
+  const submit = event => {
+    event.preventDefault();
+    console.log(color);
+    shoppingListService
+      .setColor(section.id, color.slice(1))
+      .then(() => {
+        dispatch(newToast({ msg: 'väri vaihdettu :-)', type: 'info' }));
+        setSection({ ...section, color: color.slice(1) });
+      });
+  };
+
+  return <form onSubmit={submit}>
+    <input
+      type='color'
+      defaultValue={color}
+      onChange={({ target }) => setColor(target.value)}
+    />
+    <button type='submit'>Muuta väri</button>
+  </form>;
+};
 
 const ShoppingListSection = ({ initialSection, checkedLast }) => {
   const [section, setSection] = useState(initialSection);
+  const [colorForm, setColorForm] = useState(false);
 
   const insertItem = item => {
     setSection({ ...section, shoppingListItems: section.shoppingListItems.concat(item) });
@@ -73,7 +103,10 @@ const ShoppingListSection = ({ initialSection, checkedLast }) => {
     <div
       style={{ backgroundColor: `#${section.color}` }}
       className="shopping-list-section">
-      <h2>{section.name}</h2>
+    <span
+    onClick={() => setColorForm(!colorForm)}
+    style={{float:'right'}}>🎨</span>
+      <h2>{section.name} </h2>
       <ul>
         {sortedItems().map(
           item => <a key={item.id} onClick={() => checkItem(item.id, !item.checked)}>
@@ -84,6 +117,9 @@ const ShoppingListSection = ({ initialSection, checkedLast }) => {
         )}
       </ul>
       <AddItem />
+      {colorForm && <FloatingForm setVisibility={setColorForm}>
+        <ChangeColor section={section} setSection={setSection} />
+        </FloatingForm>}
     </div>
   );
 };
