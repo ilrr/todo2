@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // const { fn } = require('sequelize');
 
 const {
-  Tasklist, User, Role, Task, ChildTask,
+  Tasklist, User, Role, Task, ChildTask, ShoppingListSection, ShoppingListItem,
 } = require('../models');
 const { getTokenFrom, hasAccess } = require('../util/access');
 const { sequelize } = require('../util/db');
@@ -34,24 +34,23 @@ const userIdFromRequest = req => {
   const decodedToken = jwt.verify(token, process.env.SECRET);
   return decodedToken.id;
 };
+const tasksToStatus = tasks => {
+  if (!tasks.length)
+    return 'empty';
+  const unknown = tasks.some(task => task.dataValues.daysLeft === null) ? 'unknown' : '';
+  if (tasks.some(task => task.dataValues.latest < 0))
+    return `late ${unknown}`;
+  if (tasks.some(task => task.dataValues.daysLeft < 0))
+    return `due ${unknown}`;
+  if (tasks.some(task => task.dataValues.daysLeft === 0))
+    return `today ${unknown}`;
+  if (tasks.some(task => task.dataValues.earliest === 0))
+    return `early ${unknown}`;
+  return `idle ${unknown}`;
+};
 
 // get tasklists of user
 router.get('/', async (req, res) => {
-  const tasksToStatus = tasks => {
-    if (!tasks.length)
-      return 'empty';
-    const unknown = tasks.some(task => task.dataValues.daysLeft === null) ? 'unknown' : '';
-    if (tasks.some(task => task.dataValues.latest < 0))
-      return `late ${unknown}`;
-    if (tasks.some(task => task.dataValues.daysLeft < 0))
-      return `due ${unknown}`;
-    if (tasks.some(task => task.dataValues.daysLeft === 0))
-      return `today ${unknown}`;
-    if (tasks.some(task => task.dataValues.earliest === 0))
-      return `early ${unknown}`;
-    return `idle ${unknown}`;
-  };
-
   const token = getTokenFrom(req);
   if (!token)
     return res.status(401).json({ error: 'token missing' });
@@ -235,12 +234,30 @@ router.post('/:id/share', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const list = await Tasklist.findByPk(id);
+  const list = await Tasklist.findByPk(
+    id,
+    {
+      include: [
+        { model: ShoppingListSection, required: false },
+        { model: Task, required: false },
+      ],
+    },
+  );
   if (!list)
     return res.status(404).json({ error: 'invalid list id' });
 
   if (!await canDelete(req, id))
     return res.status(401).json({ error: 'not authorized to delete list' });
+
+  if (list.type === 'SHOPPING') {
+    ShoppingListItem.destroy({
+      where: { sectionId: list.shoppingListSections.map(section => section.dataValues.id) },
+    });
+    ShoppingListSection.destroy({ where: { listId: id } });
+  } else {
+    ChildTask.destroy({ where: { parentId: list.tasks.map(task => task.dataValues.id) } });
+    Task.destroy({ where: { tasklistId: id } });
+  }
 
   await list.destroy();
   return res.status(204).send();
