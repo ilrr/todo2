@@ -8,7 +8,7 @@
 }
 
 .task-list-list a {
-  text-decoration: none2;
+  text-decoration: none;
 }
 
 .list-card.shopping-l {
@@ -60,7 +60,7 @@
   .list-card {
     display: block;
   }
-  .list-card::after {
+  .list-card.new::after {
     content: " Luo uusi lista!";
   }
 }
