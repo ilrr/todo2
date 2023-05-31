@@ -4,8 +4,8 @@ import DoneIcon from '@mui/icons-material/Done';
 // import StartIcon from '@mui/icons-material/Start';
 // import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import { useEffect, useRef, useState } from 'react';
-import taskService from '../../services/task';
-import { dateToStringCompact } from '../../util/dateUtils.tsx';
+import taskService from '../../../services/task';
+import { dateToStringCompact } from '../../../util/dateUtils.tsx';
 
 const ChildStatus = ({ childTask, parentTask }) => {
   const nextDeadline = childTask.completedAt

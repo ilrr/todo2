@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch } from 'react-redux';
-import taskService from '../../services/task';
+import taskService from '../../../services/task';
 import AddTask from '../AddTask';
 import EditTask from './EditTask';
 import TaskTimeInfo from './TaskTimeInfo';
 import TaskMenuButton from './TaskMenuButton';
-import FloatingForm from '../FloatingForm';
-import { newToast } from '../../reducers/toastReducer';
+import FloatingForm from '../../../components/FloatingForm';
+import { newToast } from '../../../reducers/toastReducer';
 import './TaskCard.css';
 import MoveTask from './MoveTask';
 import ChildTasks from './ChildTasks';

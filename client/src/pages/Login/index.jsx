@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import { newToast } from '../reducers/toastReducer';
-import { loginUser } from '../reducers/userReducer';
-import { setToken } from '../services/api';
-import userService from '../services/user';
+import { newToast } from '../../reducers/toastReducer';
+import { loginUser } from '../../reducers/userReducer';
+import { setToken } from '../../services/api';
+import userService from '../../services/user';
 
 const Login = () => {
   const [username, setUsername] = useState('');

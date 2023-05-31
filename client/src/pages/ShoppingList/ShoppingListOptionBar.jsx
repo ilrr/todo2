@@ -1,4 +1,4 @@
-import ListOptionsBar from './ListOptionBar';
+import ListOptionsBar from '../../components/ListOptionBar';
 
 const ShoppingListOptionsBar = props => {
   const {

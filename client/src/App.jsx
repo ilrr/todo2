@@ -5,18 +5,19 @@ import {
   BrowserRouter as Router, Routes, Route,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Login from './components/Login';
-import Register from './components/Register';
-import Tasklists from './components/Tasklists';
-import NotFound from './components/NotFound';
-import Tasklist from './components/Tasklist';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
+import NotFound from './pages/NotFound';
+import Tasklist from './pages/Tasklist';
 import TopBar from './components/TopBar';
-import Logout from './components/Logout';
+import Logout from './pages/Logout';
 import { setToken } from './services/api';
 import { loginUser } from './reducers/userReducer';
-import ShoppingList from './components/ShoppingList';
-import Error from './components/Error';
+import ShoppingList from './pages/ShoppingList';
+import Error from './pages/Error';
 import Toasts from './components/Toasts';
+import TasklistList from './pages/TasklistList';
 
 const App = () => {
   const dispatch = useDispatch(); //
@@ -34,19 +35,19 @@ const App = () => {
     <Router>
       <TopBar />
       <Toasts />
-        <div className='content'>
-          <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/lista/:listId' element={<Tasklist />} />
-            <Route path='/logout/expired' element={<Logout msg="Istuntosi on vanhentunut. Kirjaudu uudestaan."/>} />
-            <Route path='/logout' element={<Logout msg="Hei hei!" />} />
-            <Route path='/error' element={<Error />} />
-            <Route path='/ostoslista/:listId' element={<ShoppingList />} />
-            <Route path='/' element={<Tasklists />} />
-            <Route path='*' element={<NotFound />} />
-          </Routes>
-        </div>
+      <div className='content'>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/lista/:listId' element={<Tasklist />} />
+          <Route path='/logout/expired' element={<Logout msg="Istuntosi on vanhentunut. Kirjaudu uudestaan."/>} />
+          <Route path='/logout' element={<Logout msg="Hei hei!" />} />
+          <Route path='/error' element={<Error />} />
+          <Route path='/ostoslista/:listId' element={<ShoppingList />} />
+          <Route path='/' element={<TasklistList />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </div>
 
     </Router>
 

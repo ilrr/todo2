@@ -1,4 +1,4 @@
-import { averageDaysInMonth } from '../../util/utils';
+import { averageDaysInMonth } from '../../../util/utils';
 import './TimeIntervalForm.css';
 
 const TimeIntervalForm = ({

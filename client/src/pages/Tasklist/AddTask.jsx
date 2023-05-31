@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import taskService from '../services/task';
-import { setDefaultInterval } from '../util/utils';
-import TimeIntervalForm from './taskCard/TimeIntervalForm';
-import { newToast } from '../reducers/toastReducer';
+import taskService from '../../services/task';
+import { setDefaultInterval } from '../../util/utils';
+import TimeIntervalForm from './TaskCard/TimeIntervalForm';
+import { newToast } from '../../reducers/toastReducer';
 
 const AddTask = ({
   tasklistId, appendTask, presets, setShowForm,

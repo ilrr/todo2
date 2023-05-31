@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import shoppingListService from '../services/shoppingList';
-import FloatingForm from './FloatingForm';
-import { newToast } from '../reducers/toastReducer';
+import shoppingListService from '../../services/shoppingList';
+import FloatingForm from '../../components/FloatingForm';
+import { newToast } from '../../reducers/toastReducer';
 
 const ChangeColor = ({ section, setSection }) => {
   const [color, setColor] = useState(`#${section.color}`);
@@ -11,7 +11,7 @@ const ChangeColor = ({ section, setSection }) => {
 
   const submit = event => {
     event.preventDefault();
-    console.log(color);
+    // console.log(color);
     shoppingListService
       .setColor(section.id, color.slice(1))
       .then(() => {
@@ -103,9 +103,9 @@ const ShoppingListSection = ({ initialSection, checkedLast }) => {
     <div
       style={{ backgroundColor: `#${section.color}` }}
       className="shopping-list-section">
-    <span
-    onClick={() => setColorForm(!colorForm)}
-    style={{float:'right'}}>🎨</span>
+      <span
+        onClick={() => setColorForm(!colorForm)}
+        style={{ float: 'right' }}>🎨</span>
       <h2>{section.name} </h2>
       <ul>
         {sortedItems().map(

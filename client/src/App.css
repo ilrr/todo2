@@ -74,6 +74,13 @@ label {
   color: #aaa !important;
   background-color: #ddd !important;
   cursor: pointer;
+  text-align: center;
+  user-select: none;
+}
+
+.new:active {
+  color: #555 !important;
+  background-color: #999 !important;
 }
 
 .new:hover {

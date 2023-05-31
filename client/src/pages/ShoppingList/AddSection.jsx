@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import shoppingListService from '../services/shoppingList';
-import FloatingForm from './FloatingForm';
+import shoppingListService from '../../services/shoppingList';
+import FloatingForm from '../../components/FloatingForm';
 
 const AddSection = ({
   listId, sections, setSections, setInsertSectionForm,

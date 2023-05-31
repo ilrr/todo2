@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
-import shoppingListService from '../services/shoppingList';
-import taskListService from '../services/tasklist';
-import FloatingForm from './FloatingForm';
+import shoppingListService from '../../services/shoppingList';
+import taskListService from '../../services/tasklist';
+import FloatingForm from '../../components/FloatingForm';
 // import tasklist from "../services/tasklist"
-import Share from './Share';
+import Share from '../../components/Share';
 import ShoppingListSection from './ShoppingListSection';
-import { newToast } from '../reducers/toastReducer';
+import { newToast } from '../../reducers/toastReducer';
 import AddSection from './AddSection';
 import './ShoppingList.css';
-import DeleteListButton from './DeleteListButton';
+import DeleteListButton from '../../components/DeleteListButton';
 import ShoppingListOptionsBar from './ShoppingListOptionBar';
 
 const ShoppingList = () => {

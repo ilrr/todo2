@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import taskService from '../../services/task';
-import { newToast } from '../../reducers/toastReducer';
+import taskService from '../../../services/task';
+import { newToast } from '../../../reducers/toastReducer';
 
 const ConvertToChild = ({ task, siblings, updateTask }) => {
   const [newParentId, setNewParentId] = useState(-1);

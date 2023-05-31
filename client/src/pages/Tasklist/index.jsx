@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 // import tasklist from "../services/tasklist"
 import ShareIcon from '@mui/icons-material/Share';
-import tasklistService from '../services/tasklist';
-import FloatingForm from './FloatingForm';
+import tasklistService from '../../services/tasklist';
+import FloatingForm from '../../components/FloatingForm';
 import AddTask from './AddTask';
-import Share from './Share';
-import TaskCard from './taskCard/TaskCard';
-import DeleteListButton from './DeleteListButton';
+import Share from '../../components/Share';
+import TaskCard from './TaskCard';
+import DeleteListButton from '../../components/DeleteListButton';
 import './Tasklist.css';
-import ListOptionsBar from './ListOptionBar';
+import ListOptionsBar from '../../components/ListOptionBar';
 
 const Tasklist = () => {
   const { listId } = useParams();
