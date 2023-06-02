@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setDefaultInterval } from '../../../util/utils';
 import taskService from '../../../services/task';
-import TimeIntervalForm from './TimeIntervalForm';
 import { newToast } from '../../../reducers/toastReducer';
+import TaskTimeForm from '../../../components/TaskTimeForm';
 
 const EditTask = ({ task, update, setVisibility }) => {
   const [name, setName] = useState(task.name);
+  const [completedAt, setCompletedAt] = useState(task.completedAt ? task.completedAt.split('T')[0] : new Date(Date.now()).toISOString().split('T')[0]);
+  const [editCompletedAt, setEditCompletedAt] = useState(false);
   const [frequency, setFrequency] = useState(task.frequency);
   const [frequencyMultiplyer, setFrequencyMultiplyer] = useState(1);
   const [afterFlexibility, setAfterFlexibility] = useState(task.afterFlexibility);
@@ -28,6 +30,7 @@ const EditTask = ({ task, update, setVisibility }) => {
       frequency: Math.round(Number(frequency) * frequencyMultiplyer),
       afterFlexibility: Math.round(Number(afterFlexibility) * afterFlexibilityMultiplyer),
       beforeFlexibility: Math.round(Number(beforeFlexibility) * beforeFlexibilityMultiplyer),
+      completedAt: editCompletedAt ? `${completedAt}T16:00` : task.completedAt,
     };
     taskService.editTask(task.id, newValues).then(res => {
       dispatch(newToast({ msg: 'Tehtävä päivitetty', type: 'info' }));
@@ -41,45 +44,29 @@ const EditTask = ({ task, update, setVisibility }) => {
       <form onSubmit={submitEdits}>
         Tehtävän nimi:
         <input type="text" value={name} onChange={({ target }) => setName(target.value)} /> <br />
-        <TimeIntervalForm
-          before={
-            <>
-              {' '}
-              Toistuvuus:
-              <br /> kerran{' '}
-            </>
-          }
-          value={frequency}
-          setValue={setFrequency}
-          multiplyer={frequencyMultiplyer}
-          setMultiplyer={setFrequencyMultiplyer}
+        <TaskTimeForm
+          frequency={frequency}
+          setFrequency={setFrequency}
+          frequencyMultiplyer={frequencyMultiplyer}
+          setFrequencyMultiplyer={setFrequencyMultiplyer}
+          afterFlexibility={afterFlexibility}
+          setAfterFlexibility={setAfterFlexibility}
+          afterFlexibilityMultiplyer={afterFlexibilityMultiplyer}
+          setAfterFlexibilityMultiplyer={setAfterFlexibilityMultiplyer}
+          beforeFlexibility={beforeFlexibility}
+          setBeforeFlexibility={setBeforeFlexibility}
+          beforeFlexibilityMultiplyer={beforeFlexibilityMultiplyer}
+          setBeforeFlexibilityMultiplyer={setBeforeFlexibilityMultiplyer}
         />
-        <TimeIntervalForm
-          before={
-            <>
-              {' '}
-              + <br />{' '}
-            </>
-          }
-          value={afterFlexibility}
-          setValue={setAfterFlexibility}
-          multiplyer={afterFlexibilityMultiplyer}
-          setMultiplyer={setAfterFlexibilityMultiplyer}
-          partitive={true}
-        />
-        <TimeIntervalForm
-          before={
-            <>
-              {' '}
-              &minus; <br />{' '}
-            </>
-          }
-          value={beforeFlexibility}
-          setValue={setBeforeFlexibility}
-          multiplyer={beforeFlexibilityMultiplyer}
-          setMultiplyer={setBeforeFlexibilityMultiplyer}
-          partitive={true}
-        />
+        <br/>
+        <label>
+          <input id="editCompletedAt" type="checkbox" value={editCompletedAt} onChange={() => setEditCompletedAt(v => !v) } />
+          muuta viimeisin suoritusajankohta
+        </label>
+        {editCompletedAt
+          ? <label>Suoritettu viimeksi <input type="date" value={completedAt} onChange={({ target }) => setCompletedAt(target.value)} /></label>
+          : <br/>}
+        <br/>
         <button type='submit'>Muokkaa</button>
       </form>
     </div>

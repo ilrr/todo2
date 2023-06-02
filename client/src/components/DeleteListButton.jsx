@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { newToast } from '../reducers/toastReducer';
 import tasklistService from '../services/tasklist';
-import FloatingForm from './FloatingForm';
+import Modal from './Modal';
 
 const DeleteListButton = props => {
   const [deleteListForm, setDeleteListForm] = useState(false);
@@ -23,7 +23,7 @@ const DeleteListButton = props => {
       </span>
 
       {deleteListForm && (
-        <FloatingForm setVisibility={setDeleteListForm}>
+        <Modal setVisibility={setDeleteListForm}>
           <p>Haluatko varmasti poistaa listan?</p>
           <button
             onClick={() => {
@@ -39,7 +39,7 @@ const DeleteListButton = props => {
             poista
           </button>
           <button onClick={() => setDeleteListForm(false)}>peruuta</button>
-        </FloatingForm>
+        </Modal>
       )}
     </>
   );

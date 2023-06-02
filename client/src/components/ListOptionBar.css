@@ -1,3 +1,7 @@
+:root {
+    --list-bar-animation-duration: 400ms;
+}
+
 .list-options-bar {
   position: fixed;
   bottom: 0;
@@ -9,6 +13,58 @@
   background: rgb(105, 155, 155);
   z-index: 2;
   /* align-items: center; */
+}
+
+.list-options-bar-animate-enter {
+  bottom: -40px;
+  opacity: 0;
+}
+
+.list-options-bar-animate-enter-active {
+  opacity: 1;
+  bottom: 0;
+  transition: var(--list-bar-animation-duration);
+}
+
+
+.list-options-bar-animate-exit-active {
+  bottom: -40px;
+  opacity: 0;
+  transition: var(--list-bar-animation-duration);
+  transition-timing-function: ease-in;
+}
+
+.list-options-bar-animate-exit-active .list-options-bar-show-button.hide {
+    opacity: 0;
+}
+
+.list-options-bar-animate-enter-active .list-options-bar-show-button.hide {
+    opacity: 0;
+}
+
+.show-button-animate-enter {
+    rotate: 180deg;
+    background-color: #aaa0;
+}
+
+.show-button-animate-enter-active  {
+    rotate: 0deg;
+    background-color: #aaa9;
+    transition: var(--list-bar-animation-duration);
+}
+
+.show-button-animate-enter-done {
+    background-color: #aaa9;
+}
+
+.show-button-animate-exit {
+    background-color: #aaa9;
+}
+
+.show-button-animate-exit-active {
+    rotate: 180deg;
+    background-color: #aaa0;
+    transition: var(--list-bar-animation-duration);
 }
 
 .list-options-bar button {
@@ -28,13 +84,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .list-options-bar-show-button.activate {
   position: fixed;
   bottom: 5px;
   right: 5px;
-  background-color: #aaa9;
+  /* background-color: #aaa9; */
   z-index: 2;
   padding: 5px;
   border-radius: 30px;
@@ -47,3 +104,5 @@
   /* padding: 5px; */
   margin-right: 10px;
 }
+
+

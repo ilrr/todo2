@@ -34,6 +34,15 @@ const newSection = (tasklistId, section) => {
   return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
+const deleteSection = sectionId => {
+  const request = axios.delete(
+    `${baseUrl}/shopping/section/${sectionId}`,
+    {},
+    config(),
+  );
+  return request.then(res => res).catch(e => { throw e.response.data; });
+};
+
 const checkItem = (itemId, checked) => {
   const request = axios.patch(
     `${baseUrl}/shopping/item/${itemId}/check`,
@@ -52,9 +61,18 @@ const checkout = listId => {
   return request.then(res => res.data).catch(e => { throw e.response.data; });
 };
 
-const setColor = (listId, color) => {
+const updateSection = (sectionId, data) => {
   const request = axios.patch(
-    `${baseUrl}/shopping/section/${listId}/setcolor`,
+    `${baseUrl}/shopping/section/${sectionId}`,
+    data,
+    config(),
+  );
+  return request.then(res => res.data).catch(e => { throw e.response.data; });
+};
+
+const setColor = (sectionId, color) => {
+  const request = axios.patch(
+    `${baseUrl}/shopping/section/${sectionId}/setcolor`,
     { color },
     config(),
   );
@@ -62,6 +80,15 @@ const setColor = (listId, color) => {
 };
 
 const shoppingListService = {
-  getItems, getListInfo, newItem, newSection, checkItem, checkout, newList, setColor,
+  getItems,
+  getListInfo,
+  newItem,
+  newSection,
+  checkItem,
+  checkout,
+  newList,
+  setColor,
+  updateSection,
+  deleteSection,
 };
 export default shoppingListService;

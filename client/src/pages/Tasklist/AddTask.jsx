@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import taskService from '../../services/task';
 import { setDefaultInterval } from '../../util/utils';
-import TimeIntervalForm from './TaskCard/TimeIntervalForm';
 import { newToast } from '../../reducers/toastReducer';
+import TaskTimeForm from '../../components/TaskTimeForm';
 
 const AddTask = ({
   tasklistId, appendTask, presets, setShowForm,
@@ -61,47 +61,20 @@ const AddTask = ({
         {presets && <h2>Luodaan kopio tehtävästä ”{presets.name}”</h2>}
         Tehtävän nimi:
         <input type="text" value={name} onChange={e => setName(e.target.value)} /> <br />
-        <TimeIntervalForm
-          before={
-            <>
-              {' '}
-              Toistuvuus:
-              <br /> kerran{' '}
-            </>
-          }
-          value={frequency}
-          setValue={setFrequency}
-          multiplyer={frequencyMultiplyer}
-          setMultiplyer={setFrequencyMultiplyer}
+        <TaskTimeForm
+          frequency={frequency}
+          setFrequency={setFrequency}
+          frequencyMultiplyer={frequencyMultiplyer}
+          setFrequencyMultiplyer={setFrequencyMultiplyer}
+          afterFlexibility={afterFlexibility}
+          setAfterFlexibility={setAfterFlexibility}
+          afterFlexibilityMultiplyer={afterFlexibilityMultiplyer}
+          setAfterFlexibilityMultiplyer={setAfterFlexibilityMultiplyer}
+          beforeFlexibility={beforeFlexibility}
+          setBeforeFlexibility={setBeforeFlexibility}
+          beforeFlexibilityMultiplyer={beforeFlexibilityMultiplyer}
+          setBeforeFlexibilityMultiplyer={setBeforeFlexibilityMultiplyer}
         />
-        <div style={{ display: 'inline-block' }}>
-          <TimeIntervalForm
-            before={
-              <>
-                {' '}
-                + <br />{' '}
-              </>
-            }
-            value={afterFlexibility}
-            setValue={setAfterFlexibility}
-            multiplyer={afterFlexibilityMultiplyer}
-            setMultiplyer={setAfterFlexibilityMultiplyer}
-            partitive={true}
-          />
-          <TimeIntervalForm
-            before={
-              <>
-                {' '}
-                &minus; <br />{' '}
-              </>
-            }
-            value={beforeFlexibility}
-            setValue={setBeforeFlexibility}
-            multiplyer={beforeFlexibilityMultiplyer}
-            setMultiplyer={setBeforeFlexibilityMultiplyer}
-            partitive={true}
-          />
-        </div>
         <br />
         <button type="submit">Lisää</button>
       </form>

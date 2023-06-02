@@ -9,6 +9,18 @@ const { getTokenFrom, hasAccess } = require('../util/access');
 const { sequelize } = require('../util/db');
 // const { sequelize } = require('../util/db');
 
+const validateSectionAccess = async (req, res, next) => {
+  const { id } = req.params;
+  const section = await ShoppingListSection.findOne({ where: { id } });
+  if (!section)
+    return res.status(403).json({ error: 'invalid id' });
+  if (!hasAccess(req, section.listId))
+    return res.status(401).json({ error: 'no access' });
+  req.section = section;
+  req.sectionId = id;
+  return next();
+};
+
 router.get('/', async (req, res) => {
   const token = getTokenFrom(req);
   if (!token)
@@ -108,6 +120,35 @@ router.post('/section/:id/additem', async (req, res) => {
   return res.status(201).json(newItem);
 });
 
+router.delete('/section/:id', validateSectionAccess, async (req, res) => {
+  const id = req.sectionId;
+  await ShoppingListItem.destroy({ where: { sectionId: id } });
+  await ShoppingListSection.destroy({ where: { id } });
+  return res.status(204).send();
+});
+
+router.patch('/section/:id', validateSectionAccess, async (req, res) => {
+  const { section } = req;
+  // console.log(section);
+  const id = req.sectionId;
+  const { name = section.name } = req.body;
+  let {
+    color = section.color,
+  } = req.body;
+  if (color.length > 6) {
+    if (color.length === 7 && color[0] === '#')
+      color = color.slice(1);
+    else
+      return res.status(400).json({ error: 'color must be 6 characters long' });
+  }
+  await ShoppingListSection.update({ name, color }, { where: { id: req.sectionId } });
+  const updatedSection = await ShoppingListSection.findByPk(
+    id,
+    { include: { model: ShoppingListItem } },
+  );
+  return res.status(201).json(updatedSection);
+});
+
 router.patch('/section/:id/setcolor', async (req, res) => {
   const section = await ShoppingListSection.findOne({ where: { id: req.params.id } });
   if (!section)
@@ -115,7 +156,13 @@ router.patch('/section/:id/setcolor', async (req, res) => {
   if (!hasAccess(req, section.listId))
     return res.status(401).json({ error: 'no access' });
   const { body } = req;
-  const { color } = body;
+  let { color } = body;
+  if (color.length > 6) {
+    if (color.length === 7 && color[0] === '#')
+      color = color.slice(1);
+    else
+      return res.status(400).json({ error: 'color must be 6 characters long' });
+  }
   await ShoppingListSection.update(
     { color },
     { where: { id: req.params.id } },

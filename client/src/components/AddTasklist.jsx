@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import shoppingListService from '../services/shoppingList';
 import tasklistService from '../services/tasklist';
-import FloatingForm from './FloatingForm';
+import Modal from './Modal';
 import TaskShoppingSelect from './TaskShoppingSelect';
 
 // eslint-disable-next-line no-unused-vars
@@ -22,7 +22,7 @@ const AddTasklist = ({ setShowNewListForm: setVisibility }) => {
   };
 
   return (
-    <FloatingForm setVisibility={setVisibility}>
+    <Modal setVisibility={setVisibility}>
       Luo uusi tehtävälista:
       <form onSubmit={submitTasklist}>
         <input
@@ -33,7 +33,7 @@ const AddTasklist = ({ setShowNewListForm: setVisibility }) => {
         <TaskShoppingSelect isShopping={isShopping} setIsShopping={setIsShopping} />
         <button type="submit">Luo</button>
       </form>
-    </FloatingForm>
+    </Modal>
   );
 };
 

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 // import tasklist from "../services/tasklist"
 import ShareIcon from '@mui/icons-material/Share';
 import tasklistService from '../../services/tasklist';
-import FloatingForm from '../../components/FloatingForm';
+import Modal from '../../components/Modal';
 import AddTask from './AddTask';
 import Share from '../../components/Share';
 import TaskCard from './TaskCard';
@@ -108,20 +108,20 @@ const Tasklist = () => {
             +
           </div>
           {showNewTaskForm && (
-            <FloatingForm setVisibility={setShowNewTaskForm}>
+            <Modal setVisibility={setShowNewTaskForm}>
               <h2>Luo uusi tehtävä</h2>
               <AddTask
                 tasklistId={listId}
                 appendTask={appendTask}
                 setShowForm={setShowNewTaskForm}
               />
-            </FloatingForm>
+            </Modal>
           )}
 
           {showShare && (
-            <FloatingForm setVisibility={setShowShare}>
+            <Modal setVisibility={setShowShare}>
               <Share listId={listId} />
-            </FloatingForm>
+            </Modal>
           )}
         </div>
         <ListOptionsBar

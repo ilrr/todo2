@@ -6,7 +6,7 @@ import AddTask from '../AddTask';
 import EditTask from './EditTask';
 import TaskTimeInfo from './TaskTimeInfo';
 import TaskMenuButton from './TaskMenuButton';
-import FloatingForm from '../../../components/FloatingForm';
+import Modal from '../../../components/Modal';
 import { newToast } from '../../../reducers/toastReducer';
 import './TaskCard.css';
 import MoveTask from './MoveTask';
@@ -170,7 +170,7 @@ const TaskCard = ({
       </div>
     </div>
     {copy
-      && <FloatingForm setVisibility={setCopy}>
+      && <Modal setVisibility={setCopy}>
         <AddTask
           appendTask={appendTask}
           tasklistId={tasklistId}
@@ -180,36 +180,36 @@ const TaskCard = ({
           }}
               />
         <button onClick={() => setCopy(false)}> peruuta </button>
-      </FloatingForm>
+      </Modal>
           }
     {update
-      && <FloatingForm setVisibility={setUpdate}>
+      && <Modal setVisibility={setUpdate}>
         <EditTask task={task} update={updateTask} setVisibility={setUpdate} />
-      </FloatingForm>
+      </Modal>
           }
     {move
-      && <FloatingForm setVisibility={setMove}>
+      && <Modal setVisibility={setMove}>
         <MoveTask task={task} update={updateTask} />
         <button onClick={() => setMove(false)}> peruuta </button>
-      </FloatingForm>}
+      </Modal>}
     {showDeleteConfirmation
-      && <FloatingForm setVisibility={setShowDeleteConfirmation}>
+      && <Modal setVisibility={setShowDeleteConfirmation}>
         <h2>Poistetaan ”{name}”</h2>
         <button onClick={() => setShowDeleteConfirmation(false)}>peruuta</button>
         <button onClick={() => { deleteTask(); setShowDeleteConfirmation(false); }}>
           poista
         </button>
-        </FloatingForm>}
+        </Modal>}
     {addChildren
-      && <FloatingForm setVisibility={setAddChildren}>
+      && <Modal setVisibility={setAddChildren}>
         <AddChildren task={task} update={updateTask} setVisibility={setAddChildren} />
         <button onClick={() => setAddChildren(false)}>peruuta</button>
-      </FloatingForm>
+      </Modal>
     }
     {convertToChild
-      && <FloatingForm setVisibility={setConvertToChild}>
+      && <Modal setVisibility={setConvertToChild}>
         <ConvertToChild task={task} siblings={siblings} updateTask={updateTask}/>
-      </FloatingForm>
+      </Modal>
     }
   </>
   );

@@ -86,11 +86,12 @@ router.patch('/:id', validateTaskAccess, async (req, res) => {
     frequency = task.frequency,
     afterFlexibility = task.afterFlexibility,
     beforeFlexibility = task.beforeFlexibility,
+    completedAt = task.completedAt,
   } = req.body;
 
   await Task.update(
     {
-      name, frequency, afterFlexibility, beforeFlexibility,
+      name, frequency, afterFlexibility, beforeFlexibility, completedAt,
     },
     { where: { id: req.taskId } },
   );

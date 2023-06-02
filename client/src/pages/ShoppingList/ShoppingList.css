@@ -10,9 +10,10 @@
 
 .shopping-list-section > h2 {
   text-align: center;
-  margin: 0;
+  margin: 0 4px;
   font-size: medium;
   color: #0006;
+  user-select: none;
 }
 
 .shopping-list-section .checked {

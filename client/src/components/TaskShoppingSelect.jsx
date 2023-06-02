@@ -1,15 +1,27 @@
 /* eslint-disable no-unused-vars */
+
+const RADIUS = '999px';
+const BORDER_WIDTH = '0px';
+const BORDER_COLOR = 'gray';
+const PADDING = '2px 5px';
+const OFF_BG = '#888';
+const ON_BG = 'green';
+const OFF_FG = '#666';
+const ON_FG = 'black';
+
 const TaskShoppingSelect = ({ isShopping, setIsShopping }) => {
   const onOffStyle = (onOff, left) => ({
-    color: onOff ? '#dd5555' : '#000000',
+    // color: onOff ? '#dd5555' : '#000000',
+    color: onOff ? OFF_FG : ON_FG,
     fontWeight: 'bold', // onOff ? 'normal' : 'bold',
-    backgroundColor: onOff ? '#ff8888' : '#66dd66',
-    padding: '2px',
-    borderTop: '2px solid black',
-    borderBottom: '2px solid black',
-    borderLeft: `2px ${left ? 'solid' : 'none'} black`,
-    borderRight: `2px ${!left ? 'solid' : 'none'} black`,
-    borderRadius: left ? '4px 0 0 4px' : '0 4px 4px 0',
+    // backgroundColor: onOff ? '#ff8888' : '#66dd66',
+    backgroundColor: onOff ? OFF_BG : ON_BG,
+    padding: PADDING,
+    borderTop: `${BORDER_WIDTH} solid ${BORDER_COLOR}`,
+    borderBottom: `${BORDER_WIDTH} solid ${BORDER_COLOR}`,
+    borderLeft: `${BORDER_WIDTH} ${left ? 'solid' : 'none'} ${BORDER_COLOR}`,
+    borderRight: `${BORDER_WIDTH} ${!left ? 'solid' : 'none'} ${BORDER_COLOR}`,
+    borderRadius: left ? `${RADIUS} 0 0 ${RADIUS}` : `0 ${RADIUS} ${RADIUS} 0`,
   });
 
   return (

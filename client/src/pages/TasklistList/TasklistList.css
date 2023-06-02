@@ -59,6 +59,7 @@
 @media only screen and (max-width: 500px) {
   .list-card {
     display: block;
+    text-align: center;
   }
   .list-card.new::after {
     content: " Luo uusi lista!";

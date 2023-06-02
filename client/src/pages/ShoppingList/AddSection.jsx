@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import shoppingListService from '../../services/shoppingList';
-import FloatingForm from '../../components/FloatingForm';
+import Modal from '../../components/Modal';
 
 const AddSection = ({
   listId, sections, setSections, setInsertSectionForm,
@@ -18,7 +18,7 @@ const AddSection = ({
   };
 
   return (
-    <FloatingForm setVisibility={setInsertSectionForm}>
+    <Modal setVisibility={setInsertSectionForm}>
       <form onSubmit={submitSection}>
         <h3>Lisää uusi osa</h3>
         <input type="text" onChange={({ target }) => setName(target.value)} /> <br />
@@ -30,7 +30,7 @@ const AddSection = ({
         <br />
         <button type="submit">Lisää</button>
       </form>
-    </FloatingForm>
+    </Modal>
   );
 };
 

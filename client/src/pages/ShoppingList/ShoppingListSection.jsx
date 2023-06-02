@@ -1,38 +1,73 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import TuneIcon from '@mui/icons-material/Tune';
 import shoppingListService from '../../services/shoppingList';
-import FloatingForm from '../../components/FloatingForm';
+import Modal from '../../components/Modal';
 import { newToast } from '../../reducers/toastReducer';
 
-const ChangeColor = ({ section, setSection }) => {
-  const [color, setColor] = useState(`#${section.color}`);
+const EditSection = ({
+  section, setSection, color, setColor, deleteSelf,
+}) => {
   // console.log(section);
+  const [newName, setNewName] = useState(section.name);
+  const [toggleDeletion, setToggleDeletion] = useState(false);
   const dispatch = useDispatch();
+  useEffect(() => {
+    setColor(`#${section.color}`);
+  }, []);
 
   const submit = event => {
     event.preventDefault();
     // console.log(color);
-    shoppingListService
-      .setColor(section.id, color.slice(1))
-      .then(() => {
-        dispatch(newToast({ msg: 'väri vaihdettu :-)', type: 'info' }));
-        setSection({ ...section, color: color.slice(1) });
-      });
+    if (!toggleDeletion) {
+      shoppingListService
+        .updateSection(section.id, { name: newName, color: color.slice(1) })
+        .then(data => {
+          dispatch(newToast({ msg: 'Osio muokattu :-)', type: 'info' }));
+          setSection(data);
+        })
+        .catch(error => dispatch(newToast({ msg: error.error })));
+    } else {
+      shoppingListService.deleteSection(section.id)
+        .then(() => {
+          dispatch(newToast({ msg: `”${section.name}” poistettu!`, type: 'info' }));
+          deleteSelf();
+        })
+        .catch(error => dispatch(newToast({ msg: error.error })));
+    }
   };
 
   return <form onSubmit={submit}>
-    <input
-      type='color'
-      defaultValue={color}
-      onChange={({ target }) => setColor(target.value)}
-    />
-    <button type='submit'>Muuta väri</button>
+    <label>
+      <input type="checkbox" value={toggleDeletion} onChange={() => setToggleDeletion(v => !v)} />
+      poista osio
+    </label>
+    {!toggleDeletion
+      && <>
+        <label>
+          nimi:
+          <input type="text" value={newName} onChange={({ target }) => setNewName(target.value)} />
+        </label>
+        <label>taustaväri: <input
+          type='color'
+          defaultValue={`#${section.color}`}
+          onChange={({ target }) => setColor(target.value)}
+      /></label>
+      </>
+    }
+    <button type='submit'>{toggleDeletion ? 'Poista' : 'Muokkaa' }</button>
   </form>;
 };
 
-const ShoppingListSection = ({ initialSection, checkedLast }) => {
+const ShoppingListSection = ({ initialSection, checkedLast, deleteSection }) => {
   const [section, setSection] = useState(initialSection);
+  const [toggleEditButton, setToggleEditButton] = useState(false);
   const [colorForm, setColorForm] = useState(false);
+  const [color, setColor] = useState(`#${section.color}`);
+
+  useEffect(() => {
+    setColorForm(false);
+  }, [section]);
 
   const insertItem = item => {
     setSection({ ...section, shoppingListItems: section.shoppingListItems.concat(item) });
@@ -103,10 +138,14 @@ const ShoppingListSection = ({ initialSection, checkedLast }) => {
     <div
       style={{ backgroundColor: `#${section.color}` }}
       className="shopping-list-section">
-      <span
+      { toggleEditButton && <span
         onClick={() => setColorForm(!colorForm)}
-        style={{ float: 'right' }}>🎨</span>
-      <h2>{section.name} </h2>
+        style={{
+          float: 'right', width: '24px', marginLeft: '-24px', marginRight: '-6px',
+        }}>
+        <TuneIcon />
+      </span> }
+      <h2 onClick={() => setToggleEditButton(v => !v)}>{section.name}</h2>
       <ul>
         {sortedItems().map(
           item => <a key={item.id} onClick={() => checkItem(item.id, !item.checked)}>
@@ -117,9 +156,14 @@ const ShoppingListSection = ({ initialSection, checkedLast }) => {
         )}
       </ul>
       <AddItem />
-      {colorForm && <FloatingForm setVisibility={setColorForm}>
-        <ChangeColor section={section} setSection={setSection} />
-        </FloatingForm>}
+      {colorForm && <Modal setVisibility={setColorForm} innerStyle={{ backgroundColor: color, minHeight: '50%' }}>
+        <EditSection
+          section={section}
+          setSection={setSection}
+          color={color}
+          setColor={setColor}
+          deleteSelf={deleteSection} />
+        </Modal>}
     </div>
   );
 };

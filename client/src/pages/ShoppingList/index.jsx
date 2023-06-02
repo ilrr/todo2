@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import shoppingListService from '../../services/shoppingList';
 import taskListService from '../../services/tasklist';
-import FloatingForm from '../../components/FloatingForm';
+import Modal from '../../components/Modal';
 // import tasklist from "../services/tasklist"
 import Share from '../../components/Share';
 import ShoppingListSection from './ShoppingListSection';
@@ -38,6 +38,9 @@ const ShoppingList = () => {
     setCheckedLast(!tempCheckedLast);
     window.localStorage.setItem('checkedLast', !tempCheckedLast);
   };
+  const deleteSection = sectionId => setSections(
+    sections.filter(({ id }) => id !== sectionId),
+  );
 
   useEffect(() => {
     if (userInfo.token) {
@@ -96,7 +99,9 @@ const ShoppingList = () => {
                   <ShoppingListSection
                     key={section.id}
                     initialSection={section}
-                    checkedLast={checkedLast} />
+                    checkedLast={checkedLast}
+                    deleteSection = { () => deleteSection(section.id) }
+                  />
                 ))}
               <div onClick={() => setInsertSectionForm(true)} className="add-section new">
                 <span style={{}}>+</span>
@@ -111,10 +116,10 @@ const ShoppingList = () => {
               />}
 
             {shareForm && (
-              <FloatingForm setVisibility={setShareForm}>
+              <Modal setVisibility={setShareForm}>
                 <Share listId={listId} />
                 <button onClick={() => { setShareForm(false); }}>peruuta</button>
-              </FloatingForm>
+              </Modal>
             )}
           </div>
           <ShoppingListOptionsBar

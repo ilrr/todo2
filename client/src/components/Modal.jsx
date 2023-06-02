@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import './FloatingForm.css';
+import './Modal.css';
 import CloseIcon from '@mui/icons-material/Close';
 
-const FloatingForm = ({ children, setVisibility }) => {
+const Modal = ({ children, setVisibility, innerStyle }) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = 'auto'; };
@@ -15,8 +15,8 @@ const FloatingForm = ({ children, setVisibility }) => {
           setVisibility(false);
       }}
   >
-      <div className='add-instance'>
-        <div className='add-instance-inner'>
+      <div className='add-instance' style={innerStyle}>
+        <div className='add-instance-inner' >
           {children}
         </div>
         <button onClick={() => setVisibility(false)} className="form-corner-button">
@@ -28,4 +28,4 @@ const FloatingForm = ({ children, setVisibility }) => {
   );
 };
 
-export default FloatingForm;
+export default Modal;
