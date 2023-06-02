@@ -44,12 +44,12 @@
 
 .show-button-animate-enter {
     rotate: 180deg;
-    background-color: #aaa0;
+    background-color: #aaa0 !important;
 }
 
 .show-button-animate-enter-active  {
     rotate: 0deg;
-    background-color: #aaa9;
+    background-color: #aaa9 !important;
     transition: var(--list-bar-animation-duration);
 }
 
@@ -63,7 +63,7 @@
 
 .show-button-animate-exit-active {
     rotate: 180deg;
-    background-color: #aaa0;
+    background-color: #aaa0 !important;
     transition: var(--list-bar-animation-duration);
 }
 
@@ -91,7 +91,7 @@
   position: fixed;
   bottom: 5px;
   right: 5px;
-  /* background-color: #aaa9; */
+  background-color: #aaa9;
   z-index: 2;
   padding: 5px;
   border-radius: 30px;
@@ -105,4 +105,4 @@
   margin-right: 10px;
 }
 
-
+ 
